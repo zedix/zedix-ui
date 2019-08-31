@@ -11,13 +11,29 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
   static get styles() {
     return css`
       :host {
-        --btn-border-radius: 2px;
-        --btn-focus-shadow: 0 0 0 0.2rem #e9d8fd;
+        --button-border-radius: 2px;
+        --button-shadow-focus: 0 0 0 0.2rem #e9d8fd;
+        --button-shadow-hover: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+        --button-transition: 300ms ease-out;
 
-        --btn-primary-background-color: #6b46c1;
-        --btn-primary-background-color-hover: #805ad5;
-        --btn-primary-text-color: #fff;
-        --btn-primary-text-color-hover: #fff;
+        --button-primary-background-color: #6b46c1;
+        --button-primary-background-color-hover: #805ad5;
+        --button-primary-text-color: #fff;
+        --button-primary-text-color-hover: #fff;
+        --button-primary-border: none;
+        --button-primary-border-hover: none;
+        --button-primary-shadow-hover: var(--button-shadow-hover);
+        --button-primary-shadow-focus: var(--button-shadow-focus);
+        --button-outline-primary-text-color: var(--button-primary-background-color-hover);
+
+        --button-secondary-background-color: #fff;
+        --button-secondary-background-color-hover: #f7fafc;
+        --button-secondary-text-color: #4a5568;
+        --button-secondary-text-color-hover: #1a202c;
+        --button-secondary-border: 1px solid #4a5568;
+        --button-secondary-border-hover: 1px solid #1a202c;
+        --button-secondary-shadow-focus: var(--button-shadow-focus);
+        --button-secondary-shadow-hover: var(--button-shadow-hover);
 
         display: inline-block;
       }
@@ -27,16 +43,17 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
       }
 
       .button {
-        padding: 8px 12px;
         margin-bottom: 0;
         border: 0;
-        border-radius: var(--btn-border-radius);
+        border-radius: var(--button-border-radius);
         background: transparent;
         background-image: none;
+        font-family: inherit;
+        font-size: inherit;
         vertical-align: middle;
         cursor: pointer;
         user-select: none;
-        transition: 0.2s ease-out;
+        transition: var(--button-transition);
         text-decoration: none;
         outline: none;
       }
@@ -52,35 +69,78 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         opacity: 0.45;
       }
 
-      :host([is-block]) .button {
+      :host([block]) .button {
         display: block;
         width: 100%;
       }
 
       :host([variant='primary']) .button {
-        background-color: var(--btn-primary-background-color);
-        color: var(--btn-primary-text-color);
+        background-color: var(--button-primary-background-color);
+        color: var(--button-primary-text-color);
+        border: var(--button-primary-border);
       }
 
       :host([variant='primary']) .button:hover,
-      :host([variant='primary']) .button:focus,
       :host([variant='primary']) .button:active {
-        color: var(--btn-primary-text-color-hover);
-        background-color: var(--btn-primary-background-color-hover);
+        background-color: var(--button-primary-background-color-hover);
+        color: var(--button-primary-text-color-hover);
+        border: var(--button-primary-border-hover);
+      }
+
+      :host([variant='primary']) .button:hover:not(:focus) {
+        box-shadow: var(--button-primary-shadow-hover);
+      }
+
+      :host([variant='primary']) .button:focus {
+        box-shadow: var(--button-primary-shadow-focus);
+      }
+
+      :host([variant='secondary']) .button {
+        background-color: var(--button-secondary-background-color);
+        color: var(--button-secondary-text-color);
+        border: var(--button-secondary-border);
+      }
+
+      :host([variant='secondary']) .button:hover,
+      :host([variant='secondary']) .button:active {
+        color: var(--button-secondary-text-color-hover);
+        background-color: var(--button-secondary-background-color-hover);
+        border: var(--button-secondary-border-hover);
+      }
+
+      :host([variant='secondary']) .button:hover:not(:focus) {
+        box-shadow: var(--button-primary-shadow-hover);
+      }
+
+      :host([variant='secondary']) .button:focus {
+        box-shadow: var(--button-secondary-shadow-focus);
+      }
+
+      :host([variant='outline-primary']) .button {
+        border: 1px solid var(--button-primary-background-color);
+        background-color: white;
+        color: var(--button-outline-primary-text-color);
       }
 
       .button:focus {
         outline: 0;
-        box-shadow: var(--btn-focus-shadow);
+        box-shadow: var(--button-shadow-focus);
       }
 
-      :host([size='large']) {
-        .button {
-          padding: 0.5rem 1rem;
-          font-size: 1.25rem;
-          line-height: 1.5;
-          border-radius: 0.3rem;
-        }
+      .button:hover:not(:focus) {
+        box-shadow: var(--button-shadow-hover);
+      }
+
+      :host([size='large']) .button {
+        padding: 10px 24px;
+      }
+
+      :host([size='medium']) .button {
+        padding: 8px 12px;
+      }
+
+      :host([size='small']) .button {
+        padding: 4px 8px;
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -108,8 +168,13 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         reflect: true,
       },
 
+      block: {
+        type: Boolean,
+        reflect: true,
+      },
+
       size: {
-        type: String, // small, default, large
+        type: String, // small, normal, large
         reflect: true,
       },
 
@@ -125,10 +190,9 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
     super();
 
     // Initialize properties
-    this.disabled = false;
     this.name = '';
     this.type = 'button';
-    this.size = 'default';
+    this.size = 'medium';
     this.variant = 'primary';
   }
 
@@ -150,7 +214,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
     if (this.href) {
       // https://github.com/Polymer/lit-html/issues/78
       return html`
-        <a class="${classMap(classes)}" href="${this.href}" ?disabled="${this.disabled}">
+        <a class="${classMap(classes)}" href="${this.href}">
           <slot></slot>
         </a>
       `;
