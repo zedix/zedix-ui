@@ -3,6 +3,8 @@ import { fixture, expect, triggerFocusFor, triggerBlurFor } from '@open-wc/testi
 
 import '../index.js';
 
+// https://dev.to/open-wc/testing-workflow-for-web-components-g73
+
 describe('<zx-button/>', () => {
   // let button;
   // beforeEach(async () => {

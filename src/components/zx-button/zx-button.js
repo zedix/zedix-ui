@@ -43,6 +43,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
       }
 
       .button {
+        box-sizing: border-box;
         margin-bottom: 0;
         border: 0;
         border-radius: var(--button-border-radius);
@@ -54,6 +55,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         cursor: pointer;
         user-select: none;
         transition: var(--button-transition);
+        text-align: center;
         text-decoration: none;
         outline: none;
       }
@@ -69,9 +71,9 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         opacity: 0.45;
       }
 
+      :host([block]),
       :host([block]) .button {
         display: block;
-        width: 100%;
       }
 
       :host([variant='primary']) .button {
@@ -168,6 +170,11 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         reflect: true,
       },
 
+      fake: {
+        type: Boolean,
+        reflect: true,
+      },
+
       block: {
         type: Boolean,
         reflect: true,
@@ -210,6 +217,16 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
 
   render() {
     const classes = { button: true, [`${this.variant}`]: !!this.variant };
+
+    if (this.fake) {
+      // For the case where button is nested inside a <a>, no interactive content within is allowed
+      // https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element
+      return html`
+        <div class="${classMap(classes)}">
+          <slot></slot>
+        </div>
+      `;
+    }
 
     if (this.href) {
       // https://github.com/Polymer/lit-html/issues/78
