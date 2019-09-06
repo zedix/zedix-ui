@@ -24,7 +24,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         --button-primary-border-hover: none;
         --button-primary-shadow-hover: var(--button-shadow-hover);
         --button-primary-shadow-focus: var(--button-shadow-focus);
-        --button-outline-primary-text-color: var(--button-primary-background-color-hover);
+        --button-outline-primary-text-color: var(--button-primary-background-color);
 
         --button-secondary-background-color: #fff;
         --button-secondary-background-color-hover: #f7fafc;
@@ -218,6 +218,15 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
   render() {
     const classes = { button: true, [`${this.variant}`]: !!this.variant };
 
+    if (this.href) {
+      // https://github.com/Polymer/lit-html/issues/78
+      return html`
+        <a class="${classMap(classes)}" href="${this.href}">
+          <slot></slot>
+        </a>
+      `;
+    }
+
     if (this.fake) {
       // For the case where button is nested inside a <a>, no interactive content within is allowed
       // https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element
@@ -225,15 +234,6 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         <div class="${classMap(classes)}">
           <slot></slot>
         </div>
-      `;
-    }
-
-    if (this.href) {
-      // https://github.com/Polymer/lit-html/issues/78
-      return html`
-        <a class="${classMap(classes)}" href="${this.href}">
-          <slot></slot>
-        </a>
       `;
     }
 
@@ -255,7 +255,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
    * @protected
    */
   get focusElement() {
-    return this.shadowRoot.querySelector('button');
+    return this.shadowRoot.querySelector('.button');
   }
 }
 

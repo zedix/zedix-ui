@@ -1,0 +1,3 @@
+[build]
+  command = "yarn run site:build"
+  publish = "_site"

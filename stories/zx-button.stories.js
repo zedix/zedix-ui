@@ -3,6 +3,7 @@ import {
   html,
   withKnobs,
   withClassPropertiesKnobs,
+  action,
   boolean,
   select,
 } from '@open-wc/demoing-storybook';
@@ -11,40 +12,10 @@ import { ZxButton } from '../src/index.js';
 
 storiesOf('zx-button', module)
   .addDecorator(withKnobs)
-  .add(
-    'Showcase',
-    () => html`
-      <h2>Primary</h2>
-      <div>
-        <zx-button variant="primary" size="large">Previous</zx-button>
-        <zx-button variant="primary" size="medium">Previous</zx-button>
-        <zx-button variant="primary" size="small">Previous</zx-button>
-      </div>
-
-      <h2>Outline Primary</h2>
-      <div>
-        <zx-button variant="outline-primary" size="large">Previous</zx-button>
-        <zx-button variant="outline-primary" size="medium">Previous</zx-button>
-        <zx-button variant="outline-primary" size="small">Previous</zx-button>
-      </div>
-
-      <h2>Secondary</h2>
-      <div>
-        <zx-button variant="secondary" size="large">Previous</zx-button>
-        <zx-button variant="secondary" size="medium">Previous</zx-button>
-        <zx-button variant="secondary" size="small">Previous</zx-button>
-      </div>
-
-      <h2>Link</h2>
-      <div>
-        <zx-button href="https://pika.dev">Visit Pika.dev</zx-button>
-      </div>
-    `,
-  )
   .add('Sandbox', () =>
     withClassPropertiesKnobs(ZxButton, {
       template: html`
-        <zx-button>button text</zx-button>
+        <zx-button @click="${action('click')}">button text</zx-button>
       `,
       overrides: el => [
         {
@@ -66,4 +37,34 @@ storiesOf('zx-button', module)
         },
       ],
     }),
+  )
+  .add(
+    'Showcase',
+    () => html`
+      <h2 class="mb-2">Primary</h2>
+      <div class="mb-4">
+        <zx-button variant="primary" size="large">Previous</zx-button>
+        <zx-button variant="primary" size="medium">Previous</zx-button>
+        <zx-button variant="primary" size="small">Previous</zx-button>
+      </div>
+
+      <h2 class="mb-2">Outline Primary</h2>
+      <div class="mb-4">
+        <zx-button variant="outline-primary" size="large">Previous</zx-button>
+        <zx-button variant="outline-primary" size="medium">Previous</zx-button>
+        <zx-button variant="outline-primary" size="small">Previous</zx-button>
+      </div>
+
+      <h2 class="mb-2">Secondary</h2>
+      <div class="mb-4">
+        <zx-button variant="secondary" size="large">Previous</zx-button>
+        <zx-button variant="secondary" size="medium">Previous</zx-button>
+        <zx-button variant="secondary" size="small">Previous</zx-button>
+      </div>
+
+      <h2 class="mb-2">Link</h2>
+      <div class="mb-4">
+        <zx-button href="https://pika.dev">Visit Pika.dev</zx-button>
+      </div>
+    `,
   );
