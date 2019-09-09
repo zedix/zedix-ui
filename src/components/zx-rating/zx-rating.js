@@ -14,6 +14,9 @@ export class ZxRating extends LitElement {
     return css`
       :host {
         --star-size: 20px;
+
+        font-size: 0;
+        line-height: 0;
       }
 
       :host([size='small']) {
@@ -24,16 +27,17 @@ export class ZxRating extends LitElement {
         --star-size: 12px;
       }
 
+      .wrapper {
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+      }
+
       .rating {
         position: relative;
-        display: inline-block;
         width: calc(5 * var(--star-size));
         height: var(--star-size);
-        font-size: 0;
-        overflow: hidden;
-        white-space: nowrap;
         background-size: contain;
-        vertical-align: middle;
       }
 
       .rating input {
@@ -91,6 +95,12 @@ export class ZxRating extends LitElement {
       .rating i:nth-of-type(5) {
         width: 100%;
       }
+
+      .rating-label {
+        font-size: 1rem;
+        margin-left: 4px;
+        margin-right: 4px;
+      }
     `;
   }
 
@@ -98,6 +108,11 @@ export class ZxRating extends LitElement {
     return {
       editMode: {
         type: Boolean,
+        reflect: true,
+      },
+
+      labels: {
+        type: Array,
         reflect: true,
       },
 
@@ -140,11 +155,23 @@ export class ZxRating extends LitElement {
     // Initialize properties
     this.editMode = false;
     this.name = '';
-    this.value = 0;
     this.shape = '1';
     this.size = '';
     this.backgroundColor = '#DDDDDD';
     this.ratingColor = 'gold';
+    this.currentLabel = '';
+    this.labels = [];
+    this.value = 0;
+  }
+
+  firstUpdated() {
+    this.setLabelForValue(this.value);
+  }
+
+  setLabelForValue(value) {
+    const intValue = parseInt(value, 10);
+    this.currentLabel = intValue ? this.labels[intValue - 1] : '';
+    this.requestUpdate();
   }
 
   render() {
@@ -202,33 +229,59 @@ export class ZxRating extends LitElement {
     }
 
     return html`
-      <div class="rating" style=${styleMap(rootStyles)}>
-        ${[1, 2, 4, 4, 5].map(
-          i =>
-            html`
-              <input type="radio" name="${this.name}" value="${i}" @change=${this.onChange} />
-              <i style=${styleMap(innerStyles)}></i>
-            `,
-        )}
+      <div class="wrapper">
+        <div class="rating" style=${styleMap(rootStyles)}>
+          ${[1, 2, 3, 4, 5].map(
+            ratingValue =>
+              html`
+                <input
+                  type="radio"
+                  name="${this.name}"
+                  value="${ratingValue}"
+                  ?checked="${Number(this.value) === ratingValue}"
+                  @change=${this.onChange}
+                  @mouseover=${this.onInputMouseOver}
+                  @mouseout=${this.onInputMouseOut}
+                />
+                <i style=${styleMap(innerStyles)}></i>
+              `,
+          )}
+        </div>
+        ${this.labels.length > 0
+          ? html`
+              <div class="rating-label" part="label">${this.currentLabel}</div>
+            `
+          : ''}
       </div>
     `;
   }
 
+  onInputMouseOver(e) {
+    this.setLabelForValue(e.currentTarget.value);
+  }
+
+  onInputMouseOut() {
+    this.setLabelForValue(this.value);
+  }
+
   onChange(e) {
-    // const target = e.composedPath()[0];
-    this.value = e.currentTarget.value;
+    const target = e.composedPath()[0];
+    this.checked = target.checked;
+    this.value = target.value;
 
     // The change event is not able to propagate across shadow boundaries
+    // To make a custom event pass through shadow DOM boundaries, we must set
+    // both the composed and bubbles flags to true:
     this.dispatchEvent(
       new CustomEvent('change', {
         detail: {
-          name: e.currentTarget.name,
-          value: e.currentTarget.value,
-          checked: e.currentTarget.checked,
+          name: target.name,
+          value: target.value,
+          checked: target.checked,
           sourceEvent: e,
         },
-        bubbles: e.bubbles,
-        cancelable: e.cancelable,
+        bubbles: true,
+        composed: true,
       }),
     );
   }
