@@ -11,7 +11,7 @@ function loadStories() {
 addParameters({
   options: {
     theme: create({
-      brandTitle: 'Zedix UI',
+      brandTitle: 'Zedix UI — Web Components',
       // brandImage: 'https://cdn.worldvectorlogo.com/logos/web-components.svg',
     }),
     //isToolshown: true,

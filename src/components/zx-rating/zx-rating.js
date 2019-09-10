@@ -28,7 +28,7 @@ export class ZxRating extends LitElement {
       }
 
       .wrapper {
-        display: inline-flex;
+        display: flex;
         align-items: center;
         white-space: nowrap;
       }
@@ -43,13 +43,13 @@ export class ZxRating extends LitElement {
       .rating input {
         appearance: none;
         position: relative;
+        z-index: 2;
         display: inline-block;
         width: 20%;
         height: 100%;
-        margin: 0;
         padding: 0;
+        margin: 0;
         opacity: 0;
-        z-index: 2;
       }
 
       .rating input:checked + i,
@@ -63,8 +63,8 @@ export class ZxRating extends LitElement {
 
       .rating i {
         position: absolute;
-        left: 0;
         top: 0;
+        left: 0;
         z-index: 1;
         height: 100%;
         background-size: contain;
@@ -97,9 +97,10 @@ export class ZxRating extends LitElement {
       }
 
       .rating-label {
-        font-size: 1rem;
-        margin-left: 4px;
         margin-right: 4px;
+        margin-left: 4px;
+        flex: 1;
+        font-size: 1rem;
       }
     `;
   }

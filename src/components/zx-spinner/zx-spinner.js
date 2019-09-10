@@ -42,7 +42,7 @@ export class ZxSpinner extends LitElement {
       }
 
       :host {
-        --spinner-color: #718096;
+        --spinner-color: rgba(0, 0, 0, 0.84);
 
         color: var(--spinner-color);
       }
@@ -54,6 +54,7 @@ export class ZxSpinner extends LitElement {
         background-color: currentColor;
         color: inherit;
         border-radius: 100%;
+        vertical-align: middle;
       }
 
       .beat-odd {
