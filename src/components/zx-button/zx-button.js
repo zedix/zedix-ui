@@ -1,8 +1,7 @@
 import { html, css, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { DelegateFocusMixin } from '../../mixins/delegate-focus-mixin.js';
-// eslint-disable-next-line no-unused-vars
-import { ZxSpinner } from '../../index.js';
+import '../zx-spinner/zx-spinner.js';
 
 // Note: ZxButton does not extend HTMLButtonElement
 // because Safari isn't going to implement customized built-ins.
