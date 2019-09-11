@@ -1,19 +1,17 @@
-// https://web.dev/more-capable-form-controls
-
 import { html, css, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
-import { DelegateFocusMixin } from '../../mixins/delegate-focus-mixin.js';
+import { FormElementMixin } from '../../mixins/form-element-mixin.js';
 
-export class ZxSelect extends DelegateFocusMixin(LitElement) {
+export class ZxSelect extends FormElementMixin(LitElement) {
   static get styles() {
     return css`
       :host {
-        --input-border-color: #718096;
-        --input-caret-color: var(--input-border-color);
-        --input-border-color-hover: #4a5568;
+        --input-border: 1px solid #718096;
+        --input-border-hover: 1px solid #4a5568;
         --input-border-radius: 4px;
         --input-background-color: white;
         --input-text-color: #1a202c;
+        --input-dropdown-arrow-color: var(--input-text-color);
         --input-min-width: 60px;
         --input-font-size: 1rem;
       }
@@ -23,7 +21,7 @@ export class ZxSelect extends DelegateFocusMixin(LitElement) {
         display: inline-flex;
         align-items: center;
         padding: 6px 28px 6px 12px;
-        border: 2px solid var(--input-border-color);
+        border: var(--input-border);
         border-radius: var(--input-border-radius);
         background-color: var(--input-background-color);
         background-image: none; /* [1] */
@@ -33,7 +31,7 @@ export class ZxSelect extends DelegateFocusMixin(LitElement) {
 
       .select:hover,
       .select:focus-within {
-        border-color: var(--input-border-color-hover);
+        border-color: var(--input-border-hover);
       }
 
       .select::after {
@@ -43,7 +41,7 @@ export class ZxSelect extends DelegateFocusMixin(LitElement) {
         right: 12px;
         top: calc(50% - 8px);
         padding: 4px;
-        border: solid var(--input-caret-color);
+        border: solid var(--input-dropdown-arrow-color);
         border-width: 0 2px 2px 0;
         pointer-events: none;
         transform: rotate(45deg);
@@ -190,6 +188,7 @@ export class ZxSelect extends DelegateFocusMixin(LitElement) {
     );
 
     this.updateDisplayValue();
+    this.updateFormValue(this.value);
   }
 
   /**
