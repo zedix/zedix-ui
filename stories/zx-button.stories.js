@@ -10,12 +10,12 @@ import {
 
 import { ZxButton } from '../src/index.js';
 
-storiesOf('zx-button', module)
+storiesOf('Core/zx-button', module)
   .addDecorator(withKnobs)
   .add('Sandbox', () =>
     withClassPropertiesKnobs(ZxButton, {
       template: html`
-        <zx-button @click="${action('click')}">button text</zx-button>
+        <zx-button @click="${action('click')}">Sign in</zx-button>
       `,
       overrides: el => [
         {

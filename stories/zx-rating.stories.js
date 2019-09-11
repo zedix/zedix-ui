@@ -13,7 +13,7 @@ import { ZxRating } from '../src/index.js';
 
 const labels = '["Very Poor", "Poor", "Satisfactory", "Good", "Excellent"]';
 
-storiesOf('zx-rating', module)
+storiesOf('Core/zx-rating', module)
   .addDecorator(withKnobs)
   .add('Sandbox', () =>
     withClassPropertiesKnobs(ZxRating, {

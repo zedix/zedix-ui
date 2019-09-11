@@ -9,7 +9,7 @@ import {
 
 import { ZxSpinner } from '../src/index.js';
 
-storiesOf('zx-spinner', module)
+storiesOf('Core/zx-spinner', module)
   .addDecorator(withKnobs)
   .add('Sandbox', () =>
     withClassPropertiesKnobs(ZxSpinner, {
