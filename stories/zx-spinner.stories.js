@@ -14,7 +14,7 @@ storiesOf('Core/zx-spinner', module)
   .add('Sandbox', () =>
     withClassPropertiesKnobs(ZxSpinner, {
       template: html`
-        <zx-spinner class="text-red" />
+        <zx-spinner class="text-xxx" />
       `,
       overrides: el => [
         {
