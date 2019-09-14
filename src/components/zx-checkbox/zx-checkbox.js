@@ -1,26 +1,25 @@
-import { html, css, LitElement } from 'lit-element';
+import { html, svg, css, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
 
-export class ZxRadio extends FormElementMixin(LitElement) {
+export class ZxCheckbox extends FormElementMixin(LitElement) {
   static get styles() {
     return css`
       :host {
-        --input-radio-size: 20px;
         --input-background-color: #fff;
+        --input-background-color-disabled: #edf2f7;
+        --input-checked-color: var(--input-border-color);
+        --input-checkmark-color: #fff;
+        --input-checkbox-size: 20px;
         --input-border-width: 1px;
+        --input-border-radius: 4px;
         --input-border-color: #2a4365;
         --input-border-color-hover: #2c5282;
-        --input-checkmark-color: var(--input-border-color);
 
-        display: inline-block;
+        outline: none;
       }
 
-      :host([disabled]) {
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      .radio {
+      .checkbox {
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -32,42 +31,57 @@ export class ZxRadio extends FormElementMixin(LitElement) {
         clip: rect(0, 0, 0, 0);
       }
 
-      i {
+      .checkbox__control {
         position: relative;
         display: inline-block;
-        width: var(--input-radio-size);
-        height: var(--input-radio-size);
+        width: var(--input-checkbox-size);
+        height: var(--input-checkbox-size);
         margin-right: 8px;
-        background-color: var(--input-background-color);
         border: var(--input-border-width) solid var(--input-border-color);
-        border-radius: 50%;
-        box-shadow: 0 0 0 1px transparent, 0 1px 0 0 rgba(22, 29, 37, 0.05);
-        transition: border-color 0.2s cubic-bezier(0.64, 0, 0.35, 1);
+        border-radius: var(--input-border-radius);
+        background-color: var(--input-background-color);
+        transition-duration: 0.2s;
+        transition-property: background-color, border-color;
+        transition-timing-function: cubic-bezier(0.64, 0, 0.35, 1);
       }
 
-      i::after {
-        content: '';
+      .checkbox__control:hover {
+        border-color: var(--input-border-color-hover);
+      }
+
+      svg {
         position: absolute;
         top: 50%;
         left: 50%;
-        height: 50%;
-        width: 50%;
-        border-radius: 50%;
-        background-color: var(--input-checkmark-color);
+        width: 70%;
         transition: transform 0.1s cubic-bezier(0.36, 0, 1, 1);
         transform-origin: 50% 50%;
         transform: translate(-50%, -50%) scale(0);
+        fill: var(--input-checkmark-color);
       }
 
-      input:checked + i::after {
+      input:checked + .checkbox__control svg,
+      input:indeterminate + .checkbox__control svg {
         transform: translate(-50%, -50%) scale(1);
       }
 
-      input:active + span,
-      input:checked + span,
-      input:focus + span,
-      input:hover + span {
-        border-color: var(--input-checkmark-color);
+      input:active + .checkbox__control,
+      input:focus + .checkbox__control,
+      input:checked + .checkbox__control {
+        border-color: var(--input-border-color);
+      }
+
+      input:checked + .checkbox__control,
+      input:indeterminate + .checkbox__control {
+        background-color: var(--input-checked-color);
+      }
+
+      input:disabled + .checkbox__control {
+        pointer-events: none;
+        cursor: not-allowed;
+        filter: alpha(opacity=45);
+        opacity: 0.45;
+        background-color: var(--input-background-color-disabled);
       }
     `;
   }
@@ -89,6 +103,11 @@ export class ZxRadio extends FormElementMixin(LitElement) {
         reflect: true,
       },
 
+      indeterminate: {
+        type: Boolean,
+        reflect: true,
+      },
+
       /*
       // inherited from DelegateFocusMixin
       disabled: {
@@ -105,8 +124,9 @@ export class ZxRadio extends FormElementMixin(LitElement) {
 
     // Initialize properties
     this.name = '';
-    this.value = 'on';
+    this.value = '';
     this.checked = false;
+    this.indeterminate = false;
   }
 
   /**
@@ -120,12 +140,16 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    */
   firstUpdated() {
     super.firstUpdated();
-    this.setAttribute('role', 'radio');
+    this.setAttribute('role', 'checkbox');
   }
 
   updated() {
-    this.setAttribute('aria-checked', this.checked);
-    this.radioElement.checked = this.checked;
+    if (this.indeterminate) {
+      this.setAttribute('aria-checked', 'mixed');
+    } else {
+      this.setAttribute('aria-checked', this.checked);
+    }
+    this.checkboxElement.indeterminate = this.indeterminate;
   }
 
   /**
@@ -134,21 +158,39 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    * trigger the element to update.
    */
   render() {
-    const classes = { radio: true };
+    const classes = { checkbox: true };
 
     return html`
       <label class="${classMap(classes)}">
         <input
           role="presentation"
-          type="radio"
-          tabindex="-1"
+          type="checkbox"
           name="${this.name}"
           value="${this.value}"
           ?checked="${this.checked}"
           ?disabled="${this.disabled}"
+          ?indeterminate="${this.indeterminate}"
           @change="${this.onChange}"
         />
-        <i></i>
+        <span class="checkbox__control">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="${this.indeterminate ? '0 0 8 2' : '0 0 8 7'}"
+            aria-hidden="true"
+          >
+            ${this.indeterminate
+              ? svg`
+                  <path
+                    d="M7.182 1.636H.818A.634.634 0 0 1 .182 1c0-.351.285-.636.636-.636h6.364a.637.637 0 0 1 0 1.272z"
+                  />
+                `
+              : svg`
+                  <path
+                    d="M7.665 1.869L3.458 6.776.436 4.509A.636.636 0 0 1 1.2 3.491l2.068 1.551 3.43-4.002a.637.637 0 0 1 .967.829z"
+                  />
+                `}
+          </svg>
+        </span>
         <span part="label"><slot /></span>
       </label>
     `;
@@ -156,8 +198,8 @@ export class ZxRadio extends FormElementMixin(LitElement) {
 
   onChange(e) {
     const target = e.composedPath()[0];
-    this.checked = target.checked;
     this.value = target.value;
+    this.checked = target.checked;
 
     // The change event is not able to propagate across shadow boundaries
     // To make a custom event pass through shadow DOM boundaries, we must set
@@ -181,7 +223,7 @@ export class ZxRadio extends FormElementMixin(LitElement) {
   /**
    * @protected
    */
-  get radioElement() {
+  get checkboxElement() {
     return this.shadowRoot.querySelector('input');
   }
 
@@ -189,18 +231,8 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    * @protected
    */
   get focusElement() {
-    return this.radioElement;
-  }
-
-  /**
-   * Toggles the radio button, so that the native `change` event
-   * is dispatched. Overrides the standard `HTMLElement.prototype.click`.
-   *
-   * @protected
-   */
-  click() {
-    this.shadowRoot.querySelector('input').click();
+    return this.checkboxElement;
   }
 }
 
-window.customElements.define('zx-radio', ZxRadio);
+window.customElements.define('zx-checkbox', ZxCheckbox);

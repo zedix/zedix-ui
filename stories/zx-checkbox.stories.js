@@ -6,14 +6,14 @@ import {
   boolean,
 } from '@open-wc/demoing-storybook';
 
-import { ZxRadio } from '../src/index.js';
+import { ZxCheckbox } from '../src/index.js';
 
-storiesOf('Forms/zx-radio', module)
+storiesOf('Forms/zx-checkbox', module)
   .addDecorator(withKnobs)
   .add('Sandbox', () =>
-    withClassPropertiesKnobs(ZxRadio, {
+    withClassPropertiesKnobs(ZxCheckbox, {
       template: html`
-        <zx-radio class="mr-4" name="choice" value="one">Choice One</zx-radio>
+        <zx-checkbox name="remember_me" value="1">Remember me</zx-checkbox>
       `,
       overrides: el => [
         {
