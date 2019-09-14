@@ -13,7 +13,7 @@ storiesOf('Forms/zx-input', module)
   .add('Sandbox', () =>
     withClassPropertiesKnobs(ZxInput, {
       template: html`
-        <zx-input class="mr-4" name="first_name" placeholder="First name">First name</zx-input>
+        <zx-input name="first_name" placeholder="First name">First name</zx-input>
       `,
       overrides: el => [
         {

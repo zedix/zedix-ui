@@ -1,5 +1,4 @@
 import { html, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map.js';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
 import styles from './zx-input.styles.js';
 
@@ -35,6 +34,11 @@ export class ZxInput extends FormElementMixin(LitElement) {
         reflect: true,
       },
 
+      rows: {
+        type: Number,
+        reflect: true,
+      },
+
       /*
       // inherited from DelegateFocusMixin
       disabled: {
@@ -57,27 +61,49 @@ export class ZxInput extends FormElementMixin(LitElement) {
     this.placeholder = '';
   }
 
+  renderInput() {
+    if (this.rows > 0) {
+      return html`
+        <textarea
+          class="textfield"
+          placeholder="${this.placeholder}"
+          rows="${this.rows}"
+          ?disabled="${this.disabled}"
+          ?readOnly="${this.readOnly}"
+          @change="${this.onChange}"
+          @input="${this.onInput}"
+        />
+      `;
+    }
+
+    return html`
+      <input
+        class="textfield"
+        type="${this.type}"
+        name="${this.name}"
+        value="${this.value}"
+        placeholder="${this.placeholder}"
+        ?disabled="${this.disabled}"
+        ?readOnly="${this.readOnly}"
+        @change="${this.onChange}"
+        @input="${this.onInput}"
+      />
+    `;
+  }
+
   /**
    * Invoked on each update to perform rendering tasks. This method must return
    * a lit-html TemplateResult. Setting properties inside this method will *not*
    * trigger the element to update.
    */
   render() {
-    const classes = { textfield: true };
+    if (!this.textContent) {
+      return this.renderInput();
+    }
 
     return html`
-      <label class="${classMap(classes)}">
-        <span part="label"><slot /></span>
-        <input
-          type="${this.type}"
-          name="${this.name}"
-          value="${this.value}"
-          ?disabled="${this.disabled}"
-          ?placeholder="${this.placeholder}"
-          ?readOnly="${this.readOnly}"
-          @change="${this.onChange}"
-        />
-      </label>
+      <label part="label" for="${this.name}"><slot /></label>
+      ${this.renderInput()}
     `;
   }
 
@@ -90,11 +116,20 @@ export class ZxInput extends FormElementMixin(LitElement) {
     // both the composed and bubbles flags to true:
     this.dispatchEvent(
       new CustomEvent('change', {
-        detail: {
-          name: target.name,
-          value: target.value,
-          sourceEvent: e,
-        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    this.updateFormValue(this.value);
+  }
+
+  onInput(e) {
+    const target = e.composedPath()[0];
+    this.value = target.value;
+
+    this.dispatchEvent(
+      new CustomEvent('input', {
         bubbles: true,
         composed: true,
       }),
