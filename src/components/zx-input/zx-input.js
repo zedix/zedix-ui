@@ -1,9 +1,9 @@
 import { html, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
-import styles from './zx-radio.styles.js';
+import styles from './zx-input.styles.js';
 
-export class ZxRadio extends FormElementMixin(LitElement) {
+export class ZxInput extends FormElementMixin(LitElement) {
   static get styles() {
     return styles;
   }
@@ -20,7 +20,17 @@ export class ZxRadio extends FormElementMixin(LitElement) {
         reflect: true,
       },
 
-      checked: {
+      type: {
+        type: String,
+        reflect: true,
+      },
+
+      placeholder: {
+        type: String,
+        reflect: true,
+      },
+
+      readOnly: {
         type: Boolean,
         reflect: true,
       },
@@ -41,29 +51,10 @@ export class ZxRadio extends FormElementMixin(LitElement) {
 
     // Initialize properties
     this.name = '';
-    this.value = 'on';
-    this.checked = false;
-  }
-
-  /**
-   * Invoked when the element is first updated. Implement to perform one time
-   * work on the element after update.
-   *
-   * Setting properties inside this method will trigger the element to update
-   * again after this update cycle completes.
-   *
-   * @param _changedProperties Map of changed properties with old values
-   */
-  firstUpdated() {
-    super.firstUpdated();
-
-    this.setAttribute('role', 'radio');
-  }
-
-  update(props) {
-    super.update(props);
-
-    this.setAttribute('aria-checked', this.checked);
+    this.value = '';
+    this.type = 'text';
+    this.readOnly = false;
+    this.placeholder = '';
   }
 
   /**
@@ -72,29 +63,26 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    * trigger the element to update.
    */
   render() {
-    const classes = { radio: true };
+    const classes = { textfield: true };
 
     return html`
       <label class="${classMap(classes)}">
+        <span part="label"><slot /></span>
         <input
-          role="presentation"
-          type="radio"
-          tabindex="-1"
+          type="${this.type}"
           name="${this.name}"
           value="${this.value}"
           ?disabled="${this.disabled}"
-          .checked="${this.checked}"
+          ?placeholder="${this.placeholder}"
+          ?readOnly="${this.readOnly}"
           @change="${this.onChange}"
         />
-        <i></i>
-        <span part="label"><slot /></span>
       </label>
     `;
   }
 
   onChange(e) {
     const target = e.composedPath()[0];
-    this.checked = target.checked;
     this.value = target.value;
 
     // The change event is not able to propagate across shadow boundaries
@@ -105,7 +93,6 @@ export class ZxRadio extends FormElementMixin(LitElement) {
         detail: {
           name: target.name,
           value: target.value,
-          checked: target.checked,
           sourceEvent: e,
         },
         bubbles: true,
@@ -119,7 +106,7 @@ export class ZxRadio extends FormElementMixin(LitElement) {
   /**
    * @protected
    */
-  get radioElement() {
+  get inputElement() {
     return this.shadowRoot.querySelector('input');
   }
 
@@ -127,18 +114,15 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    * @protected
    */
   get focusElement() {
-    return this.radioElement;
+    return this.inputElement;
   }
 
   /**
-   * Toggles the radio button, so that the native `change` event
-   * is dispatched. Overrides the standard `HTMLElement.prototype.click`.
-   *
    * @protected
    */
   click() {
-    this.shadowRoot.querySelector('input').click();
+    this.inputElement.click();
   }
 }
 
-window.customElements.define('zx-radio', ZxRadio);
+window.customElements.define('zx-input', ZxInput);

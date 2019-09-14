@@ -2,10 +2,11 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
+    --input-background-color: white;
     --input-border: 1px solid #718096;
     --input-border-hover: 1px solid #4a5568;
     --input-border-radius: 4px;
-    --input-background-color: white;
+    --input-focus-shadow: 0 0 0 0.2rem #e9d8fd;
     --input-text-color: #1a202c;
     --input-dropdown-arrow-color: var(--input-text-color);
     --input-min-width: 60px;
@@ -63,5 +64,10 @@ export default css`
 
   .select > option {
     font-size: var(--input-font-size);
+  }
+
+  .select:focus-within {
+    border-color: var(--input-border-color-focus);
+    box-shadow: var(--input-focus-shadow);
   }
 `;
