@@ -12,6 +12,12 @@ export class ZxRadio extends FormElementMixin(LitElement) {
         --input-border-color: #718096;
         --input-border-color-hover: #4a5568;
         --input-checkmark-color: var(--input-border-color);
+
+        display: inline-block;
+      }
+
+      :host([disabled]) {
+        -webkit-tap-highlight-color: transparent;
       }
 
       .radio {
@@ -99,8 +105,27 @@ export class ZxRadio extends FormElementMixin(LitElement) {
 
     // Initialize properties
     this.name = '';
-    this.value = '';
+    this.value = 'on';
     this.checked = false;
+  }
+
+  /**
+   * Invoked when the element is first updated. Implement to perform one time
+   * work on the element after update.
+   *
+   * Setting properties inside this method will trigger the element to update
+   * again after this update cycle completes.
+   *
+   * @param _changedProperties Map of changed properties with old values
+   */
+  firstUpdated() {
+    super.firstUpdated();
+    this.setAttribute('role', 'radio');
+  }
+
+  updated() {
+    this.setAttribute('aria-checked', this.checked);
+    this.radioElement.checked = this.checked;
   }
 
   /**
@@ -114,7 +139,9 @@ export class ZxRadio extends FormElementMixin(LitElement) {
     return html`
       <label class="${classMap(classes)}">
         <input
+          role="presentation"
           type="radio"
+          tabindex="-1"
           name="${this.name}"
           value="${this.value}"
           ?checked="${this.checked}"
@@ -122,15 +149,15 @@ export class ZxRadio extends FormElementMixin(LitElement) {
           @change="${this.onChange}"
         />
         <i></i>
-        <span><slot /></span>
+        <span part="label"><slot /></span>
       </label>
     `;
   }
 
   onChange(e) {
     const target = e.composedPath()[0];
-    this.value = target.value;
     this.checked = target.checked;
+    this.value = target.value;
 
     // The change event is not able to propagate across shadow boundaries
     // To make a custom event pass through shadow DOM boundaries, we must set
@@ -154,8 +181,25 @@ export class ZxRadio extends FormElementMixin(LitElement) {
   /**
    * @protected
    */
-  get focusElement() {
+  get radioElement() {
     return this.shadowRoot.querySelector('input');
+  }
+
+  /**
+   * @protected
+   */
+  get focusElement() {
+    return this.radioElement;
+  }
+
+  /**
+   * Toggles the radio button, so that the native `change` event
+   * is dispatched. Overrides the standard `HTMLElement.prototype.click`.
+   *
+   * @protected
+   */
+  click() {
+    this.shadowRoot.querySelector('input').click();
   }
 }
 
