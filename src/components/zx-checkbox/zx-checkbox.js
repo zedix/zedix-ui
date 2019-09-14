@@ -62,16 +62,18 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
    */
   firstUpdated() {
     super.firstUpdated();
+
     this.setAttribute('role', 'checkbox');
   }
 
-  updated() {
+  update(props) {
+    super.update(props);
+
     if (this.indeterminate) {
       this.setAttribute('aria-checked', 'mixed');
     } else {
       this.setAttribute('aria-checked', this.checked);
     }
-    this.checkboxElement.indeterminate = this.indeterminate;
   }
 
   /**
@@ -91,7 +93,7 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
           value="${this.value}"
           ?checked="${this.checked}"
           ?disabled="${this.disabled}"
-          ?indeterminate="${this.indeterminate}"
+          .indeterminate="${this.indeterminate}"
           @change="${this.onChange}"
         />
         <span class="checkbox__control">

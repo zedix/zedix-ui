@@ -56,10 +56,13 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    */
   firstUpdated() {
     super.firstUpdated();
+
     this.setAttribute('role', 'radio');
   }
 
-  updated() {
+  update(props) {
+    super.update(props);
+
     this.setAttribute('aria-checked', this.checked);
     this.radioElement.checked = this.checked;
   }
