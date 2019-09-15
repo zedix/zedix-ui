@@ -63,6 +63,7 @@ export class ZxInput extends FormElementMixin(LitElement) {
 
   renderInput() {
     if (this.rows > 0) {
+      // prettier-ignore
       return html`
         <textarea
           class="textfield"
@@ -72,7 +73,9 @@ export class ZxInput extends FormElementMixin(LitElement) {
           ?readOnly="${this.readOnly}"
           @change="${this.onChange}"
           @input="${this.onInput}"
-        />
+        >
+          ${this.value}
+        </textarea>
       `;
     }
 
@@ -142,7 +145,7 @@ export class ZxInput extends FormElementMixin(LitElement) {
    * @protected
    */
   get inputElement() {
-    return this.shadowRoot.querySelector('input');
+    return this.shadowRoot.querySelector('.textfield');
   }
 
   /**

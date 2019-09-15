@@ -17,7 +17,7 @@ export default css`
     position: relative;
     display: inline-flex;
     align-items: center;
-    padding: 6px 28px 6px 12px;
+    padding: 10px 28px 10px 12px;
     border: var(--input-border);
     border-radius: var(--input-border-radius);
     background-color: var(--input-background-color);

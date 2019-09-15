@@ -3,6 +3,7 @@ import {
   html,
   withKnobs,
   withClassPropertiesKnobs,
+  boolean,
   object,
 } from '@open-wc/demoing-storybook';
 
@@ -24,6 +25,10 @@ storiesOf('Forms/zx-select', module)
         {
           key: 'options',
           fn: () => object('options', el.options, 'Element'),
+        },
+        {
+          key: 'disabled',
+          fn: () => boolean('disabled', el.disabled, 'Element'),
         },
       ],
     }),
