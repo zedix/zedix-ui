@@ -106,14 +106,13 @@ export class ZxInput extends FormElementMixin(LitElement) {
    * trigger the element to update.
    */
   render() {
-    if (!this.textContent) {
-      return this.renderInput();
+    if (this.textContent) {
+      return html`
+        <label part="label" for="${this.name}"><slot /></label>
+        ${this.renderInput()}
+      `;
     }
-
-    return html`
-      <label part="label" for="${this.name}"><slot /></label>
-      ${this.renderInput()}
-    `;
+    return this.renderInput();
   }
 
   onChange(e) {

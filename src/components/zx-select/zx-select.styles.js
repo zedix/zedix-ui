@@ -70,4 +70,9 @@ export default css`
     border-color: var(--input-border-color-focus);
     box-shadow: var(--input-focus-shadow);
   }
+
+  label {
+    display: inline-block;
+    margin-bottom: 4px;
+  }
 `;

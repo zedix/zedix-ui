@@ -71,12 +71,7 @@ export class ZxSelect extends FormElementMixin(LitElement) {
     this.requestUpdate();
   }
 
-  /**
-   * Invoked on each update to perform rendering tasks. This method must return
-   * a lit-html TemplateResult. Setting properties inside this method will *not*
-   * trigger the element to update.
-   */
-  render() {
+  renderSelect() {
     const classes = { select: true };
 
     // prettier-ignore
@@ -103,6 +98,21 @@ export class ZxSelect extends FormElementMixin(LitElement) {
         </select>
       </div>
     `;
+  }
+
+  /**
+   * Invoked on each update to perform rendering tasks. This method must return
+   * a lit-html TemplateResult. Setting properties inside this method will *not*
+   * trigger the element to update.
+   */
+  render() {
+    if (this.textContent) {
+      return html`
+        <label part="label" for="${this.name}"><slot /></label>
+        ${this.renderSelect()}
+      `;
+    }
+    return this.renderSelect();
   }
 
   onChange(e) {
