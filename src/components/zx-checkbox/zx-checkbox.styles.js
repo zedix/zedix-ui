@@ -11,6 +11,8 @@ export default css`
     --input-border-radius: 4px;
     --input-border-color: #2a4365;
     --input-border-color-hover: #2c5282;
+    --input-border-color-focus: #2c5282;
+    --input-focus-shadow: 0 0 0 0.2rem #e9d8fd;
 
     outline: none;
   }
@@ -20,6 +22,11 @@ export default css`
     display: inline-flex;
     align-items: center;
     cursor: pointer;
+  }
+
+  .checkbox:focus-within .checkbox__control {
+    border-color: var(--input-border-color-focus);
+    box-shadow: var(--input-focus-shadow);
   }
 
   input {

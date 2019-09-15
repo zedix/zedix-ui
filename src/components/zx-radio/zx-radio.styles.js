@@ -7,7 +7,9 @@ export default css`
     --input-border-width: 1px;
     --input-border-color: #2a4365;
     --input-border-color-hover: #2c5282;
+    --input-border-color-focus: #2c5282;
     --input-checkmark-color: var(--input-border-color);
+    --input-focus-shadow: 0 0 0 0.2rem #e9d8fd;
 
     display: inline-block;
   }
@@ -21,6 +23,11 @@ export default css`
     display: inline-flex;
     align-items: center;
     cursor: pointer;
+  }
+
+  .radio:focus-within i {
+    border-color: var(--input-border-color-focus);
+    box-shadow: var(--input-focus-shadow);
   }
 
   input {
