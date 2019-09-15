@@ -23,6 +23,7 @@ export default css`
 
   .textfield {
     display: block;
+    box-sizing: border-box;
     padding: 12px;
     font-size: 1rem;
     border: var(--input-border-width) solid var(--input-border-color);
@@ -31,6 +32,7 @@ export default css`
     background-image: none; /* [1] */
     background-clip: padding-box;
     caret-color: var(--input-caret-color);
+    width: 100%;
   }
 
   .textfield:hover {

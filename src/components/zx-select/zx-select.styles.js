@@ -62,7 +62,7 @@ export default css`
     -webkit-appearance: menulist-button;
   }
 
-  .select > option {
+  .select option {
     font-size: var(--input-font-size);
   }
 

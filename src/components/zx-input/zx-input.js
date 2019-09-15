@@ -9,6 +9,11 @@ export class ZxInput extends FormElementMixin(LitElement) {
 
   static get properties() {
     return {
+      autocomplete: {
+        type: String,
+        reflect: true,
+      },
+
       name: {
         type: String,
         reflect: true,
@@ -54,6 +59,7 @@ export class ZxInput extends FormElementMixin(LitElement) {
     super();
 
     // Initialize properties
+    this.autocomplete = 'on';
     this.name = '';
     this.value = '';
     this.type = 'text';
@@ -73,18 +79,18 @@ export class ZxInput extends FormElementMixin(LitElement) {
           ?readOnly="${this.readOnly}"
           @change="${this.onChange}"
           @input="${this.onInput}"
-        >
-          ${this.value}
-        </textarea>
+        >${this.value}</textarea>
       `;
     }
 
+    // prettier-ignore
     return html`
       <input
         class="textfield"
         type="${this.type}"
         name="${this.name}"
         value="${this.value}"
+        autocomplete"${this.autocomplete}"
         placeholder="${this.placeholder}"
         ?disabled="${this.disabled}"
         ?readOnly="${this.readOnly}"
