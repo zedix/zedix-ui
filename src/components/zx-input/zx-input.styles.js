@@ -12,13 +12,15 @@ export default css`
     --input-caret-color: #2a4365;
     --input-background-color-disabled: #edf2f7;
     --input-focus-shadow: 0 0 0 0.2rem #e9d8fd;
+    --input-label-margin: 0 0 4px 0;
 
     display: inline-block;
+    outline: none;
   }
 
   label {
     display: inline-block;
-    margin-bottom: 4px;
+    margin-bottom: var(--input-label-margin);
   }
 
   .textfield {

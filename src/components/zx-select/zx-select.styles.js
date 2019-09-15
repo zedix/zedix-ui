@@ -11,14 +11,21 @@ export default css`
     --input-dropdown-arrow-color: var(--input-text-color);
     --input-min-width: 60px;
     --input-font-size: 1rem;
+    --input-label-margin: 0 0 4px 0;
 
     display: inline-block;
+    outline: none;
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: var(--input-label-margin);
   }
 
   .select {
     position: relative;
     box-sizing: border-box;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     padding: 10px 28px 10px 12px;
     border: var(--input-border);
@@ -73,10 +80,5 @@ export default css`
   .select:focus-within {
     border-color: var(--input-border-color-focus);
     box-shadow: var(--input-focus-shadow);
-  }
-
-  label {
-    display: inline-block;
-    margin-bottom: 4px;
   }
 `;
