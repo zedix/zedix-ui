@@ -14,6 +14,7 @@ export default css`
     --input-border-color-focus: #2c5282;
     --input-focus-shadow: 0 0 0 0.2rem #e9d8fd;
 
+    display: inline-block;
     outline: none;
   }
 

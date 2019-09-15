@@ -11,10 +11,13 @@ export default css`
     --input-dropdown-arrow-color: var(--input-text-color);
     --input-min-width: 60px;
     --input-font-size: 1rem;
+
+    display: inline-block;
   }
 
   .select {
     position: relative;
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     padding: 10px 28px 10px 12px;
@@ -24,6 +27,7 @@ export default css`
     background-image: none; /* [1] */
     background-clip: padding-box;
     min-width: var(--input-min-width);
+    max-width: 100%;
   }
 
   .select:hover,

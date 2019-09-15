@@ -90,7 +90,7 @@ export class ZxInput extends FormElementMixin(LitElement) {
         type="${this.type}"
         name="${this.name}"
         value="${this.value}"
-        autocomplete"${this.autocomplete}"
+        autocomplete="${this.autocomplete}"
         placeholder="${this.placeholder}"
         ?disabled="${this.disabled}"
         ?readOnly="${this.readOnly}"
