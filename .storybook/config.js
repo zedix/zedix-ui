@@ -3,9 +3,11 @@ import { create } from '@storybook/theming';
 import { withA11y } from '@storybook/addon-a11y';
 import '@storybook/addon-console';
 
-const req = require.context('../stories', true, /\.stories\.js$/);
+/* This line loads all the .story files from the components */
+const components = require.context('../src/components/', true, /\.stories\.js$/);
+
 function loadStories() {
-  req.keys().forEach(filename => req(filename));
+  components.keys().forEach(components);
 }
 
 addParameters({

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   storiesOf,
   html,
@@ -7,7 +8,7 @@ import {
   object,
 } from '@open-wc/demoing-storybook';
 
-import { ZxSelect } from '../src/index.js';
+import { ZxSelect } from './zx-select.js';
 
 const options = JSON.stringify([
   { label: 'Female', value: 'female' },

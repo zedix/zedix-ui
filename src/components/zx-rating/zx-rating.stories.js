@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   storiesOf,
   html,
@@ -9,7 +10,7 @@ import {
   select,
 } from '@open-wc/demoing-storybook';
 
-import { ZxRating } from '../src/index.js';
+import { ZxRating } from './zx-rating.js';
 
 const labels = '["Very Poor", "Poor", "Satisfactory", "Good", "Excellent"]';
 

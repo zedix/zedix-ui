@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   storiesOf,
   html,
@@ -6,14 +7,14 @@ import {
   boolean,
 } from '@open-wc/demoing-storybook';
 
-import { ZxCheckbox } from '../src/index.js';
+import { ZxInput } from './zx-input.js';
 
-storiesOf('Forms/zx-checkbox', module)
+storiesOf('Forms/zx-input', module)
   .addDecorator(withKnobs)
   .add('Sandbox', () =>
-    withClassPropertiesKnobs(ZxCheckbox, {
+    withClassPropertiesKnobs(ZxInput, {
       template: html`
-        <zx-checkbox name="remember_me" value="1">Remember me</zx-checkbox>
+        <zx-input name="first_name" placeholder="First name">First name</zx-input>
       `,
       overrides: el => [
         {

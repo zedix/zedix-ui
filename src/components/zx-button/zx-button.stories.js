@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   storiesOf,
   html,
@@ -8,7 +9,7 @@ import {
   select,
 } from '@open-wc/demoing-storybook';
 
-import { ZxButton } from '../src/index.js';
+import { ZxButton } from './zx-button.js';
 
 storiesOf('Core/zx-button', module)
   .addDecorator(withKnobs)

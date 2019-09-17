@@ -137,6 +137,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         ?name="${this.name}"
         ?disabled="${this.disabled || this.loading}"
         ?size="${this.size}"
+        ?aria-busy="${this.loading}"
       >
         <slot></slot>
         ${this.loading
