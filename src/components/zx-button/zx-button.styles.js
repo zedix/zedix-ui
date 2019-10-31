@@ -68,6 +68,7 @@ export default css`
   :host([block]),
   :host([block]) .button {
     display: block;
+    width: 100%;
   }
 
   :host([variant='primary']) zx-spinner {
