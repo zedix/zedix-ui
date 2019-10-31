@@ -2,35 +2,30 @@
 import {
   storiesOf,
   html,
+  action,
   withKnobs,
-  withClassPropertiesKnobs,
   boolean,
+  text,
   object,
 } from '@open-wc/demoing-storybook';
 
-import { ZxSelect } from './zx-select.js';
+import './zx-select.js';
 
-const options = JSON.stringify([
-  { label: 'Female', value: 'female' },
-  { label: 'Male', value: 'male' },
-]);
+const options = [{ label: 'Female', value: 'female' }, { label: 'Male', value: 'male' }];
 
 storiesOf('Forms/zx-select', module)
   .addDecorator(withKnobs)
-  .add('Sandbox', () =>
-    withClassPropertiesKnobs(ZxSelect, {
-      template: html`
-        <zx-select name="sex" value="female" emptyOption="___" options=${options} />
+  .add(
+    'Sandbox',
+    () =>
+      html`
+        <zx-select
+          @change="${action('change')}"
+          name="${text('name', 'sex')}"
+          value="${text('value', 'female')}"
+          emptyOption="${text('emptyOption', '___')}"
+          .options=${object('options', options)}
+          .disabled="${boolean('disabled')}"
+        />
       `,
-      overrides: el => [
-        {
-          key: 'options',
-          fn: () => object('options', el.options, 'Element'),
-        },
-        {
-          key: 'disabled',
-          fn: () => boolean('disabled', el.disabled, 'Element'),
-        },
-      ],
-    }),
   );

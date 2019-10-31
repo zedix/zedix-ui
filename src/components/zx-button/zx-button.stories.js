@@ -3,41 +3,51 @@ import {
   storiesOf,
   html,
   withKnobs,
-  withClassPropertiesKnobs,
+  // withWebComponentsKnobs,
   action,
   boolean,
+  text,
   select,
 } from '@open-wc/demoing-storybook';
 
-import { ZxButton } from './zx-button.js';
+import './zx-button.js';
+
+/*
+export default {
+  title: 'Core/zx-button',
+  component: 'zx-button',
+  decorators: [withKnobs, withWebComponentsKnobs],
+  parameters: { options: { selectedPanel: 'storybookjs/knobs/panel' } },
+};
+
+export const singleComponent = () => html`
+  <zx-button>
+    Sign in
+  </zx-button>
+`;
+*/
 
 storiesOf('Core/zx-button', module)
   .addDecorator(withKnobs)
-  .add('Sandbox', () =>
-    withClassPropertiesKnobs(ZxButton, {
-      template: html`
-        <zx-button @click="${action('click')}">Sign in</zx-button>
+  .add(
+    'Sandbox',
+    () =>
+      html`
+        <zx-button
+          @click="${action('click')}"
+          href="${text('href', '')}"
+          name="${text('name', '')}"
+          type="${select('type', ['button', 'submit'])}"
+          variant="${select('variant', ['primary', 'secondary', 'outline-primary'], 'primary')}"
+          size="${select('size', ['small', 'medium', 'large'], 'medium')}"
+          .disabled="${boolean('disabled')}"
+          .loading="${boolean('loading')}"
+          .block="${boolean('block')}"
+          .fake="${boolean('fake')}"
+        >
+          Sign in
+        </zx-button>
       `,
-      overrides: el => [
-        {
-          key: 'disabled',
-          fn: () => boolean('disabled', el.disabled, 'Element'),
-        },
-        {
-          key: 'variant',
-          fn: () =>
-            select('variant', ['primary', 'secondary', 'outline-primary'], el.variant, 'Element'),
-        },
-        {
-          key: 'size',
-          fn: () => select('size', ['small', 'medium', 'large'], el.size, 'Element'),
-        },
-        {
-          key: 'type',
-          fn: () => select('type', ['button', 'submit'], el.type, 'Element'),
-        },
-      ],
-    }),
   )
   .add(
     'Showcase',

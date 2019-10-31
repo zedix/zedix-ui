@@ -2,6 +2,7 @@
 
 ![version](https://img.shields.io/github/package-json/v/zedix/zedix-ui.svg?maxAge=60)
 ![tag](https://img.shields.io/github/tag/zedix/zedix-ui.svg?maxAge=60)
+![lit-element](https://img.shields.io/badge/lib-lit--element-blue.svg?maxAge=60)
 
 @zedix's web components UI library built with [lit-element](https://github.com/Polymer/lit-element) and following the [open-wc](https://github.com/open-wc/open-wc) recommendations.
 

@@ -1,26 +1,22 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  storiesOf,
-  html,
-  withKnobs,
-  withClassPropertiesKnobs,
-  boolean,
-} from '@open-wc/demoing-storybook';
+import { storiesOf, html, withKnobs, action, boolean, text } from '@open-wc/demoing-storybook';
 
-import { ZxRadio } from './zx-radio.js';
+import './zx-radio.js';
 
 storiesOf('Forms/zx-radio', module)
   .addDecorator(withKnobs)
-  .add('Sandbox', () =>
-    withClassPropertiesKnobs(ZxRadio, {
-      template: html`
-        <zx-radio class="mr-4" name="choice" value="one">Choice One</zx-radio>
+  .add(
+    'Sandbox',
+    () =>
+      html`
+        <zx-radio
+          @change="${action('change')}"
+          name="${text('name', 'choice')}"
+          value="${text('value', 'one')}"
+          .checked="${boolean('checked')}"
+          .disabled="${boolean('disabled')}"
+        >
+          Choice One
+        </zx-checkbox>
       `,
-      overrides: el => [
-        {
-          key: 'disabled',
-          fn: () => boolean('disabled', el.disabled, 'Element'),
-        },
-      ],
-    }),
   );

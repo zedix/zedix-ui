@@ -2,25 +2,31 @@
 import {
   storiesOf,
   html,
+  action,
   withKnobs,
-  withClassPropertiesKnobs,
   boolean,
+  number,
+  text,
 } from '@open-wc/demoing-storybook';
 
-import { ZxInput } from './zx-input.js';
+import './zx-input.js';
 
 storiesOf('Forms/zx-input', module)
   .addDecorator(withKnobs)
-  .add('Sandbox', () =>
-    withClassPropertiesKnobs(ZxInput, {
-      template: html`
-        <zx-input name="first_name" placeholder="First name">First name</zx-input>
-      `,
-      overrides: el => [
-        {
-          key: 'disabled',
-          fn: () => boolean('disabled', el.disabled, 'Element'),
-        },
-      ],
-    }),
+  .add(
+    'Sandbox',
+    () => html`
+      <zx-input
+        @change="${action('change')}"
+        name="${text('name', 'first_name')}"
+        autocomplete="${text('autocomplete', 'on')}"
+        type="${text('type', 'text')}"
+        placeholder="${text('placeholder', 'First name')}"
+        rows="${number('rows')}"
+        .readOnly="${boolean('readOnly')}"
+        .disabled="${boolean('disabled')}"
+      >
+        First name
+      </zx-input>
+    `,
   );

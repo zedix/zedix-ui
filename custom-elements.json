@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "tags": [
+    {
+      "name": "zx-button",
+      "properties": [
+        {
+          "name": "href",
+          "type": "String",
+          "description": "Make the button a link element",
+          "default": "",
+          "required": false
+        }
+      ],
+      "events": [
+        {
+          "name": "click",
+          "description": ""
+        }
+      ],
+      "slots": [],
+      "cssProperties": [
+        {
+          "name": "--button-border-radius",
+          "description": "Border radius for the button",
+          "type": "Color"
+        }
+      ]
+    }
+  ]
+}

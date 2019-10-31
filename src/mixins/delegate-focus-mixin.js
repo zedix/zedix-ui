@@ -7,6 +7,9 @@ const $$tabindex = Symbol('tabindex');
 const $$oldTabindex = Symbol('oldTabindex');
 const $$newTabindex = Symbol('newTabindex');
 
+/**
+ * @see https://github.com/w3c/webcomponents/issues/830#issuecomment-532514644
+ */
 export const DelegateFocusMixin = superClass =>
   class extends superClass {
     static get properties() {

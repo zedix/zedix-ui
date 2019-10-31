@@ -109,7 +109,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
    */
   render() {
     const classes = { button: true };
-
+    console.log('href', this.href);
     if (this.href) {
       // https://github.com/Polymer/lit-html/issues/78
       return html`
