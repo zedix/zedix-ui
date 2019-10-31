@@ -37,7 +37,7 @@ storiesOf('Core/zx-button', module)
           @click="${action('click')}"
           href="${text('href', '')}"
           name="${text('name', '')}"
-          type="${select('type', ['button', 'submit'])}"
+          type="${select('type', ['button', 'submit'], 'button')}"
           variant="${select('variant', ['primary', 'secondary', 'outline-primary'], 'primary')}"
           size="${select('size', ['small', 'medium', 'large'], 'medium')}"
           .disabled="${boolean('disabled')}"
