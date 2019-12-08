@@ -1,3 +1,4 @@
+/* eslint-disable prefer-object-spread */
 import { html, LitElement } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map.js';
 import styles from './zx-rating.styles.js';
@@ -132,9 +133,12 @@ export class ZxRating extends LitElement {
     };
 
     if (!this.editMode) {
+      // Note: using Object.assign for Edge 18 compatibility
       return html`
         <div class="rating" style=${styleMap(rootStyles)}>
-          <i style=${styleMap({ ...innerStyles, width: `${this.value * 20}%` })}></i>
+          <i
+            style=${styleMap(Object.assign({}, innerStyles, { width: `${this.value * 20}%` }))}
+          ></i>
         </div>
       `;
     }
@@ -148,7 +152,7 @@ export class ZxRating extends LitElement {
                 <input
                   type="radio"
                   name="${this.name}"
-                  value="${ratingValue}"
+                  .value="${ratingValue}"
                   ?checked="${Number(this.value) === ratingValue}"
                   @change=${this.onChange}
                   @mouseover=${this.onInputMouseOver}
