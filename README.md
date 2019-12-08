@@ -8,7 +8,7 @@
 
 ## Demo
 
-https://peaceful-swanson-26f657.netlify.com/
+https://zedix-ui-storybook.netlify.com
 
 ## Installation
 
