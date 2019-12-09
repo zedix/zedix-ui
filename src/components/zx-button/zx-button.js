@@ -16,11 +16,6 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
 
   static get properties() {
     return {
-      href: {
-        type: String,
-        reflect: true,
-      },
-
       type: {
         type: String,
         reflect: true,
@@ -61,6 +56,16 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
 
       variant: {
         type: String, // primary, secondary, success, danger, warning, info
+        reflect: true,
+      },
+
+      href: {
+        type: String,
+        reflect: true,
+      },
+
+      target: {
+        type: String,
         reflect: true,
       },
     };
@@ -114,7 +119,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
     if (this.href) {
       // https://github.com/Polymer/lit-html/issues/78
       return html`
-        <a class="${classMap(classes)}" href="${this.href}">
+        <a class="${classMap(classes)}" href="${this.href}" ?target="${this.target}">
           <slot></slot>
         </a>
       `;
@@ -142,7 +147,8 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
       >
         <slot></slot>
         ${this.loading
-          ? html`
+          ? // eslint-disable-next-line lit/no-invalid-html
+            html`
               <zx-spinner size="2" />
             `
           : ''}
