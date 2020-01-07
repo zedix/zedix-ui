@@ -41,7 +41,7 @@ export default css`
     margin-bottom: 0;
     border: 0;
     border-radius: var(--button-border-radius);
-    background: transparent;
+    background-color: transparent;
     background-image: none;
     font-family: inherit;
     font-size: inherit;
@@ -52,6 +52,7 @@ export default css`
     text-align: center;
     text-decoration: none;
     outline: none;
+    -webkit-appearance: none; /* Remove background on iOS */
   }
 
   .button::-moz-focus-inner {
