@@ -1159,10 +1159,10 @@
   resolved "https://registry.yarnpkg.com/@open-wc/semantic-dom-diff/-/semantic-dom-diff-0.13.21.tgz#718b9ec5f9a98935fc775e577ad094ae8d8b7dea"
   integrity sha512-BONpjHcGX2zFa9mfnwBCLEmlDsOHzT+j6Qt1yfK3MzFXFtAykfzFjAgaxPetu0YbBlCfXuMlfxI4vlRGCGMvFg==
 
-"@open-wc/semantic-dom-diff@^0.15.4":
-  version "0.15.4"
-  resolved "https://registry.yarnpkg.com/@open-wc/semantic-dom-diff/-/semantic-dom-diff-0.15.4.tgz#1bbf9adbbf3cb6090f525fc7d4274d17cc016457"
-  integrity sha512-Wa50FJiB26/jC++snNqOJBr3cYrzUdsFFNLL3HSA7PAscCWEGo5NAdesL/BnehXOCRyMZfpvv+uY9+F8dc7HCQ==
+"@open-wc/semantic-dom-diff@^0.15.6":
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/@open-wc/semantic-dom-diff/-/semantic-dom-diff-0.15.6.tgz#4474cc91ab001376b91a6aa1ce304556f6a6a4bf"
+  integrity sha512-dxDjgksHW1wWMs6FSl0GA24n6cB5cj7Ug2w53ztjdOefwg2P/I/zjII9Qvyms4LNvjgXD1asfoy3jye3ADQG3w==
 
 "@open-wc/storybook-prebuilt@^0.0.8":
   version "0.0.8"
@@ -1171,10 +1171,10 @@
   dependencies:
     standard-version "^7.0.1"
 
-"@open-wc/testing-helpers@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@open-wc/testing-helpers/-/testing-helpers-1.4.0.tgz#d93b627c1311a1ad2b5fc4de43fc6f9fa8a79177"
-  integrity sha512-XTR0HGOSBEJz7H31FDhHD2R6GHXI6DksiJsYDzJdLXqF/ORkKFzfu1BXGVOnPZytmJZLvnEr7VmE2YfV0y2Yug==
+"@open-wc/testing-helpers@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@open-wc/testing-helpers/-/testing-helpers-1.5.1.tgz#c2d0ec2497a5a6565bffbbb5b877dc69a663c108"
+  integrity sha512-CGLonS+dwcydBCQF3cQflGvQCaCinEXVqLm1smQuf/FOZ51Ou7Sr5aV/RB3XTCu4VaL8YniKeOc8Xr3RnL/3IQ==
 
 "@open-wc/testing-karma-bs@^1.3.30":
   version "1.3.30"
@@ -1202,14 +1202,14 @@
     karma-source-map-support "^1.3.0"
     mocha "^6.2.2"
 
-"@open-wc/testing@^2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@open-wc/testing/-/testing-2.4.2.tgz#b4ae4682b2435167290f04061000251be85c59b0"
-  integrity sha512-VvTXlwQx3CTasCFuJQCse7JqJzDgkEFoo/6mlKzIwrzA/GJmX7Qko0aLJY7jaxnrotHyN9/njexTUPlOaW2z2g==
+"@open-wc/testing@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@open-wc/testing/-/testing-2.5.1.tgz#1a67013d6d88a9e031d285fb6804106d8d063bf2"
+  integrity sha512-nH4/xW7iWjgBm+68mJPeG5daBjj122LpbCgYbRa5hED+nPqEkxqaHRGNd8P26VDhIpZnwZymzuq6SiXHhIh7Mg==
   dependencies:
     "@open-wc/chai-dom-equals" "^0.12.36"
-    "@open-wc/semantic-dom-diff" "^0.15.4"
-    "@open-wc/testing-helpers" "^1.4.0"
+    "@open-wc/semantic-dom-diff" "^0.15.6"
+    "@open-wc/testing-helpers" "^1.5.1"
     "@types/chai" "^4.1.7"
     "@types/chai-dom" "^0.0.8"
     "@types/mocha" "^5.0.0"
