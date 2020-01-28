@@ -1131,16 +1131,16 @@
     eslint-plugin-no-only-tests "^2.3.1"
     eslint-plugin-wc "^1.2.0"
 
-"@open-wc/karma-esm@^2.12.6":
-  version "2.12.6"
-  resolved "https://registry.yarnpkg.com/@open-wc/karma-esm/-/karma-esm-2.12.6.tgz#9a252f4b8fd962b26a090987cc62a40d6975d1a8"
-  integrity sha512-Q9wJq1ua5Jk9XXuvseJQ5ioozIizanzfkbh8gzTnTaZjz0gsaN5J+V7YpdThf2RRevWTmhxrGwfsyxh5efXg9Q==
+"@open-wc/karma-esm@^2.12.8":
+  version "2.12.8"
+  resolved "https://registry.yarnpkg.com/@open-wc/karma-esm/-/karma-esm-2.12.8.tgz#5b7aff8134ce04e455d038fa517b3768d5b89ecf"
+  integrity sha512-6BICi1CeHf+rk/icQq/wWQ5NzgbrDiNe+ndZsyioLLFqH4M3zcGhtyrmPgS+Dbb6p08WOdVHu5rct35NY2Bfkg==
   dependencies:
     "@open-wc/building-utils" "^2.11.0"
     babel-plugin-istanbul "^5.1.4"
     chokidar "^3.0.0"
     deepmerge "^3.2.0"
-    es-dev-server "^1.36.2"
+    es-dev-server "^1.36.4"
     minimatch "^3.0.4"
     node-fetch "^2.6.0"
     portfinder "^1.0.21"
@@ -1176,21 +1176,21 @@
   resolved "https://registry.yarnpkg.com/@open-wc/testing-helpers/-/testing-helpers-1.4.0.tgz#d93b627c1311a1ad2b5fc4de43fc6f9fa8a79177"
   integrity sha512-XTR0HGOSBEJz7H31FDhHD2R6GHXI6DksiJsYDzJdLXqF/ORkKFzfu1BXGVOnPZytmJZLvnEr7VmE2YfV0y2Yug==
 
-"@open-wc/testing-karma-bs@^1.3.30":
-  version "1.3.30"
-  resolved "https://registry.yarnpkg.com/@open-wc/testing-karma-bs/-/testing-karma-bs-1.3.30.tgz#f2ccc600600a5723614a095aa55b971da6a43b59"
-  integrity sha512-GaVJe4W3Fp/30EX2+eRoEckcXpnqwrYrb+1OAbafD9ZkwFLSJUzW+AE+BB5RFGPXrVekTHOCSUfA1cRlzanTcg==
+"@open-wc/testing-karma-bs@^1.3.32":
+  version "1.3.32"
+  resolved "https://registry.yarnpkg.com/@open-wc/testing-karma-bs/-/testing-karma-bs-1.3.32.tgz#ccfeb099c212950fec7287d898c230342195d436"
+  integrity sha512-eM2xU1442bHshabNvAzfiCUXTWG9nvBhkJH6D5feLTBaTY+c7PhezqqYPa1C8c07/gTz5U01ErzVkS/wkCiuHQ==
   dependencies:
-    "@open-wc/testing-karma" "^3.2.30"
+    "@open-wc/testing-karma" "^3.2.32"
     "@types/node" "^11.13.0"
     karma-browserstack-launcher "^1.0.0"
 
-"@open-wc/testing-karma@^3.2.11", "@open-wc/testing-karma@^3.2.30":
-  version "3.2.30"
-  resolved "https://registry.yarnpkg.com/@open-wc/testing-karma/-/testing-karma-3.2.30.tgz#ac4bfb2e9578d5a4ebaecdb2ef2add81cda23827"
-  integrity sha512-z9tpYOxhHcaPtA3muCpfwvDsQunuziwS4HDm2gV4hEsWFQ97WgbMV9wQAtYHaYxzKGQhk5uWcLNQEe10VUxhpg==
+"@open-wc/testing-karma@^3.2.11", "@open-wc/testing-karma@^3.2.32":
+  version "3.2.32"
+  resolved "https://registry.yarnpkg.com/@open-wc/testing-karma/-/testing-karma-3.2.32.tgz#698e009bda112db5d6142b8123b35817f4892d69"
+  integrity sha512-IYiyYmStfJlhZoUY66gVcY3GTVPbrMi97drviybZTetXn9ThFMIxllpRbs67gzhRYQwJ5q2QLPZ4AkA0gCjBUg==
   dependencies:
-    "@open-wc/karma-esm" "^2.12.6"
+    "@open-wc/karma-esm" "^2.12.8"
     axe-core "^3.3.1"
     karma "^4.1.0"
     karma-chrome-launcher "^3.1.0"
@@ -3478,10 +3478,10 @@ es-dev-server@^1.28.2:
     useragent "^2.3.0"
     whatwg-url "^7.0.0"
 
-es-dev-server@^1.36.2:
-  version "1.36.2"
-  resolved "https://registry.yarnpkg.com/es-dev-server/-/es-dev-server-1.36.2.tgz#b0cbfbad89f765f4a3bfa0793397f3c362466781"
-  integrity sha512-pWMJcsdUcXXCJPRuqnjI2JNLVSDRfjU4qkBd7EsNG8yn1UnmvJF8wTnHgWzkwyHB3wrg4/b7hQJCAXcYaW2XUw==
+es-dev-server@^1.36.4:
+  version "1.36.4"
+  resolved "https://registry.yarnpkg.com/es-dev-server/-/es-dev-server-1.36.4.tgz#0966e59303d4f6f3106fc81b1fc593dc5e03eff8"
+  integrity sha512-Zudve1MvvNGR7MXsN/pbxR/2+MSit+8pTlTqLxz1Qqhl5YXGOBkkzGMa5MpX1h1n/80x9iIEU5TyclrMjaDOEg==
   dependencies:
     "@babel/core" "^7.7.2"
     "@babel/plugin-proposal-dynamic-import" "^7.7.0"
