@@ -2,38 +2,52 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
+    --input-stepper-border-color: #edf2f7;
+    --input-stepper-border-radius: 2px;
     --input-stepper-color: #f7fafc;
     --input-stepper-color-hover: #edf2f7;
-    --input-stepper-button-with: 48px;
+    --input-stepper-button-width: 48px;
 
     display: inline-flex;
+    outline: none;
   }
 
   .stepper {
+    box-sizing: border-box;
     display: flex;
     align-items: stretch;
     white-space: nowrap;
-    border: 1px solid var(--input-stepper-color);
-    min-height: var(--input-stepper-button-with);
+    border: 1px solid var(--input-stepper-border-color);
+    border-radius: var(--input-stepper-border-radius);
+    min-height: var(--input-stepper-button-width);
   }
 
   button {
+    box-sizing: border-box;
+    padding: 0;
     appearance: none;
     background: none;
     border: 0;
-    width: var(--input-stepper-button-with);
+    font-family: inherit;
+    font-size: inherit;
+    width: var(--input-stepper-button-width);
     background-color: var(--input-stepper-color);
     cursor: pointer;
   }
 
-  button:hover {
-    background-color: var(--input-stepper-color-hover);
+  @media (hover: hover) {
+    button:hover:not(:disabled) {
+      background-color: var(--input-stepper-color-hover);
+    }
   }
 
   input {
     appearance: none;
     -moz-appearance: textfield;
+    font-family: inherit;
+    font-size: inherit;
     border: 0;
     text-align: center;
+    max-width: calc(var(--input-stepper-button-width) * 1.5);
   }
 `;

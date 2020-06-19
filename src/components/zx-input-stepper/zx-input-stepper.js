@@ -1,4 +1,3 @@
-// https://design.mixpanel.com/#mp-dialog
 import { html, LitElement } from 'lit-element';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
 import styles from './zx-input-stepper.styles.js';
@@ -18,7 +17,6 @@ export class ZxInputStepper extends FormElementMixin(LitElement) {
     return {
       name: {
         type: String,
-        reflect: true,
       },
 
       value: {
@@ -65,6 +63,7 @@ export class ZxInputStepper extends FormElementMixin(LitElement) {
 
   newValue(val) {
     this.value = Math.min(Math.max(val, this.min), this.max);
+    this.updateFormValue(this.value);
   }
 
   render() {
@@ -72,13 +71,7 @@ export class ZxInputStepper extends FormElementMixin(LitElement) {
       <button type="button" @click="${this.decrement}" .disabled="${this.value === this.min}">
         -
       </button>
-      <input
-        type="number"
-        name="${this.name}"
-        .value="${this.value}"
-        min="${this.min}"
-        max="${this.max}"
-      />
+      <input type="number" .value="${this.value}" min="${this.min}" max="${this.max}" />
       <button type="button" @click="${this.increment}" .disabled="${this.value === this.max}">
         +
       </button>
