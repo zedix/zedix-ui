@@ -2,7 +2,7 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
-    --input-stepper-border-color: #edf2f7;
+    --input-stepper-border-color: #e2e8f0;
     --input-stepper-border-radius: 2px;
     --input-stepper-color: #f7fafc;
     --input-stepper-color-hover: #edf2f7;
@@ -31,8 +31,11 @@ export default css`
     font-family: inherit;
     font-size: inherit;
     width: var(--input-stepper-button-width);
-    background-color: var(--input-stepper-color);
     cursor: pointer;
+  }
+
+  button:not(:disabled) {
+    background-color: var(--input-stepper-color);
   }
 
   @media (hover: hover) {
@@ -48,6 +51,13 @@ export default css`
     font-size: inherit;
     border: 0;
     text-align: center;
-    max-width: calc(var(--input-stepper-button-width) * 1.5);
+    max-width: calc(var(--input-stepper-button-width) * 1.2);
+  }
+
+  input:disabled {
+    background-color: inherit;
+    cursor: not-allowed;
+    /* iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655. */
+    opacity: 1;
   }
 `;

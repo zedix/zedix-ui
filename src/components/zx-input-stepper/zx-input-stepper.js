@@ -24,6 +24,14 @@ export class ZxInputStepper extends FormElementMixin(LitElement) {
         reflect: true,
       },
 
+      /*
+      // inherited from DelegateFocusMixin
+      disabled: {
+        type: Boolean,
+        reflect: true,
+      },
+      */
+
       min: {
         type: Number,
         reflect: true,
@@ -68,11 +76,25 @@ export class ZxInputStepper extends FormElementMixin(LitElement) {
 
   render() {
     return html`<div class="stepper">
-      <button type="button" @click="${this.decrement}" .disabled="${this.value === this.min}">
+      <button
+        type="button"
+        @click="${this.decrement}"
+        .disabled="${this.value === this.min || this.disabled}"
+      >
         -
       </button>
-      <input type="number" .value="${this.value}" min="${this.min}" max="${this.max}" />
-      <button type="button" @click="${this.increment}" .disabled="${this.value === this.max}">
+      <input
+        type="number"
+        .disabled="${this.disabled}"
+        .value="${this.value}"
+        min="${this.min}"
+        max="${this.max}"
+      />
+      <button
+        type="button"
+        @click="${this.increment}"
+        .disabled="${this.value === this.max || this.disabled}"
+      >
         +
       </button>
     </div>`;

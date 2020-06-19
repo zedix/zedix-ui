@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { html, withKnobs } from '@open-wc/demoing-storybook';
+import { html, withKnobs, boolean, number } from '@open-wc/demoing-storybook';
 
 import './zx-input-stepper.js';
 
@@ -10,4 +10,9 @@ export default {
   // parameters: { options: { selectedPanel: 'storybookjs/knobs/panel' } },
 };
 
-export const Sandbox = () => html` <zx-input-stepper></zx-input-stepper> `;
+export const Sandbox = () => html` <zx-input-stepper
+  .disabled="${boolean('disabled')}"
+  min="${number('min', 1, { range: true, min: 1, max: 100, step: 1 })}"
+  max="${number('max', 100, { range: true, min: 1, max: 100, step: 1 })}"
+  step="${number('step', 1, { range: true, min: 1, max: 100, step: 1 })}"
+></zx-input-stepper>`;
