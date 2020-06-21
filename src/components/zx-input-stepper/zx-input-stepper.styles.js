@@ -32,6 +32,8 @@ export default css`
     font-size: inherit;
     width: var(--input-stepper-button-width);
     cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   button:not(:disabled) {
