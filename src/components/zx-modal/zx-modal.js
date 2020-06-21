@@ -29,6 +29,10 @@ export class ZxModal extends LitElement {
         reflect: true,
       },
 
+      noBodyScrollClass: {
+        type: String,
+      },
+
       // state: {
       // type: String, // success, error, warning, info
       // reflect: true,
@@ -45,6 +49,9 @@ export class ZxModal extends LitElement {
     this.closeable = true;
     this.closeOnClickOutside = false;
     this.closeOnEscape = true;
+    this.noBodyScrollClass = 'fixed';
+
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
 
   get dialogElement() {
@@ -61,7 +68,25 @@ export class ZxModal extends LitElement {
     document.removeEventListener('keydown', this.handleKeydown);
   }
 
-  openModal() {
+  updated(changedProperties) {
+    if (changedProperties.has('open')) {
+      // The change event is not able to propagate across shadow boundaries
+      // To make a custom event pass through shadow DOM boundaries, we must set
+      // both the composed and bubbles flags to true:
+      this.dispatchEvent(
+        new CustomEvent('change', {
+          detail: {
+            open: this.open,
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+    document.body.classList.toggle(this.noBodyScrollClass, this.open);
+  }
+
+  showModal() {
     this.open = true;
   }
 
@@ -72,8 +97,8 @@ export class ZxModal extends LitElement {
 
   onAnimationEnd({ animationName }) {
     if (animationName === 'bounceFadeOut') {
-      this.open = false;
       this.isClosing = false;
+      this.open = false;
     }
   }
 
@@ -89,11 +114,11 @@ export class ZxModal extends LitElement {
   }
 
   // https://www.w3.org/TR/wai-aria-practices/#dialog_modal
-  handleKeydown = ({ key }) => {
+  handleKeydown({ key }) {
     if (this.closeOnEscape && key === 'Escape') {
       this.close();
     }
-  };
+  }
 
   render() {
     const classes = {

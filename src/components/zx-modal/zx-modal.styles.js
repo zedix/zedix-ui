@@ -77,14 +77,14 @@ export default css`
       transform: translate3d(0, 0, 0);
     }
     to {
-      opacity: 0.8;
+      opacity: 1;
       transform: translate3d(0, 0, 0);
     }
   }
 
   @keyframes fadeOverlayOut {
     from {
-      opacity: 0.8;
+      opacity: 1;
       transform: translate3d(0, 0, 0);
     }
     to {

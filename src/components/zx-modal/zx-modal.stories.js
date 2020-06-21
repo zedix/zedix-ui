@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { html, withKnobs, boolean } from '@open-wc/demoing-storybook';
+import { html, withKnobs, action, boolean } from '@open-wc/demoing-storybook';
 
 import './zx-modal.js';
 
@@ -27,5 +27,6 @@ export const Sandbox = () => html`
     .closeable="${boolean('closeable', true)}"
     .closeOnClickOutside="${boolean('closeOnClickOutside', false)}"
     .closeOnEscape="${boolean('closeOnEscape', true)}"
+    @change="${action('change')}"
   ></zx-modal>
 `;
