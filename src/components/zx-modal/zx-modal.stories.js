@@ -22,7 +22,12 @@ function openModal(e) {
 }
 
 export const Sandbox = () => html`
-  <button type="button" @click="${openModal}">Open modal</button>
+  <style>
+    #root {
+      height: 300vh; /* simulate a long page with scrollbar */
+    }
+  </style>
+  <button type="button" @click="${openModal}" style="margin-top: 50vh">Open modal</button>
   <zx-modal
     .closeable="${boolean('closeable', true)}"
     .closeOnClickOutside="${boolean('closeOnClickOutside', false)}"

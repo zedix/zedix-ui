@@ -29,10 +29,6 @@ export class ZxModal extends LitElement {
         reflect: true,
       },
 
-      noBodyScrollClass: {
-        type: String,
-      },
-
       // state: {
       // type: String, // success, error, warning, info
       // reflect: true,
@@ -82,8 +78,25 @@ export class ZxModal extends LitElement {
           composed: true,
         }),
       );
+
+      this.toggleNoBodyScroll();
     }
-    document.body.classList.toggle(this.noBodyScrollClass, this.open);
+  }
+
+  toggleNoBodyScroll() {
+    const { body } = document;
+
+    if (this.open) {
+      // Save document scroll position
+      body.dataset.scrollY = window.scrollY;
+      body.style.position = 'fixed';
+      body.style.top = `-${body.dataset.scrollY}px`;
+    } else {
+      // Restore document scroll position
+      body.style.position = '';
+      body.style.top = '';
+      window.scrollTo(0, body.dataset.scrollY);
+    }
   }
 
   showModal() {
