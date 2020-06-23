@@ -98,6 +98,7 @@ export class ZxModal extends LitElement {
     // When a dialog closes, focus returns to the element that invoked the dialog
     if (this.invokerElement) {
       this.invokerElement.focus();
+      this.invokerElement = null;
     }
     this.dispatchEvent(new CustomEvent('close'));
   }
