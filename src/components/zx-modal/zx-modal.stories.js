@@ -9,16 +9,17 @@ export default {
   decorators: [withKnobs],
 };
 
-function openModal(e) {
-  const modal = e.currentTarget.nextElementSibling;
+function openModal({ currentTarget }) {
+  const invokerElement = currentTarget;
+  const modalElement = currentTarget.nextElementSibling;
 
-  modal.innerHTML = `
+  modalElement.innerHTML = `
     <div style="display: flex; align-items: center; justify-content: center; width: 500px; min-height: 220px;">
       Modal Body
     </div>
   `;
 
-  modal.open = true;
+  modalElement.showModal({ invokerElement });
 }
 
 export const Sandbox = () => html`
@@ -27,11 +28,14 @@ export const Sandbox = () => html`
       height: 300vh; /* simulate a long page with scrollbar */
     }
   </style>
-  <button type="button" @click="${openModal}" style="margin-top: 50vh">Open modal</button>
+  <button type="button" @click="${openModal}" style="margin-top: 50vh">
+    Open modal
+  </button>
   <zx-modal
     .closeable="${boolean('closeable', true)}"
     .closeOnClickOutside="${boolean('closeOnClickOutside', false)}"
     .closeOnEscape="${boolean('closeOnEscape', true)}"
-    @change="${action('change')}"
+    @open="${action('open')}"
+    @close="${action('close')}"
   ></zx-modal>
 `;

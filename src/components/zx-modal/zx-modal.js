@@ -14,14 +14,17 @@ export class ZxModal extends LitElement {
     return {
       closeable: {
         type: Boolean,
+        reflect: true,
       },
 
       closeOnClickOutside: {
         type: Boolean,
+        reflect: true,
       },
 
       closeOnEscape: {
         type: Boolean,
+        reflect: true,
       },
 
       open: {
@@ -45,77 +48,68 @@ export class ZxModal extends LitElement {
     this.closeable = true;
     this.closeOnClickOutside = false;
     this.closeOnEscape = true;
-    this.noBodyScrollClass = 'fixed';
 
-    this.handleKeydown = this.handleKeydown.bind(this);
+    this._onKeyDown = this._onKeyDown.bind(this);
   }
 
   get dialogElement() {
-    return this.shadowRoot.querySelector('.modal-dialog');
+    return this.shadowRoot.querySelector('[role="dialog"]');
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    document.addEventListener('keydown', this.handleKeydown);
-  }
-
-  disconnectedCallback() {
-    super.connectedCallback();
-    document.removeEventListener('keydown', this.handleKeydown);
-  }
-
-  updated(changedProperties) {
-    if (changedProperties.has('open')) {
-      // The change event is not able to propagate across shadow boundaries
-      // To make a custom event pass through shadow DOM boundaries, we must set
-      // both the composed and bubbles flags to true:
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            open: this.open,
-          },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-
-      this.toggleNoBodyScroll();
-    }
-  }
-
-  toggleNoBodyScroll() {
-    const { body } = document;
-
+  showModal(options = {}) {
+    // If the modal is already open, abort
     if (this.open) {
-      // Save document scroll position
-      body.dataset.scrollY = window.scrollY;
-      body.style.position = 'fixed';
-      body.style.top = `-${body.dataset.scrollY}px`;
-    } else {
-      // Restore document scroll position
-      body.style.position = '';
-      body.style.top = '';
-      window.scrollTo(0, body.dataset.scrollY);
+      return;
     }
-  }
-
-  showModal() {
+    this.invokerElement = options.invokerElement || document.activeElement;
     this.open = true;
   }
 
   close() {
+    // If the modal is already closed, abort
+    if (!this.open) {
+      return;
+    }
     this.isClosing = true;
     this.requestUpdate();
   }
 
-  onAnimationEnd({ animationName }) {
+  updated(changedProperties) {
+    if (changedProperties.has('open')) {
+      if (this.open) {
+        this._onOpen();
+      } else {
+        this._onClose();
+      }
+    }
+    // console.log(this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }));
+  }
+
+  _onOpen() {
+    document.addEventListener('keydown', this._onKeyDown);
+    this._disableBodyScroll();
+    this.dispatchEvent(new CustomEvent('open'));
+  }
+
+  _onClose() {
+    document.removeEventListener('keydown', this._onKeyDown);
+    this._enableBodyScroll();
+    // https://www.w3.org/TR/wai-aria-practices/#dialog_modal
+    // When a dialog closes, focus returns to the element that invoked the dialog
+    if (this.invokerElement) {
+      this.invokerElement.focus();
+    }
+    this.dispatchEvent(new CustomEvent('close'));
+  }
+
+  _onAnimationEnd({ animationName }) {
     if (animationName === 'bounceFadeOut') {
       this.isClosing = false;
       this.open = false;
     }
   }
 
-  onClickOutside(e) {
+  _onClickOutside(e) {
     if (
       this.closeable &&
       this.closeOnClickOutside &&
@@ -126,11 +120,36 @@ export class ZxModal extends LitElement {
     }
   }
 
-  // https://www.w3.org/TR/wai-aria-practices/#dialog_modal
-  handleKeydown({ key }) {
+  _onKeyDown({ key }) {
     if (this.closeOnEscape && key === 'Escape') {
       this.close();
     }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  _disableBodyScroll() {
+    const { body } = document;
+    body.dataset.scrollY = window.scrollY;
+    body.style.position = 'fixed';
+    body.style.top = `-${body.dataset.scrollY}px`;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  _enableBodyScroll() {
+    const { body } = document;
+    body.style.position = '';
+    body.style.top = '';
+    window.scrollTo(0, body.dataset.scrollY);
+  }
+
+  _renderDefaultCloseButton() {
+    return html` <button class="close-button" @click="${this.close}">
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+        <path
+          d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"
+        />
+      </svg>
+    </button>`;
   }
 
   render() {
@@ -143,19 +162,18 @@ export class ZxModal extends LitElement {
       return null;
     }
 
-    const closeButton =
-      this.closeable &&
-      html` <button class="close-button" @click="${this.close}">
-        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-          <path
-            d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"
-          />
-        </svg>
-      </button>`;
-
-    return html`<div class="${classMap(classes)}" @click="${this.onClickOutside}">
-      <div role="dialog" class="modal-dialog" @animationend="${this.onAnimationEnd}">
-        ${closeButton}
+    return html`<div
+      aria-hidden=${this.open ? 'false' : 'true'}
+      class="${classMap(classes)}"
+      @click="${this._onClickOutside}"
+    >
+      <div
+        role="dialog"
+        aria-hidden=${this.open ? 'false' : 'true'}
+        class="modal-dialog"
+        @animationend="${this._onAnimationEnd}"
+      >
+        ${this.closeable && this._renderDefaultCloseButton()}
         <slot></slot>
       </div>
     </div>`;
