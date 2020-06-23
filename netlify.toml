@@ -1,6 +1,6 @@
 [build]
   command = "yarn run site:build"
-  publish = "_site"
+  publish = ".storybook/build"
 
 [build.environment]
   YARN_VERSION = "1.22.4"
