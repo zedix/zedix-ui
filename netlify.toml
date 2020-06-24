@@ -1,5 +1,5 @@
 [build]
-  command = "yarn run site:build"
+  command = "yarn run storybook:build"
   publish = ".storybook/build"
 
 [build.environment]

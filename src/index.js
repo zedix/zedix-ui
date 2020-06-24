@@ -2,6 +2,7 @@ export { ZxButton } from './components/zx-button/zx-button.js';
 export { ZxCheckbox } from './components/zx-checkbox/zx-checkbox.js';
 export { ZxInput } from './components/zx-input/zx-input.js';
 export { ZxInputStepper } from './components/zx-input-stepper/zx-input-stepper.js';
+export { ZxModal } from './components/zx-modal/zx-modal.js';
 export { ZxRadio } from './components/zx-radio/zx-radio.js';
 export { ZxRating } from './components/zx-rating/zx-rating.js';
 export { ZxSelect } from './components/zx-select/zx-select.js';
