@@ -1,3 +1,5 @@
+// Configures the "preview" iframe that renders the components
+
 import {
   addParameters,
   addDecorator,

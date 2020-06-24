@@ -17,5 +17,4 @@
 /.tmp/
 
 # build
-/_site/
 /dist/

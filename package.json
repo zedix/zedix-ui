@@ -24,7 +24,7 @@
     "test:bs": "karma start karma.bs.config.js --compatibility all --coverage",
     "site:build": "npm run storybook:build",
     "storybook": "start-storybook --stories 'src/components/**/*.stories.{js,mdx}' --node-resolve --watch --open",
-    "storybook:build": "build-storybook --stories 'src/components/**/*.stories.{js,mdx}'"
+    "storybook:build": "build-storybook --output-dir='.storybook/build' --stories 'src/components/**/*.stories.{js,mdx}'"
   },
   "dependencies": {
     "lit-element": "^2.0.1",
