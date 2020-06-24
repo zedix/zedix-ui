@@ -8,7 +8,7 @@
 
 ## Demo
 
-https://zedix-ui-storybook.netlify.com
+https://zedix-ui-storybook.netlify.app
 
 ## Installation
 
@@ -18,20 +18,29 @@ $ yarn add zedix/zedix-ui.git#v1.x.x
 
 ## Usage
 
+```js
+// app.js
+import 'zedix-ui/src/components/zx-button';
+```
+
 ```html
-<script>
-import 'zedix-ui/components/button';
-</script>
+<!doctype html>
+<html>
+<head>
+  <!-- webcomponents polyfills loader for Edge < 79 -->
+  <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js">script>
 
-<template>
+  <style>
+  zx-button {
+    --button-primary-background-color: #xxx;
+    --button-primary-background-color-hover: #xxx;
+    --button-border-radius: 4px;
+  }
+  </style>
+</head>
+<body>
+  <script src="/js/app.js"></script>
   <zx-button variant="primary" size="medium">Sign in</zx-button>
-</template>
-
-<style>
-zx-button {
-  --button-primary-background-color: #xxx;
-  --button-primary-background-color-hover: #xxx;
-  --button-border-radius: 4px;
-}
-</style>
+</body>
+</html>
 ```
