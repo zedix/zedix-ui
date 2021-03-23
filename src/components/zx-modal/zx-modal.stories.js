@@ -1,13 +1,5 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { html, withKnobs, action, boolean } from '@open-wc/demoing-storybook';
-
+import { html } from 'lit-html';
 import './zx-modal.js';
-
-export default {
-  title: 'Core/zx-modal',
-  component: 'zx-modal',
-  decorators: [withKnobs],
-};
 
 function openModal({ currentTarget }) {
   const invokerElement = currentTarget;
@@ -18,24 +10,34 @@ function openModal({ currentTarget }) {
       Modal Body
     </div>
   `;
-
   modalElement.showModal({ invokerElement });
 }
 
-export const Sandbox = () => html`
+export default {
+  title: 'Core/zx-modal',
+  onOpen: { action: 'open' },
+  onClose: { action: 'close' },
+};
+
+const Template = args => html`
   <style>
     #root {
       height: 300vh; /* simulate a long page with scrollbar */
     }
   </style>
-  <button type="button" @click="${openModal}" style="margin-top: 50vh">
-    Open modal
-  </button>
+  <button type="button" @click="${openModal}">Open modal</button>
   <zx-modal
-    .closeable="${boolean('closeable', true)}"
-    .closeOnClickOutside="${boolean('closeOnClickOutside', false)}"
-    .closeOnEscape="${boolean('closeOnEscape', true)}"
-    @open="${action('open')}"
-    @close="${action('close')}"
+    .closeable="${args.closeable}"
+    .closeOnClickOutside="${args.closeOnClickOutside}"
+    .closeOnEscape="${args.closeOnEscape}"
+    @open="${args.onOpen}"
+    @close="${args.onClose}"
   ></zx-modal>
 `;
+
+export const Sandbox = Template.bind({});
+Sandbox.args = {
+  closeable: true,
+  closeOnClickOutside: false,
+  closeOnEscape: true,
+};

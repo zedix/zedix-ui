@@ -1,39 +1,54 @@
-/* eslint-disable lit/no-invalid-html */
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  html,
-  withKnobs,
-  action,
-  boolean,
-  color,
-  object,
-  select,
-  text,
-} from '@open-wc/demoing-storybook';
-
+import { html } from 'lit-html';
 import './zx-rating.js';
-
-const labels = ['Very Poor', 'Poor', 'Satisfactory', 'Good', 'Excellent'];
 
 export default {
   title: 'Core/zx-rating',
-  component: 'zx-rating',
-  decorators: [withKnobs /* , withWebComponentsKnobs */],
+  argTypes: {
+    backgroundColor: { control: 'color' },
+    ratingColor: { control: 'color' },
+    shape: {
+      control: {
+        type: 'inline-radio',
+        options: ['1', '2', '3'],
+      },
+      defaultValue: '1',
+    },
+    size: {
+      control: {
+        type: 'select',
+        options: ['default', 'small', 'xsmall'],
+      },
+      defaultValue: 'default',
+    },
+  },
+  onChange: { action: 'change' },
 };
 
-export const Sandbox = () => html`
+const labels = ['Very Poor', 'Poor', 'Satisfactory', 'Good', 'Excellent'];
+
+const Template = args => html`
   <zx-rating
-    @change="${action('change')}"
-    name="${text('name', 'rating')}"
-    value="${text('value', '3.5')}"
-    .editMode="${boolean('editMode')}"
-    .labels="${object('labels', labels)}"
-    backgroundColor="${color('backgroundColor', '#DDDDDD')}"
-    ratingColor="${color('ratingColor', 'gold')}"
-    shape="${select('shape', ['1', '2', '3'], '1')}"
-    size="${select('size', ['default', 'small', 'xsmall'], 'default')}"
-  />
+    @change="${args.onChange}"
+    name="${args.name}"
+    value="${args.value}"
+    .editMode="${args.editMode}"
+    .labels="${args.labels}"
+    backgroundColor="${args.backgroundColor}"
+    ratingColor="${args.ratingColor}"
+    shape="${args.shape}"
+    size="${args.size}"
+  ></zx-rating>
 `;
+
+export const Sandbox = Template.bind({});
+Sandbox.args = {
+  name: 'rating',
+  value: '3.5',
+  editMode: false,
+  backgroundColor: '#DDDDDD',
+  ratingColor: 'gold',
+  labels,
+};
 
 export const Showcase = () => html`
   <p class="flex items-center mb-2">

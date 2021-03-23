@@ -148,9 +148,7 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
         <slot></slot>
         ${this.loading
           ? // eslint-disable-next-line lit/no-invalid-html
-            html`
-              <zx-spinner size="2" />
-            `
+            html`<zx-spinner size="2" />`
           : ''}
       </button>
     `;

@@ -1,19 +1,7 @@
-// Configures the "preview" iframe that renders the components
+// https://storybook.js.org/docs/react/configure/styling-and-css#importing-css-files
+// To use your CSS in all stories, you simply import it in .storybook/preview.js
+// import '../src/components/popover/popover.css';
 
-import { addParameters, setCustomElements } from '@open-wc/demoing-storybook';
-
-addParameters({
-  docs: {
-    iframeHeight: '200px',
-  },
-});
-
-async function run() {
-  const customElements = await (
-    await fetch(new URL('../custom-elements.json', import.meta.url))
-  ).json();
-
-  setCustomElements(customElements);
-}
-
-run();
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};

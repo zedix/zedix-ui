@@ -1,18 +1,36 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { html, withKnobs, boolean, number } from '@open-wc/demoing-storybook';
-
+import { html } from 'lit-html';
 import './zx-input-stepper.js';
 
 export default {
   title: 'Core/zx-input-stepper',
-  component: 'zx-input-stepper',
-  decorators: [withKnobs /* , withWebComponentsKnobs */],
-  // parameters: { options: { selectedPanel: 'storybookjs/knobs/panel' } },
+  argTypes: {
+    min: {
+      control: { type: 'range', min: 1, max: 100, step: 1 },
+    },
+    max: {
+      control: { type: 'range', min: 1, max: 100, step: 1 },
+    },
+    step: {
+      control: { type: 'range', min: 1, max: 100, step: 1 },
+    },
+  },
+  onChange: { action: 'change' },
 };
 
-export const Sandbox = () => html` <zx-input-stepper
-  .disabled="${boolean('disabled')}"
-  min="${number('min', 1, { range: true, min: 1, max: 100, step: 1 })}"
-  max="${number('max', 100, { range: true, min: 1, max: 100, step: 1 })}"
-  step="${number('step', 1, { range: true, min: 1, max: 100, step: 1 })}"
-></zx-input-stepper>`;
+const Template = args => html`
+  <zx-input-stepper
+    @change="${args.onChange}"
+    .disabled="${args.disabled}"
+    min="${args.min}"
+    max="${args.max}"
+    step="${args.step}"
+  ></zx-input-stepper>
+`;
+
+export const Sandbox = Template.bind({});
+Sandbox.args = {
+  disabled: false,
+  min: 1,
+  max: 100,
+  step: 1,
+};

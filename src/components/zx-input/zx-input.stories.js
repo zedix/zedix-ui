@@ -1,25 +1,33 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { html, action, withKnobs, boolean, number, text } from '@open-wc/demoing-storybook';
-
+import { html } from 'lit-html';
 import './zx-input.js';
 
 export default {
   title: 'Core/zx-input',
-  component: 'zx-input',
-  decorators: [withKnobs /* , withWebComponentsKnobs */],
+  onChange: { action: 'change' },
 };
 
-export const Sandbox = () => html`
+const Template = args => html`
   <zx-input
-    @change="${action('change')}"
-    name="${text('name', 'first_name')}"
-    autocomplete="${text('autocomplete', 'on')}"
-    type="${text('type', 'text')}"
-    placeholder="${text('placeholder', 'First name')}"
-    rows="${number('rows')}"
-    .readOnly="${boolean('readOnly')}"
-    .disabled="${boolean('disabled')}"
+    @change="${args.onChange}"
+    name="${args.name}"
+    autocomplete="${args.autocomplete}"
+    type="${args.type}"
+    placeholder="${args.placeholder}"
+    rows="${args.rows}"
+    .readOnly="${args.readOnly}"
+    .disabled="${args.disabled}"
   >
     First name
   </zx-input>
 `;
+
+export const Sandbox = Template.bind({});
+Sandbox.args = {
+  name: 'first_name',
+  type: 'text',
+  autocomplete: 'on',
+  placeholder: 'First name',
+  readOnly: false,
+  disabled: false,
+  rows: 0,
+};

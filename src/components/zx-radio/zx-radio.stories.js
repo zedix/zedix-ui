@@ -1,22 +1,27 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { html, withKnobs, action, boolean, text } from '@open-wc/demoing-storybook';
-
+import { html } from 'lit-html';
 import './zx-radio.js';
 
 export default {
   title: 'Core/zx-radio',
-  component: 'zx-radio',
-  decorators: [withKnobs /* , withWebComponentsKnobs */],
+  onChange: { action: 'change' },
 };
 
-export const Sandbox = () => html`
-<zx-radio
-  @change="${action('change')}"
-  name="${text('name', 'choice')}"
-  value="${text('value', 'one')}"
-  .checked="${boolean('checked')}"
-  .disabled="${boolean('disabled')}"
->
-  Choice One
-</zx-checkbox>
+const Template = args => html`
+  <zx-radio
+    @change="${args.onChange}"
+    name="${args.name}"
+    value="${args.value}"
+    .checked="${args.checked}"
+    .disabled="${args.disabled}"
+  >
+    Choice One
+  </zx-radio>
 `;
+
+export const Sandbox = Template.bind({});
+Sandbox.args = {
+  name: 'choice',
+  value: 'one',
+  disabled: false,
+  checked: false,
+};

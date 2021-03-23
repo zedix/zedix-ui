@@ -40,9 +40,7 @@ export class ZxSpinner extends LitElement {
 
     switch (this.type) {
       case 'square':
-        spinner = html`
-          <div class="square" style=${styleMap(spinnerStyles)}></div>
-        `;
+        spinner = html`<div class="square" style=${styleMap(spinnerStyles)}></div>`;
         break;
 
       case 'circle':

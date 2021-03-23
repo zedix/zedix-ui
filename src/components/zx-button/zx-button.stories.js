@@ -1,31 +1,75 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { html, withKnobs, action, boolean, text, select } from '@open-wc/demoing-storybook';
-
+import { html } from 'lit-html';
 import './zx-button.js';
 
 export default {
   title: 'Core/zx-button',
-  component: 'zx-button',
-  decorators: [withKnobs /* , withWebComponentsKnobs */],
-  // parameters: { options: { selectedPanel: 'storybookjs/knobs/panel' } },
+  argTypes: {
+    type: {
+      control: {
+        type: 'inline-radio',
+        options: ['button', 'submit'],
+      },
+      defaultValue: 'button',
+    },
+    size: {
+      control: {
+        type: 'select',
+        options: ['small', 'medium', 'large'],
+      },
+      defaultValue: 'small',
+    },
+    variant: {
+      control: {
+        type: 'select',
+        options: ['primary', 'secondary', 'outline-primary'],
+      },
+      defaultValue: 'primary',
+    },
+    onClick: { action: 'click' },
+  },
 };
 
-export const Sandbox = () => html`
+const Template = args => html`
   <zx-button
-    @click="${action('click')}"
-    href="${text('href', '')}"
-    name="${text('name', '')}"
-    type="${select('type', ['button', 'submit'], 'button')}"
-    variant="${select('variant', ['primary', 'secondary', 'outline-primary'], 'primary')}"
-    size="${select('size', ['small', 'medium', 'large'], 'medium')}"
-    .disabled="${boolean('disabled')}"
-    .loading="${boolean('loading')}"
-    .block="${boolean('block')}"
-    .fake="${boolean('fake')}"
+    @click="${args.onClick}"
+    type="${args.type}"
+    name="${args.name}"
+    href="${args.href}"
+    size="${args.size}"
+    variant="${args.variant}"
+    .disabled="${args.disabled}"
+    .loading="${args.loading}"
+    .block="${args.block}"
+    .fake="${args.fake}"
   >
     Sign in
   </zx-button>
 `;
+
+export const Sandbox = Template.bind({});
+Sandbox.args = {
+  name: '',
+  href: '',
+  type: 'button',
+  size: 'small',
+  variant: 'primary',
+  disabled: false,
+  loading: false,
+  block: false,
+  fake: false,
+};
+
+/*
+export const Large = Template.bind({});
+Large.args = {
+  size: 'large',
+};
+
+export const Small = Template.bind({});
+Small.args = {
+  size: 'small',
+};
+*/
 
 export const Showcase = () => html`
   <h2 class="mb-2">Primary</h2>

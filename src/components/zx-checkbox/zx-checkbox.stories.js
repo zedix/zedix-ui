@@ -1,23 +1,29 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { html, action, withKnobs, boolean, text } from '@open-wc/demoing-storybook';
-
+import { html } from 'lit-html';
 import './zx-checkbox.js';
 
 export default {
   title: 'Core/zx-checkbox',
-  component: 'zx-checkbox',
-  decorators: [withKnobs /* , withWebComponentsKnobs */],
+  onChange: { action: 'change' },
 };
 
-export const Sandbox = () => html`
+const Template = args => html`
   <zx-checkbox
-    @change="${action('change')}"
-    name="${text('name', 'remember_me')}"
-    value="${text('value', '1')}"
-    .checked="${boolean('checked')}"
-    .indeterminate="${boolean('indeterminate')}"
-    .disabled="${boolean('disabled')}"
+    @change="${args.onChange}"
+    name="${args.name}"
+    value="${args.value}"
+    .checked="${args.checked}"
+    .indeterminate="${args.indeterminate}"
+    .disabled="${args.disabled}"
   >
     Remember me
   </zx-checkbox>
 `;
+
+export const Sandbox = Template.bind({});
+Sandbox.args = {
+  name: 'remember_me',
+  value: '1',
+  checked: false,
+  disabled: false,
+  indeterminate: false,
+};

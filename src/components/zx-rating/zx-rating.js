@@ -163,9 +163,7 @@ export class ZxRating extends LitElement {
           )}
         </div>
         ${this.labels.length > 0
-          ? html`
-              <div class="rating-label" part="label">${this.currentLabel}</div>
-            `
+          ? html`<div class="rating-label" part="label">${this.currentLabel}</div>`
           : ''}
       </div>
     `;
