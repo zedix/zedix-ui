@@ -1,8 +1,8 @@
 import { html, LitElement } from 'lit-element';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
-import styles from './zx-input.styles.js';
+import styles from './input.styles.js';
 
-export class ZxInput extends FormElementMixin(LitElement) {
+export class Input extends FormElementMixin(LitElement) {
   static get styles() {
     return styles;
   }
@@ -168,4 +168,4 @@ export class ZxInput extends FormElementMixin(LitElement) {
   }
 }
 
-window.customElements.define('zx-input', ZxInput);
+window.customElements.define('zx-input', Input);

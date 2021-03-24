@@ -1,9 +1,9 @@
-import { html, svg, LitElement } from 'lit-element';
+import { html, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
-import styles from './zx-checkbox.styles.js';
+import styles from './radio.styles.js';
 
-export class ZxCheckbox extends FormElementMixin(LitElement) {
+export class Radio extends FormElementMixin(LitElement) {
   static get styles() {
     return styles;
   }
@@ -25,11 +25,6 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
         reflect: true,
       },
 
-      indeterminate: {
-        type: Boolean,
-        reflect: true,
-      },
-
       /*
       // inherited from DelegateFocusMixin
       disabled: {
@@ -46,9 +41,8 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
 
     // Initialize properties
     this.name = '';
-    this.value = '';
+    this.value = 'on';
     this.checked = false;
-    this.indeterminate = false;
   }
 
   /**
@@ -63,17 +57,13 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
   firstUpdated() {
     super.firstUpdated();
 
-    this.setAttribute('role', 'checkbox');
+    this.setAttribute('role', 'radio');
   }
 
   update(props) {
     super.update(props);
 
-    if (this.indeterminate) {
-      this.setAttribute('aria-checked', 'mixed');
-    } else {
-      this.setAttribute('aria-checked', this.checked);
-    }
+    this.setAttribute('aria-checked', this.checked);
   }
 
   /**
@@ -82,39 +72,21 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
    * trigger the element to update.
    */
   render() {
-    const classes = { checkbox: true };
+    const classes = { radio: true };
 
     return html`
       <label class="${classMap(classes)}">
         <input
           role="presentation"
-          type="checkbox"
+          type="radio"
+          tabindex="-1"
           name="${this.name}"
           value="${this.value}"
-          ?checked="${this.checked}"
           ?disabled="${this.disabled}"
-          .indeterminate="${this.indeterminate}"
+          .checked="${this.checked}"
           @change="${this.onChange}"
         />
-        <span class="checkbox__control">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="${this.indeterminate ? '0 0 8 2' : '0 0 8 7'}"
-            aria-hidden="true"
-          >
-            ${this.indeterminate
-              ? svg`
-                  <path
-                    d="M7.182 1.636H.818A.634.634 0 0 1 .182 1c0-.351.285-.636.636-.636h6.364a.637.637 0 0 1 0 1.272z"
-                  />
-                `
-              : svg`
-                  <path
-                    d="M7.665 1.869L3.458 6.776.436 4.509A.636.636 0 0 1 1.2 3.491l2.068 1.551 3.43-4.002a.637.637 0 0 1 .967.829z"
-                  />
-                `}
-          </svg>
-        </span>
+        <i></i>
         <span part="label"><slot /></span>
       </label>
     `;
@@ -122,8 +94,8 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
 
   onChange(e) {
     const target = e.composedPath()[0];
-    this.value = target.value;
     this.checked = target.checked;
+    this.value = target.value;
 
     // The change event is not able to propagate across shadow boundaries
     // To make a custom event pass through shadow DOM boundaries, we must set
@@ -147,7 +119,7 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
   /**
    * @protected
    */
-  get checkboxElement() {
+  get radioElement() {
     return this.shadowRoot.querySelector('input');
   }
 
@@ -155,8 +127,18 @@ export class ZxCheckbox extends FormElementMixin(LitElement) {
    * @protected
    */
   get focusElement() {
-    return this.checkboxElement;
+    return this.radioElement;
+  }
+
+  /**
+   * Toggles the radio button, so that the native `change` event
+   * is dispatched. Overrides the standard `HTMLElement.prototype.click`.
+   *
+   * @protected
+   */
+  click() {
+    this.shadowRoot.querySelector('input').click();
   }
 }
 
-window.customElements.define('zx-checkbox', ZxCheckbox);
+window.customElements.define('zx-radio', Radio);

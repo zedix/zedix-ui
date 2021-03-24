@@ -1,8 +1,8 @@
 import { html, LitElement } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map.js';
-import styles from './zx-spinner.styles.js';
+import styles from './spinner.styles.js';
 
-export class ZxSpinner extends LitElement {
+export class Spinner extends LitElement {
   static get styles() {
     return styles;
   }
@@ -65,4 +65,4 @@ export class ZxSpinner extends LitElement {
   }
 }
 
-window.customElements.define('zx-spinner', ZxSpinner);
+window.customElements.define('zx-spinner', Spinner);

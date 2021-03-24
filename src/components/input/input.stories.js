@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-input.js';
+import './input.js';
 
 export default {
   title: 'Core/zx-input',

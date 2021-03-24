@@ -1,7 +1,7 @@
 /* eslint-disable prefer-object-spread */
 import { html, LitElement } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map.js';
-import styles from './zx-rating.styles.js';
+import styles from './rating.styles.js';
 
 // https://github.com/Polymer/lit-html/pull/1000
 // import { unsafeSVG } from 'lit-html/directives/unsafe-svg.js';
@@ -11,7 +11,7 @@ import styles from './zx-rating.styles.js';
  *
  * @see https://css-tricks.com/five-methods-for-five-star-ratings/
  */
-export class ZxRating extends LitElement {
+export class Rating extends LitElement {
   static get styles() {
     return styles;
   }
@@ -200,4 +200,4 @@ export class ZxRating extends LitElement {
   }
 }
 
-window.customElements.define('zx-rating', ZxRating);
+window.customElements.define('zx-rating', Rating);

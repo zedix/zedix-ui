@@ -1,15 +1,15 @@
 import { html, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { DelegateFocusMixin } from '../../mixins/delegate-focus-mixin.js';
-import styles from './zx-button.styles.js';
-import '../zx-spinner/zx-spinner.js';
+import styles from './button.styles.js';
+import '../spinner/spinner.js';
 
 // Note: ZxButton does not extend HTMLButtonElement
 // because Safari isn't going to implement customized built-ins.
 // This is the alternate approach rather than forcing all Safari users
 // to use a polyfill indefinitely.
 
-export class ZxButton extends DelegateFocusMixin(LitElement) {
+export class Button extends DelegateFocusMixin(LitElement) {
   static get styles() {
     return styles;
   }
@@ -162,4 +162,4 @@ export class ZxButton extends DelegateFocusMixin(LitElement) {
   }
 }
 
-window.customElements.define('zx-button', ZxButton);
+window.customElements.define('zx-button', Button);

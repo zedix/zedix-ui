@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-skeleton.js';
+import './skeleton.js';
 
 export default {
   title: 'Core/zx-skeleton',

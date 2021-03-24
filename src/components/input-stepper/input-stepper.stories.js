@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-input-stepper.js';
+import './input-stepper.js';
 
 export default {
   title: 'Core/zx-input-stepper',

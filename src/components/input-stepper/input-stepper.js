@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit-element';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
-import styles from './zx-input-stepper.styles.js';
+import styles from './input-stepper.styles.js';
 
 /**
  * A stepper is a two-segment control used to increase or decrease an incremental value.
@@ -8,7 +8,7 @@ import styles from './zx-input-stepper.styles.js';
  * @link https://www.nngroup.com/articles/input-steppers/
  * @link https://developer.apple.com/documentation/uikit/uistepper
  */
-export class ZxInputStepper extends FormElementMixin(LitElement) {
+export class InputStepper extends FormElementMixin(LitElement) {
   static get styles() {
     return styles;
   }
@@ -122,4 +122,4 @@ export class ZxInputStepper extends FormElementMixin(LitElement) {
   }
 }
 
-window.customElements.define('zx-input-stepper', ZxInputStepper);
+window.customElements.define('zx-input-stepper', InputStepper);

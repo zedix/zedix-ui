@@ -1,6 +1,6 @@
 {
   "name": "zedix-ui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Web Components UI Kit",
   "author": "@zedix",
   "license": "MIT",
@@ -8,12 +8,12 @@
   "module": "index.js",
   "scripts": {
     "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
+    "lint": "yarn run lint:eslint && yarn run lint:prettier",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
-    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
-    "lint": "yarn run lint:eslint && yarn run lint:prettier",
     "format": "yarn run format:eslint && yarn run format:prettier",
+    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
     "test": "karma start --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "storybook": "start-storybook",

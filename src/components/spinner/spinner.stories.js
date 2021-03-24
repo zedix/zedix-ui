@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-spinner.js';
+import './spinner.js';
 
 export default {
   title: 'Core/zx-spinner',

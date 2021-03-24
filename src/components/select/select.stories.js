@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-select.js';
+import './select.js';
 
 export default {
   title: 'Core/zx-select',

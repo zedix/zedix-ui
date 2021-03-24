@@ -1,9 +1,9 @@
 import { html, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
-import styles from './zx-radio.styles.js';
+import styles from './select.styles.js';
 
-export class ZxRadio extends FormElementMixin(LitElement) {
+export class Select extends FormElementMixin(LitElement) {
   static get styles() {
     return styles;
   }
@@ -20,8 +20,13 @@ export class ZxRadio extends FormElementMixin(LitElement) {
         reflect: true,
       },
 
-      checked: {
-        type: Boolean,
+      options: {
+        type: Array, // { label, value  } | { label, options }
+        reflect: true,
+      },
+
+      emptyOption: {
+        type: String,
         reflect: true,
       },
 
@@ -41,8 +46,9 @@ export class ZxRadio extends FormElementMixin(LitElement) {
 
     // Initialize properties
     this.name = '';
-    this.value = 'on';
-    this.checked = false;
+    this.value = '';
+    this.options = [];
+    this.emptyOption = null;
   }
 
   /**
@@ -56,14 +62,42 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    */
   firstUpdated() {
     super.firstUpdated();
-
-    this.setAttribute('role', 'radio');
+    this.updateDisplayValue();
   }
 
-  update(props) {
-    super.update(props);
+  updateDisplayValue() {
+    const select = this.focusElement;
+    this.displayValue = select.options[select.selectedIndex].text;
+    this.requestUpdate();
+  }
 
-    this.setAttribute('aria-checked', this.checked);
+  renderSelect() {
+    const classes = { select: true };
+
+    // prettier-ignore
+    return html`
+      <div class="${classMap(classes)}">
+        <span>${this.displayValue ? this.displayValue : html`&nbsp;`}</span>
+        <select
+          ?name="${this.name}"
+          ?value="${this.value}"
+          ?disabled="${this.disabled}"
+          @change=${this.onChange}
+        >
+          ${this.emptyOption !== null ? html`<option value="">${this.emptyOption}</option>` : ''}
+          ${this.options.map(option =>
+            option.options
+              ? html`
+                <optgroup label${option.label}>
+                  ${option.options.map(opt => html`
+                    <option value=${opt.value} ?disabled="${opt.disabled}">${opt.label}</option>`
+                  )}
+                </optgroup>`
+              : html`<option value=${option.value} ?disabled="${option.disabled}">${option.label}</option>`,
+          )}
+        </select>
+      </div>
+    `;
   }
 
   /**
@@ -72,29 +106,17 @@ export class ZxRadio extends FormElementMixin(LitElement) {
    * trigger the element to update.
    */
   render() {
-    const classes = { radio: true };
-
-    return html`
-      <label class="${classMap(classes)}">
-        <input
-          role="presentation"
-          type="radio"
-          tabindex="-1"
-          name="${this.name}"
-          value="${this.value}"
-          ?disabled="${this.disabled}"
-          .checked="${this.checked}"
-          @change="${this.onChange}"
-        />
-        <i></i>
-        <span part="label"><slot /></span>
-      </label>
-    `;
+    if (this.textContent) {
+      return html`
+        <label part="label" for="${this.name}"><slot /></label>
+        ${this.renderSelect()}
+      `;
+    }
+    return this.renderSelect();
   }
 
   onChange(e) {
     const target = e.composedPath()[0];
-    this.checked = target.checked;
     this.value = target.value;
 
     // The change event is not able to propagate across shadow boundaries
@@ -105,7 +127,6 @@ export class ZxRadio extends FormElementMixin(LitElement) {
         detail: {
           name: target.name,
           value: target.value,
-          checked: target.checked,
           sourceEvent: e,
         },
         bubbles: true,
@@ -113,32 +134,16 @@ export class ZxRadio extends FormElementMixin(LitElement) {
       }),
     );
 
+    this.updateDisplayValue();
     this.updateFormValue(this.value);
   }
 
   /**
    * @protected
    */
-  get radioElement() {
-    return this.shadowRoot.querySelector('input');
-  }
-
-  /**
-   * @protected
-   */
   get focusElement() {
-    return this.radioElement;
-  }
-
-  /**
-   * Toggles the radio button, so that the native `change` event
-   * is dispatched. Overrides the standard `HTMLElement.prototype.click`.
-   *
-   * @protected
-   */
-  click() {
-    this.shadowRoot.querySelector('input').click();
+    return this.shadowRoot.querySelector('select');
   }
 }
 
-window.customElements.define('zx-radio', ZxRadio);
+window.customElements.define('zx-select', Select);

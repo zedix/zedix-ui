@@ -3,9 +3,9 @@
 
 import { html, LitElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
-import styles from './zx-modal.styles.js';
+import styles from './modal.styles.js';
 
-export class ZxModal extends LitElement {
+export class Modal extends LitElement {
   static get styles() {
     return styles;
   }
@@ -181,4 +181,4 @@ export class ZxModal extends LitElement {
   }
 }
 
-window.customElements.define('zx-modal', ZxModal);
+window.customElements.define('zx-modal', Modal);

@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-modal.js';
+import './modal.js';
 
 function openModal({ currentTarget }) {
   const invokerElement = currentTarget;

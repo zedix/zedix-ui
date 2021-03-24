@@ -1,27 +1,29 @@
 import { html } from 'lit-html';
-import './zx-radio.js';
+import './checkbox.js';
 
 export default {
-  title: 'Core/zx-radio',
+  title: 'Core/zx-checkbox',
   onChange: { action: 'change' },
 };
 
 const Template = args => html`
-  <zx-radio
+  <zx-checkbox
     @change="${args.onChange}"
     name="${args.name}"
     value="${args.value}"
     .checked="${args.checked}"
+    .indeterminate="${args.indeterminate}"
     .disabled="${args.disabled}"
   >
-    Choice One
-  </zx-radio>
+    Remember me
+  </zx-checkbox>
 `;
 
 export const Sandbox = Template.bind({});
 Sandbox.args = {
-  name: 'choice',
-  value: 'one',
-  disabled: false,
+  name: 'remember_me',
+  value: '1',
   checked: false,
+  disabled: false,
+  indeterminate: false,
 };

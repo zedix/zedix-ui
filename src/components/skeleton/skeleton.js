@@ -1,7 +1,7 @@
 import { LitElement } from 'lit-element';
-import styles from './zx-skeleton.styles.js';
+import styles from './skeleton.styles.js';
 
-export class ZxSkeleton extends LitElement {
+export class Skeleton extends LitElement {
   static get styles() {
     return styles;
   }
@@ -55,4 +55,4 @@ export class ZxSkeleton extends LitElement {
   }
 }
 
-window.customElements.define('zx-skeleton', ZxSkeleton);
+window.customElements.define('zx-skeleton', Skeleton);

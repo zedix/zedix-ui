@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-button.js';
+import './button.js';
 
 export default {
   title: 'Core/zx-button',

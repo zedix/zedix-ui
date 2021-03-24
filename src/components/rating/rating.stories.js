@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import './zx-rating.js';
+import './rating.js';
 
 export default {
   title: 'Core/zx-rating',
