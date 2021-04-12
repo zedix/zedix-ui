@@ -27,8 +27,23 @@ export class Modal extends LitElement {
         reflect: true,
       },
 
+      align: {
+        type: String,
+        reflect: true,
+      },
+
+      size: {
+        type: String,
+        reflect: true,
+      },
+
       open: {
         type: Boolean,
+        reflect: true,
+      },
+
+      blurSelector: {
+        type: String,
         reflect: true,
       },
 
@@ -48,12 +63,15 @@ export class Modal extends LitElement {
     this.closeable = true;
     this.closeOnClickOutside = false;
     this.closeOnEscape = true;
+    this.align = 'top';
+    this.size = 'default';
+    this.blurSelector = '';
 
     this._onKeyDown = this._onKeyDown.bind(this);
   }
 
-  get dialogElement() {
-    return this.shadowRoot.querySelector('[role="dialog"]');
+  get blurElement() {
+    return this.blurSelector ? document.querySelector(this.blurSelector) : null;
   }
 
   showModal(options = {}) {
@@ -75,12 +93,10 @@ export class Modal extends LitElement {
   }
 
   updated(changedProperties) {
-    if (changedProperties.has('open')) {
-      if (this.open) {
-        this._onOpen();
-      } else {
-        this._onClose();
-      }
+    if (this.open) {
+      this._onOpen();
+    } else {
+      this._onClose();
     }
     // console.log(this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }));
   }
@@ -112,10 +128,14 @@ export class Modal extends LitElement {
 
   _onClickOutside(e) {
     if (
-      this.closeable &&
-      this.closeOnClickOutside &&
-      !this.dialogElement.contains(e.target) &&
-      e.button === 0
+      this.closeable
+      && this.closeOnClickOutside
+      // Test if default slot contains the clicked target
+      && !this.shadowRoot
+        .querySelector('slot')
+        .assignedElements()
+        .some(el => el.contains(e.target))
+      && e.button === 0
     ) {
       this.close();
     }
@@ -133,6 +153,10 @@ export class Modal extends LitElement {
     body.dataset.scrollY = window.scrollY;
     body.style.position = 'fixed';
     body.style.top = `-${body.dataset.scrollY}px`;
+
+    if (this.blurElement) {
+      this.blurElement.style.filter = 'blur(3px)';
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -141,11 +165,24 @@ export class Modal extends LitElement {
     body.style.position = '';
     body.style.top = '';
     window.scrollTo(0, body.dataset.scrollY);
+
+    if (this.blurElement) {
+      this.blurElement.style.filter = '';
+    }
   }
 
   _renderDefaultCloseButton() {
-    return html` <button class="close-button" @click="${this.close}">
-      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+    return html` <button
+      type="button"
+      class="close-button"
+      @click="${this.close}"
+    >
+      <svg
+        width="20"
+        height="20"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 320 512"
+      >
         <path
           d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"
         />
@@ -174,7 +211,7 @@ export class Modal extends LitElement {
         class="modal-dialog"
         @animationend="${this._onAnimationEnd}"
       >
-        ${this.closeable && this._renderDefaultCloseButton()}
+        ${this.closeable ? this._renderDefaultCloseButton() : ''}
         <slot></slot>
       </div>
     </div>`;

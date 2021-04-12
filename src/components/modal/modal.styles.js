@@ -2,10 +2,15 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
-    --backdrop: rgba(0, 0, 0, 0.24);
+    --backdrop: rgba(0, 0, 0, 0.54);
     --close-button-color: inherit;
     --dialog-surface: #fff;
-    --dialog-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --dialog-size-small: 320px;
+    --dialog-size-default: 580px;
+    --dialog-size-large: 960px;
+    --dialog-elevation: 9000;
+    --dialog-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
   /*
@@ -21,7 +26,8 @@ export default css`
     height: 100%;
     background-color: var(--backdrop);
     opacity: 0;
-    z-index: 9000;
+    overflow-y: auto;
+    z-index: var(--dialog-elevation);
   }
 
   :host([open]) .modal {
@@ -35,8 +41,21 @@ export default css`
   :host([open]) .modal-dialog {
     animation: bounceFadeIn 160ms ease forwards;
   }
+
   .modal.is-closing .modal-dialog {
     animation: bounceFadeOut 160ms ease forwards;
+  }
+
+  :host([size='small']) .modal-dialog {
+    width: var(--dialog-size-small);
+  }
+
+  :host([size='default']) .modal-dialog {
+    width: var(--dialog-size-default);
+  }
+
+  :host([size='large']) .modal-dialog {
+    width: var(--dialog-size-large);
   }
 
   .close-button {
@@ -68,7 +87,10 @@ export default css`
     border-radius: 4px;
     box-shadow: var(--dialog-shadow);
     opacity: 0;
-    overflow: auto;
+  }
+
+  :host([align='top']) .modal-dialog {
+    margin-top: 50px;
   }
 
   @keyframes fadeOverlayIn {
