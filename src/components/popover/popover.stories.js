@@ -60,5 +60,5 @@ const Template = args => html`<button
 
 export const Sandbox = Template.bind({});
 Sandbox.args = {
-  arrow: true,
+  arrow: false,
 };

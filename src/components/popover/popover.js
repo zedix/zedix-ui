@@ -32,6 +32,16 @@ export class Popover extends LitElement {
         reflect: true,
       },
 
+      hideDelay: {
+        type: Number,
+        reflect: true,
+      },
+
+      maxWidth: {
+        type: String,
+        reflect: true,
+      },
+
       /**
        * The preferred placement.
        *
@@ -94,9 +104,11 @@ export class Popover extends LitElement {
 
     // Initialize properties
     this.for = '';
-    this.arrow = true;
+    this.arrow = false;
     this.animation = 'fade';
     this.distance = 10;
+    this.hideDelay = 150;
+    this.maxWidth = 350;
     this.placement = 'bottom-start';
     this.theme = 'light-border';
     this.type = '';
@@ -131,6 +143,14 @@ export class Popover extends LitElement {
             phase: 'beforeWrite',
             requires: ['computeStyles'],
           },
+          // https://popper.js.org/docs/v2/modifiers/prevent-overflow/
+          // Removes the virtual padding to the boundary
+          {
+            name: 'preventOverflow',
+            options: {
+              padding: 0,
+            },
+          },
         ],
       },
       onCreate: ({ reference, popper }) => {
@@ -160,9 +180,11 @@ export class Popover extends LitElement {
 
   options() {
     return {
-      arrow: this.arrow,
       animation: this.animation,
+      arrow: this.arrow,
+      delay: [0, this.hideDelay],
       interactive: true,
+      maxWidth: this.maxWidth,
       offset: [0, this.distance],
       placement: this.placement,
       trigger: this.trigger === 'hover' ? 'mouseenter' : this.trigger,

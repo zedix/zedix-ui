@@ -1,16 +1,31 @@
 /*
-To use animations, import the required stylesheets in the main document:
+To use the popover component (based on `tippy.js`), import the required stylesheets
+in the main document:
 
+> Because popovers are injected in the document body (portal) — outside
+the shadow root — a global stylesheet is required.
+
+```css
+@import 'zedix-ui/src/components/popover/popover.css';
+@import 'tippy.js/animations/shift-toward-extreme.css';
+@import 'tippy.js/animations/perspective-extreme.css';
 ```
-@import 'tippy.js/animations/shift-away-subtle.css';
-@import 'tippy.js/animations/shift-towards-subtle.css';
-…
+
+To control the border style of the popover:
+
+```css
+.tippy-box {
+  --popover-border-color: var(--border-color);
+  --popover-border: 1px solid var(--popover-border-color);
+}
 ```
 */
 
+/*
 [data-tippy-root] {
   max-width: calc(100vw - 8px);
 }
+*/
 
 .tippy-box {
   --popover-arrow-size: 16px; /* $arrow-size: 16px; */
