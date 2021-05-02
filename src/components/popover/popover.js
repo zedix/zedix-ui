@@ -19,27 +19,26 @@ export class Popover extends LitElement {
        */
       animation: {
         type: String,
-        reflect: true,
       },
 
       arrow: {
         type: Boolean,
-        reflect: true,
       },
 
       distance: {
         type: Number,
-        reflect: true,
+      },
+
+      showDelay: {
+        type: Number,
       },
 
       hideDelay: {
         type: Number,
-        reflect: true,
       },
 
       maxWidth: {
         type: String,
-        reflect: true,
       },
 
       /**
@@ -79,7 +78,6 @@ export class Popover extends LitElement {
        */
       theme: {
         type: String,
-        reflect: true,
       },
 
       /**
@@ -88,7 +86,6 @@ export class Popover extends LitElement {
        */
       type: {
         type: String,
-        reflect: true,
       },
 
       trigger: {
@@ -107,6 +104,7 @@ export class Popover extends LitElement {
     this.arrow = false;
     this.animation = 'fade';
     this.distance = 10;
+    this.showDelay = 0;
     this.hideDelay = 150;
     this.maxWidth = 350;
     this.placement = 'bottom-start';
@@ -124,11 +122,20 @@ export class Popover extends LitElement {
   }
 
   _configure() {
+    // By default, use the first child element (preserving bound events)
+    let content = this.firstElementChild; // Ignore nodes of type Node.TEXT_NODE
+
+    // If the first child element is a <template> element, use its content
+    // It may be useful when using hotwire/turbo to preserve the template before caching the page.
+    if (this.firstElementChild.content) {
+      content = document.importNode(this.firstElementChild.content, true);
+    }
+
     this.tippy = tippy(document.querySelector(`#${this.for}`), {
       ...this.options(),
       // Set content from HTMLElement instead of string to not loose DOM events
       // See https://github.com/atomiks/tippyjs/blob/master/src/template.ts#L14
-      content: this.firstElementChild, // Ignore nodes of type Node.TEXT_NODE
+      content,
       allowHTML: true,
       popperOptions: {
         modifiers: [
@@ -182,12 +189,12 @@ export class Popover extends LitElement {
     return {
       animation: this.animation,
       arrow: this.arrow,
-      delay: [0, this.hideDelay],
+      delay: [this.showDelay, this.hideDelay],
       interactive: true,
       maxWidth: this.maxWidth,
       offset: [0, this.distance],
       placement: this.placement,
-      trigger: this.trigger === 'hover' ? 'mouseenter' : this.trigger,
+      trigger: this.trigger.replace('hover', 'mouseenter'),
     };
   }
 
@@ -195,6 +202,10 @@ export class Popover extends LitElement {
     if (this.tippy) {
       this.tippy.setProps(this.options());
     }
+  }
+
+  setContent(content) {
+    this.tippy.setContent(content);
   }
 
   show() {
