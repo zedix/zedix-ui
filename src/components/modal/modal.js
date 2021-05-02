@@ -74,6 +74,13 @@ export class Modal extends LitElement {
     return this.blurSelector ? document.querySelector(this.blurSelector) : null;
   }
 
+  disconnectedCallback() {
+    if (this.open) {
+      this._enableBodyScroll();
+    }
+    super.disconnectedCallback();
+  }
+
   showModal(options = {}) {
     // If the modal is already open, abort
     if (this.open) {
