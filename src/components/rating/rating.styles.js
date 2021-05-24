@@ -2,18 +2,18 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
-    --star-size: 20px;
+    --symbol-size: 20px;
 
     font-size: 0;
     line-height: 0;
   }
 
   :host([size='small']) {
-    --star-size: 16px;
+    --symbol-size: 16px;
   }
 
   :host([size='xsmall']) {
-    --star-size: 12px;
+    --symbol-size: 12px;
   }
 
   .wrapper {
@@ -24,8 +24,8 @@ export default css`
 
   .rating {
     position: relative;
-    width: calc(5 * var(--star-size));
-    height: var(--star-size);
+    width: calc(5 * var(--symbol-size));
+    height: var(--symbol-size);
     background-size: contain;
   }
 
@@ -86,8 +86,8 @@ export default css`
   }
 
   .rating-label {
-    margin-right: 4px;
-    margin-left: 4px;
+    margin-right: 8px;
+    margin-left: 8px;
     flex: 1;
     font-size: 1rem;
   }

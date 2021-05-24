@@ -53,14 +53,14 @@ Sandbox.args = {
 export const Showcase = () => html`
   <p class="flex items-center mb-2">
     <label class="mr-2">Shape 1</label>
-    <zx-rating name="rating" .labels="${labels}" value="3" shape="1" editMode />
+    <zx-rating name="rating" .labels="${labels}" value="3" shape="1" editMode></zx-rating>
   </p>
   <p class="flex items-center mb-2">
     <label class="mr-2">Shape 2</label>
-    <zx-rating name="rating" .labels="${labels}" shape="2" editMode />
+    <zx-rating name="rating" .labels="${labels}" shape="2" editMode></zx-rating>
   </p>
   <p class="flex items-center mb-2">
     <label class="mr-2">Shape 3</label>
-    <zx-rating name="rating" .labels="${labels}" shape="3" editMode />
+    <zx-rating name="rating" .labels="${labels}" shape="3" editMode></zx-rating>
   </p>
 `;
