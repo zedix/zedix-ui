@@ -1,4 +1,4 @@
-import { LitElement } from 'lit-element';
+import { LitElement } from 'lit';
 import tippy from 'tippy.js';
 
 export class Popover extends LitElement {

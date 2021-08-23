@@ -1,17 +1,32 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 import './input-stepper.js';
 
 export default {
   title: 'Core/zx-input-stepper',
   argTypes: {
     min: {
-      control: { type: 'range', min: 1, max: 100, step: 1 },
+      control: {
+        type: 'range',
+        min: 1,
+        max: 100,
+        step: 1,
+      },
     },
     max: {
-      control: { type: 'range', min: 1, max: 100, step: 1 },
+      control: {
+        type: 'range',
+        min: 1,
+        max: 100,
+        step: 1,
+      },
     },
     step: {
-      control: { type: 'range', min: 1, max: 100, step: 1 },
+      control: {
+        type: 'range',
+        min: 1,
+        max: 100,
+        step: 1,
+      },
     },
   },
   onChange: { action: 'change' },

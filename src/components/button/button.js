@@ -1,5 +1,5 @@
-import { html, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map.js';
+import { html, LitElement } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { DelegateFocusMixin } from '../../mixins/delegate-focus-mixin.js';
 import styles from './button.styles.js';
 import '../spinner/spinner.js';

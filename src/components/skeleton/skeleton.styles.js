@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export default css`
   :host {
@@ -70,10 +70,7 @@ export default css`
     background-repeat: no-repeat;
     background-size: 0 0 / 90% 100%;
     animation: wave 2s infinite;
-    animation-timing-function: var(
-      --skeleton-animation-timing,
-      var(--skeleton-timing-default)
-    );
+    animation-timing-function: var(--skeleton-animation-timing, var(--skeleton-timing-default));
     animation-direction: normal;
     z-index: 1;
   }

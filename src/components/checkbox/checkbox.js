@@ -1,5 +1,5 @@
-import { html, svg, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map.js';
+import { html, svg, LitElement } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
 import styles from './checkbox.styles.js';
 

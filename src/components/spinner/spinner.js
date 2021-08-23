@@ -1,5 +1,5 @@
-import { html, LitElement } from 'lit-element';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { html, LitElement } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import styles from './spinner.styles.js';
 
 export class Spinner extends LitElement {

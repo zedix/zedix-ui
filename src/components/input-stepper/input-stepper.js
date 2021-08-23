@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit-element';
+import { html, LitElement } from 'lit';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
 import styles from './input-stepper.styles.js';
 

@@ -1,5 +1,5 @@
-import { html, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map.js';
+import { html, LitElement } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { FormElementMixin } from '../../mixins/form-element-mixin.js';
 import styles from './select.styles.js';
 
@@ -85,16 +85,13 @@ export class Select extends FormElementMixin(LitElement) {
           @change=${this.onChange}
         >
           ${this.emptyOption !== null ? html`<option value="">${this.emptyOption}</option>` : ''}
-          ${this.options.map(option =>
-            option.options
-              ? html`
+          ${this.options.map(option => (option.options
+    ? html`
                 <optgroup label${option.label}>
                   ${option.options.map(opt => html`
-                    <option value=${opt.value} ?disabled="${opt.disabled}">${opt.label}</option>`
-                  )}
+                    <option value=${opt.value} ?disabled="${opt.disabled}">${opt.label}</option>`)}
                 </optgroup>`
-              : html`<option value=${option.value} ?disabled="${option.disabled}">${option.label}</option>`,
-          )}
+    : html`<option value=${option.value} ?disabled="${option.disabled}">${option.label}</option>`))}
         </select>
       </div>
     `;

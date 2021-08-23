@@ -1,10 +1,10 @@
 /* eslint-disable prefer-object-spread */
-import { html, LitElement } from 'lit-element';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { html, LitElement } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import styles from './rating.styles.js';
 
 // https://github.com/Polymer/lit-html/pull/1000
-// import { unsafeSVG } from 'lit-html/directives/unsafe-svg.js';
+// import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
 /**
  * Build a 5-stars input field (using SVG to draw the shape).

@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 import './spinner.js';
 
 export default {
@@ -12,7 +12,12 @@ export default {
       defaultValue: 'beat',
     },
     size: {
-      control: { type: 'range', min: 1, max: 64, step: 1 },
+      control: {
+        type: 'range',
+        min: 1,
+        max: 64,
+        step: 1,
+      },
     },
   },
 };

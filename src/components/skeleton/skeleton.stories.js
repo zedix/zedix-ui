@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 import './skeleton.js';
 
 export default {
@@ -49,7 +49,7 @@ export const Showcase = () => `
           <zx-skeleton animation="${animation}"  shape="rectangle" width="220" height="80"></zx-skeleton>
         </div>
       </div>
-    `
+    `,
     )
     .join('\n')}</div>
 `;

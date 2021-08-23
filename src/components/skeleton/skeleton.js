@@ -1,4 +1,4 @@
-import { LitElement } from 'lit-element';
+import { LitElement } from 'lit';
 import styles from './skeleton.styles.js';
 
 export class Skeleton extends LitElement {

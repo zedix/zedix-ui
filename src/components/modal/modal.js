@@ -1,8 +1,8 @@
 // https://design.mixpanel.com/#mp-dialog
 // https://github.com/thepassle/generic-components/tree/master/generic-dialog
 
-import { html, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map.js';
+import { html, LitElement } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import styles from './modal.styles.js';
 
 export class Modal extends LitElement {
@@ -135,14 +135,14 @@ export class Modal extends LitElement {
 
   _onClickOutside(e) {
     if (
-      this.closeable
-      && this.closeOnClickOutside
+      this.closeable &&
+      this.closeOnClickOutside &&
       // Test if default slot contains the clicked target
-      && !this.shadowRoot
+      !this.shadowRoot
         .querySelector('slot')
         .assignedElements()
-        .some(el => el.contains(e.target))
-      && e.button === 0
+        .some(el => el.contains(e.target)) &&
+      e.button === 0
     ) {
       this.close();
     }
@@ -179,17 +179,8 @@ export class Modal extends LitElement {
   }
 
   _renderDefaultCloseButton() {
-    return html` <button
-      type="button"
-      class="close-button"
-      @click="${this.close}"
-    >
-      <svg
-        width="20"
-        height="20"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 320 512"
-      >
+    return html` <button type="button" class="close-button" @click="${this.close}">
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
         <path
           d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"
         />
