@@ -20,26 +20,25 @@
     "storybook:build": "build-storybook --output-dir='.storybook/build'"
   },
   "dependencies": {
-    "lit": "2.0.0-rc.2",
-    "lit-html": "2.0.0-rc.3",
-    "tippy.js": "^6.2.7"
+    "lit": "^2.0.2",
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.1",
-    "@open-wc/eslint-config": "^4.2.0",
+    "@babel/core": "^7.16.0",
+    "@open-wc/eslint-config": "^7.0.0",
     "@open-wc/prettier-config": "^1.1.0",
-    "@open-wc/testing": "^2.5.32",
+    "@open-wc/testing": "^3.0.3",
     "@open-wc/testing-karma": "^4.0.9",
-    "@storybook/addon-actions": "^6.3.7",
-    "@storybook/addon-essentials": "^6.3.7",
-    "@storybook/addon-links": "^6.3.7",
-    "@storybook/web-components": "^6.3.7",
-    "babel-loader": "^8.1.0",
-    "eslint": "^7.22.0",
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
+    "@storybook/web-components": "^6.3.12",
+    "babel-loader": "^8.2.3",
+    "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.1.0",
-    "husky": "^5.2.0",
-    "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1"
+    "husky": "^7.0.4",
+    "lint-staged": "^12.0.3",
+    "prettier": "^2.4.1"
   },
   "eslintConfig": {
     "extends": [
