@@ -100,11 +100,14 @@ export class Modal extends LitElement {
   }
 
   updated(changedProperties) {
-    if (this.open) {
-      this._onOpen();
-    } else {
-      this._onClose();
+    if (changedProperties.has('open')) {
+      if (this.open) {
+        this._onOpen();
+      } else {
+        this._onClose();
+      }
     }
+
     // console.log(this.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }));
   }
 
@@ -159,6 +162,7 @@ export class Modal extends LitElement {
     const { body } = document;
     body.dataset.scrollY = window.scrollY;
     body.style.position = 'fixed';
+    body.style.inset = '0';
     body.style.top = `-${body.dataset.scrollY}px`;
 
     if (this.blurElement) {
@@ -171,7 +175,8 @@ export class Modal extends LitElement {
     const { body } = document;
     body.style.position = '';
     body.style.top = '';
-    window.scrollTo(0, body.dataset.scrollY);
+    body.style.inset = '';
+    window.scrollTo(0, Number(body.dataset.scrollY));
 
     if (this.blurElement) {
       this.blurElement.style.filter = '';

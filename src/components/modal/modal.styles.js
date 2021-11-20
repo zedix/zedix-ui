@@ -3,17 +3,19 @@ import { css } from 'lit';
 export default css`
   :host {
     --backdrop: rgba(0, 0, 0, 0.54);
+    --border-radius: 4px;
     --close-button-color: inherit;
     --dialog-surface: #fff;
     --dialog-size-small: 320px;
     --dialog-size-default: 580px;
+    --dialog-size-auto: 'auto';
     --dialog-size-large: 960px;
     --dialog-elevation: 9000;
-    --dialog-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --dialog-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 
   /*
-  ::slotted([slot='body']) {	}
+  ::slotted([slot='body']) {}
 	*/
 
   .modal {
@@ -83,7 +85,8 @@ export default css`
     height: auto;
     margin: auto;
     background-color: var(--dialog-surface);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
     box-shadow: var(--dialog-shadow);
     opacity: 0;
   }

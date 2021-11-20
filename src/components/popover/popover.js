@@ -1,5 +1,6 @@
 import { LitElement } from 'lit';
 import tippy from 'tippy.js';
+import { dispatchEvent } from '../../internals/event.js';
 
 export class Popover extends LitElement {
   static get properties() {
@@ -113,7 +114,7 @@ export class Popover extends LitElement {
     this.trigger = 'click'; // hover (mouseenter), click
 
     this._configure = this._configure.bind(this);
-    this._fireEvent = this._fireEvent.bind(this);
+    this.dispatch = this.dispatch.bind(this);
   }
 
   connectedCallback() {
@@ -160,25 +161,34 @@ export class Popover extends LitElement {
           },
         ],
       },
-      onCreate: ({ reference, popper }) => {
+      // https://github.com/atomiks/tippyjs/blob/master/src/types.ts#L117
+      onCreate: ({ reference, popper, props, setProps }) => {
         reference.setAttribute('aria-haspopup', 'true');
         if (this.type) {
           // eslint-disable-next-line no-param-reassign
           popper.firstElementChild.dataset.type = this.type;
         }
+
+        // Custom behaviour for `trigger: 'mouseenter click'` (replaces default one)
+        // https://github.com/atomiks/tippyjs/issues/984#issuecomment-934483174
+        if (this.trigger.includes('hover') && this.trigger.includes('click')) {
+          props.trigger = props.trigger.replace('click', '');
+          setProps({ hideOnClick: false });
+          reference.addEventListener('click', this.toggle.bind(this));
+        }
       },
       onShow: ({ reference }) => {
         reference.setAttribute('aria-expanded', 'true');
-        this._fireEvent('show');
+        this.dispatch('show');
       },
       onShown: () => {
-        this._fireEvent('shown');
+        this.dispatch('shown');
       },
       onHide({ reference }) {
         reference.setAttribute('aria-expanded', 'false');
       },
       onHidden: () => {
-        this._fireEvent('hidden');
+        this.dispatch('hidden');
       },
       theme: this.theme,
       appendTo: document.body,
@@ -216,17 +226,19 @@ export class Popover extends LitElement {
     this.tippy.hide();
   }
 
-  _fireEvent(eventName) {
-    this.dispatchEvent(
-      new CustomEvent(eventName, {
-        detail: {
-          reference: this.tippy.reference,
-          popper: this.tippy.popper,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+  toggle() {
+    if (this.tippy.state.isShown) {
+      this.tippy.hide();
+    } else {
+      this.tippy.show();
+    }
+  }
+
+  dispatch(eventName) {
+    dispatchEvent(this, eventName, {
+      reference: this.tippy.reference,
+      popper: this.tippy.popper,
+    });
   }
 }
 
