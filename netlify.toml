@@ -3,4 +3,5 @@
   publish = ".storybook/build"
 
 [build.environment]
-  YARN_VERSION = "1.22.4"
+  YARN_VERSION = "1.22.17"
+  NODE_VERSION = "16.13.0"
