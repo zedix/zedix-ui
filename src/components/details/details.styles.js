@@ -4,10 +4,16 @@ export default css`
   :host {
     display: block;
 
+    --details-body-height: auto;
     --details-padding: 1rem;
     --details-toggle-color: currentColor;
-    --details-toggle-size: 18px;
-    --details-toggle-thickness: 4px;
+    --details-toggle-size: 16px;
+    --details-toggle-thickness: 2px;
+    --details-toggle-transition: 300ms transform ease, 100ms background-color ease;
+  }
+
+  @media (prefers-reduced-motion) {
+    --details-toggle-transition: none;
   }
 
   :host([disabled]) {
@@ -50,7 +56,7 @@ export default css`
     position: absolute;
     background-color: var(--details-toggle-color);
     border-radius: 2px;
-    transition: 300ms transform ease, 100ms background-color ease;
+    transition: var(--details-toggle-transition);
   }
 
   /**
@@ -80,6 +86,10 @@ export default css`
 
   .details__body {
     overflow: hidden;
+  }
+
+  :host([overflow-visible]) .details__body {
+    overflow: visible;
   }
 
   .details__content {
