@@ -13,7 +13,7 @@ function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export function animate(el, keyframes, options) {
+export function animate(el: HTMLElement, keyframes: Keyframe[], options: KeyframeAnimationOptions) {
   if (!supportsWebAnimationsApi()) {
     return Promise.resolve();
   }
@@ -27,7 +27,7 @@ export function animate(el, keyframes, options) {
   });
 }
 
-export function stopAnimations(el) {
+export function stopAnimations(el: HTMLElement) {
   if (!supportsWebAnimationsApi()) {
     return Promise.resolve();
   }
@@ -39,6 +39,6 @@ export function stopAnimations(el) {
         animation.addEventListener('finish', handleCancel, { once: true });
         animation.cancel();
       });
-    })
+    }),
   );
 }

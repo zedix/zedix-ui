@@ -22,7 +22,7 @@ const defaultEventOptions = {
  * @param {object} options - The event options. By default bubbles and composed.
  * @returns {CustomEvent}
  */
-export function dispatchEvent(element, eventName, detail, options) {
+export function dispatchEvent(element, eventName, detail = {}, options = {}) {
   const event = new CustomEvent(eventName, {
     detail,
     ...defaultEventOptions,

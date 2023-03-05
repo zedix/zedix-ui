@@ -1,20 +1,22 @@
-## editors
-/.idea
-/.vscode
-
-## system files
-.DS_Store
-
-## npm
+# npm
 /node_modules/
-/npm-debug.log
-/yarn-error.log
 
-## testing
+# testing
 /coverage/
-
-## temp folders
-/.tmp/
 
 # build
 build
+dist
+
+# Yarn Berry
+# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+## system files
+.DS_Store
