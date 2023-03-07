@@ -2,7 +2,7 @@ import { html } from 'lit';
 import './select.js';
 
 export default {
-  title: 'Core/zx-select',
+  title: 'Form/zx-select',
   argTypes: {
     options: { control: 'object' },
   },

@@ -2,7 +2,7 @@ import { html } from 'lit';
 import './input-stepper.js';
 
 export default {
-  title: 'Core/zx-input-stepper',
+  title: 'Form/zx-input-stepper',
   argTypes: {
     min: {
       control: {

@@ -2,7 +2,7 @@ import { html } from 'lit';
 import './input.js';
 
 export default {
-  title: 'Core/zx-input',
+  title: 'Form/zx-input',
   onChange: { action: 'change' },
 };
 

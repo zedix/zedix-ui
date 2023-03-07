@@ -2,7 +2,7 @@ import { html } from 'lit';
 import './button.js';
 
 export default {
-  title: 'Core/zx-button',
+  title: 'Form/zx-button',
   argTypes: {
     type: {
       control: {

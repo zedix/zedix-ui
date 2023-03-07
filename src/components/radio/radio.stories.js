@@ -2,7 +2,7 @@ import { html } from 'lit';
 import './radio.js';
 
 export default {
-  title: 'Core/zx-radio',
+  title: 'Form/zx-radio',
   onChange: { action: 'change' },
 };
 

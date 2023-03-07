@@ -2,7 +2,7 @@ import { html } from 'lit';
 import './checkbox.js';
 
 export default {
-  title: 'Core/zx-checkbox',
+  title: 'Form/zx-checkbox',
   onChange: { action: 'change' },
 };
 
