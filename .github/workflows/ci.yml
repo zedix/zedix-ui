@@ -22,6 +22,8 @@ jobs:
 
       - name: 📥 Install dependencies
         run: yarn
+        with:
+          GH_PACKAGE_REGISTRY_TOKEN: ${{ secrets.GH_PACKAGE_REGISTRY_TOKEN }}
 
       - name: 📦 Build packages
         run: yarn build
