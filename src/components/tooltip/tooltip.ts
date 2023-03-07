@@ -83,7 +83,6 @@ export class Tooltip extends LitElement {
 
     if (this.open) {
       this.popup.updatePosition();
-      this.popup.updatePosition();
     }
   }
 

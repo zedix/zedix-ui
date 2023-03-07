@@ -1,10 +1,17 @@
 {
-  "name": "zedix-ui",
-  "version": "0.4.3",
+  "name": "@zedix/zedix-ui",
+  "version": "0.5.0",
   "description": "Web Components UI Kit",
   "author": "@zedix",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zedix/zedix-ui.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -24,6 +31,7 @@
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
     "format": "yarn run format:eslint && yarn run format:prettier",
     "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "publish": "yarn npm publish",
     "test": "karma start --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "storybook": "storybook dev -p 6006",

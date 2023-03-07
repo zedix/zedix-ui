@@ -13,7 +13,7 @@ https://zedix-ui-storybook.netlify.app
 ## Installation
 
 ```
-$ yarn add zedix/zedix-ui.git#v1.x.x
+$ yarn add @zedix/zedix-ui@0.5.0
 ```
 
 ## Usage

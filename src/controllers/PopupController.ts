@@ -2,14 +2,16 @@ import { LitElement, ReactiveController } from 'lit';
 import { computePosition, arrow, flip, shift, offset, type Placement } from '@floating-ui/dom';
 
 /**
- * Floating UI controller used by Tooltip/Popover elements.
+ * Floating UI controller used by `Tooltip`, `Popover` custom elements.
  * Host element must provide `hide`, `show` and `toggle` methods.
  *
  * Usage:
  * ```js
  * class Tooltip extends LitElement {
+ *   private popup!: PopupController;
+ *
  *   firstUpdated() {
- *     this.popover = new PopoverController(this, {
+ *     this.popup = new PopupElement(this, {
  *       target: 'target-button',
  *       trigger: 'click hover',
  *       placement: 'top',
@@ -20,7 +22,7 @@ import { computePosition, arrow, flip, shift, offset, type Placement } from '@fl
  *   }
  *
  *   updated() {
- *     this.popover.updatePosition();
+ *     this.popup.updatePosition();
  *   }
  * }
  * ```
