@@ -41,6 +41,89 @@ const meta: Meta = {
 export const Sandbox: Story = {
   args: {
     noArrow: false,
+    distance: 16,
+    placement: 'top',
+    trigger: 'hover',
+  },
+  render: args => html`
+    <div class="grid place-items-center w-screen h-screen">
+      <div class="relative h-[20rem] w-[20rem]">
+        ${[
+          {
+            placement: 'top-start',
+            style: 'left:calc(50% - 70px - 1rem);top:0',
+          },
+          {
+            placement: 'top',
+            style: 'left:calc(50% - 10px - 1rem);top:0',
+          },
+          {
+            placement: 'top-end',
+            style: 'left:calc(50% + 50px - 1rem);top:0',
+          },
+          {
+            placement: 'bottom-start',
+            style: 'left:calc(50% - 70px - 1rem);bottom:0',
+          },
+          {
+            placement: 'bottom',
+            style: 'left:calc(50% - 10px - 1rem);bottom:0',
+          },
+          {
+            placement: 'bottom-end',
+            style: 'left:calc(50% + 50px - 1rem);bottom:0',
+          },
+          {
+            placement: 'right',
+            style: 'top:calc(50% - 10px - 1rem);right:min(50px, 5%)',
+          },
+          {
+            placement: 'right-start',
+            style: 'top:calc(50% - 70px - 1rem);right:min(50px, 5%)',
+          },
+          {
+            placement: 'right-end',
+            style: 'top:calc(50% + 50px - 1rem);right:min(50px, 5%)',
+          },
+          {
+            placement: 'left',
+            style: 'top:calc(50% - 10px - 1rem);left:min(50px, 5%)',
+          },
+          {
+            placement: 'left-start',
+            style: 'top:calc(50% - 70px - 1rem);left:min(50px, 5%)',
+          },
+          {
+            placement: 'left-end',
+            style: 'top:calc(50% + 50px - 1rem);left:min(50px, 5%)',
+          },
+        ].map(
+          item => html`<div>
+            <button
+              id="${item.placement}"
+              class="absolute p-4 transition w-5 h-5 rounded border-2 border-gray-900 hover:border-blue-600 hover:bg-blue-200"
+              style="${item.style}"
+              aria-label="${item.placement}"
+            ></button>
+            <zx-tooltip
+              for="${item.placement}"
+              placement="${item.placement}"
+              distance="${args.distance}"
+              trigger="${args.trigger}"
+              .noArrow="${args.noArrow}"
+            >
+              Tooltip ${item.placement}
+            </zx-tooltip>
+          </div>`,
+        )}
+      </div>
+    </div>
+  `,
+};
+
+export const Showcase: Story = {
+  args: {
+    noArrow: false,
     distance: 8,
     placement: 'top',
     trigger: 'hover',
@@ -65,25 +148,5 @@ export const Sandbox: Story = {
     </div>
   `,
 };
-
-export const Showcase = () => html`
-  <div class="flex items-center justify-center p-4 w-screen h-screen">
-    <div class="grid grid-cols-4 gap-6 max-w-6xl mx-auto text-center">
-      ${placements.map(
-        placement => html` <div>
-          <zx-tooltip for="${placement}" placement="${placement}">
-            Tooltip ${placement}
-          </zx-tooltip>
-          <button
-            id="${placement}"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center justify-center transition-all duration-100"
-          >
-            Tooltip ${placement}
-          </button>
-        </div>`,
-      )}
-    </div>
-  </div>
-`;
 
 export default meta;

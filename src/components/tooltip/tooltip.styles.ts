@@ -19,6 +19,7 @@ export default css`
     color: #fff;
     font-size: 13px;
     filter: drop-shadow(var(--shadow));
+    z-index: 10;
   }
 
   i {
