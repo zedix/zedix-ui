@@ -1,46 +1,52 @@
 # @zedix/zedix-ui
 
 ![version](https://img.shields.io/github/package-json/v/zedix/zedix-ui.svg?maxAge=60)
-![tag](https://img.shields.io/github/tag/zedix/zedix-ui.svg?maxAge=60)
 ![lit](https://img.shields.io/badge/lib-lit-blue.svg?maxAge=60)
 
-@zedix's web components UI library built with [lit](https://github.com/lit/lit/).
+`@zedix/zedix-ui` is a library of essential web components ([lit-based](https://github.com/lit/lit/)) serving as a foundation for web apps or design systems.
+
+The UI kit provides atoms such as:
+
+- `autocomplete`
+- `details`
+- `drawer`
+- `popover`
+- `skeleton`
+- `spinner`
+- `tooltip`
+- …
 
 ## Demo
 
-https://zedix-ui-storybook.netlify.app
+<a href="https://zedix-ui-storybook.netlify.app" target="_blank" style="display: flex; align-items: center; gap: 8px; color: white; font-size: 18px">
+  <img src="https://raw.githubusercontent.com/storybookjs/brand/main/icon/icon-storybook-default.svg" height="24">
+  Storybook ↗
+</a>
 
 ## Installation
 
 ```
-$ yarn add @zedix/zedix-ui@0.5.0
+❯ yarn add @zedix/zedix-ui
 ```
 
 ## Usage
 
-```js
-// app.js
-import 'zedix-ui/src/components/zx-button';
-```
+Tooltip example:
 
 ```html
-<!doctype html>
-<html>
-<head>
-  <!-- webcomponents polyfills loader for Edge < 79 -->
-  <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js">script>
+<script type="module">
+import { Tooltip } from '@zedix/zedix-ui';
+<script>
 
-  <style>
-  zx-button {
-    --button-primary-background-color: #xxx;
-    --button-primary-background-color-hover: #xxx;
-    --button-border-radius: 4px;
-  }
-  </style>
-</head>
-<body>
-  <script src="/js/app.js"></script>
-  <zx-button variant="primary" size="medium">Sign in</zx-button>
-</body>
-</html>
+<button id="btn-close" type="button">✗<button>
+
+<zx-tooltip
+  for="btn-close"
+  class="px-3 py-2"
+  placement="bottom"
+  trigger="focus hover"
+  hide-delay="150"
+  >
+  Close
+</zx-tooltip>
 ```

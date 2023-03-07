@@ -11,7 +11,7 @@ import styles from './tooltip.styles';
  *
  * @example
  * ```html
- * <button id="btn-close" type="button">✗<Close>
+ * <button id="btn-close" type="button">✗<button>
  * <zx-tooltip for="btn-close" placement="bottom">Close</zx-tooltip>
  * ```
  *

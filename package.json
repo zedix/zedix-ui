@@ -1,7 +1,7 @@
 {
   "name": "@zedix/zedix-ui",
   "version": "0.5.0",
-  "description": "Web Components UI Kit",
+  "description": "A library of essential web components (lit-based), serving as a foundation for web apps or design systems.",
   "author": "@zedix",
   "license": "MIT",
   "type": "module",
