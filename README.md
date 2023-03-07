@@ -1,7 +1,8 @@
 # @zedix/zedix-ui
 
 ![version](https://img.shields.io/github/package-json/v/zedix/zedix-ui.svg?maxAge=60)
-![lit](https://img.shields.io/badge/lib-lit-blue.svg?maxAge=60)
+[![lit](https://img.shields.io/badge/lib-lit-blue.svg?maxAge=60)](https://github.com/lit/lit/)
+[![Run tests](https://github.com/zedix/zedix-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/zedix/zedix-ui/actions/workflows/ci.yml)
 
 `@zedix/zedix-ui` is a library of essential web components ([lit-based](https://github.com/lit/lit/)) serving as a foundation for web apps or design systems.
 
@@ -18,10 +19,7 @@ The UI kit provides atoms such as:
 
 ## Demo
 
-<a href="https://zedix-ui-storybook.netlify.app" target="_blank" style="display: flex; align-items: center; gap: 8px; color: white; font-size: 18px">
-  <img src="https://raw.githubusercontent.com/storybookjs/brand/main/icon/icon-storybook-default.svg" height="24">
-  Storybook ↗
-</a>
+[Demo ↗](https://zedix-ui-storybook.netlify.app)
 
 ## Installation
 
@@ -33,7 +31,7 @@ The UI kit provides atoms such as:
 
 Tooltip example:
 
-```html
+```js
 <script type="module">
 import { Tooltip } from '@zedix/zedix-ui';
 <script>
@@ -46,7 +44,7 @@ import { Tooltip } from '@zedix/zedix-ui';
   placement="bottom"
   trigger="focus hover"
   hide-delay="150"
-  >
+>
   Close
 </zx-tooltip>
 ```

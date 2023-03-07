@@ -1,0 +1,30 @@
+name: 🚀 CI
+on:
+  push:
+
+jobs:
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ci-typecheck-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: 📥 Install dependencies
+        run: yarn
+
+      - name: 📦 Build packages
+        run: yarn build
+
+      - name: ✅ Typecheck
+        run: yarn typecheck

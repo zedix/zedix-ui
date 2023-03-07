@@ -35,7 +35,8 @@
     "test": "karma start --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build --output-dir='.storybook/build'"
+    "storybook:build": "storybook build --output-dir='.storybook/build'",
+    "typecheck": "tsc --noEmit --project ./tsconfig.json"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.2.3",

@@ -1,6 +1,6 @@
 // https://github.com/storybookjs/storybook/issues/20423
-
 import type { StorybookConfig } from '@storybook/web-components-webpack5';
+
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
@@ -12,4 +12,5 @@ const config: StorybookConfig = {
     autodocs: 'tag',
   },
 };
+
 export default config;
