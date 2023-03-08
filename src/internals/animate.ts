@@ -42,3 +42,10 @@ export function stopAnimations(el: HTMLElement) {
     }),
   );
 }
+
+export function setKeyframesHeightAuto(keyframes: Keyframe[], height: number) {
+  return keyframes.map(keyframe => ({
+    ...keyframe,
+    height: keyframe.height === 'auto' ? `${height}px` : keyframe.height,
+  }));
+}

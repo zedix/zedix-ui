@@ -49,8 +49,8 @@ interface PopupElement extends LitElement {
 }
 
 export default class PopupController implements ReactiveController {
-  host: PopupElement;
-  private hoverTimeout: number = 0;
+  private host: PopupElement;
+  private hoverTimeout = 0;
   private options!: PopupControllerOptions;
 
   constructor(host: PopupElement, options: PopupControllerOptions) {

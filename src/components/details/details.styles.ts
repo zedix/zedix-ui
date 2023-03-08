@@ -5,7 +5,7 @@ export default css`
     display: block;
 
     --details-body-height: auto;
-    --details-padding: 1rem;
+    --details-padding: 8px 16px;
     --details-toggle-color: currentColor;
     --details-toggle-size: 16px;
     --details-toggle-thickness: 2px;

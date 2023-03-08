@@ -14,7 +14,7 @@
     "baseUrl": ".",
     "rootDir": "./src",
     "paths": {
-      "~": ["."]
+      "~": ["./src"]
     }
   },
   "include": ["src"],
