@@ -10,6 +10,7 @@ The UI kit provides atoms such as:
 
 - `autocomplete`
 - `details`
+- `dialog`
 - `drawer`
 - `popover`
 - `skeleton`

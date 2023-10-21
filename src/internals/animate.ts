@@ -32,14 +32,15 @@ export function stopAnimations(el: HTMLElement) {
     return Promise.resolve();
   }
   return Promise.all(
-    el.getAnimations().map(animation => {
-      return new Promise(resolve => {
-        const handleCancel = () => requestAnimationFrame(resolve);
-        animation.addEventListener('cancel', handleCancel, { once: true });
-        animation.addEventListener('finish', handleCancel, { once: true });
-        animation.cancel();
-      });
-    }),
+    el.getAnimations().map(
+      animation =>
+        new Promise(resolve => {
+          const handleCancel = () => requestAnimationFrame(resolve);
+          animation.addEventListener('cancel', handleCancel, { once: true });
+          animation.addEventListener('finish', handleCancel, { once: true });
+          animation.cancel();
+        }),
+    ),
   );
 }
 

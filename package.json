@@ -91,14 +91,8 @@
       "@typescript-eslint/no-unused-vars": [
         "error"
       ],
-      "import/no-unresolved": "off",
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ]
+      "import/extensions": "off",
+      "import/no-unresolved": "off"
     }
   },
   "prettier": "@open-wc/prettier-config",
