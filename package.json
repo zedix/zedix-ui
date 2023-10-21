@@ -12,28 +12,27 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
   },
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "build": "tsc",
-    "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
-    "lint": "yarn run lint:eslint && yarn run lint:prettier",
-    "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
-    "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
-    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
-    "format": "yarn run format:eslint && yarn run format:prettier",
-    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "analyze": "cem analyze --litelement",
+    "build": "vite build",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "prepublish": "tsc && npm run analyze -- --exclude dist",
     "publish": "yarn npm publish",
-    "test": "karma start --coverage",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "test": "wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build --output-dir='.storybook/build'",
     "typecheck": "tsc --noEmit --project ./tsconfig.json"
@@ -43,8 +42,10 @@
     "lit": "^3.0.0"
   },
   "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.4.17",
     "@open-wc/eslint-config": "^12.0.0",
     "@open-wc/prettier-config": "^1.1.0",
+    "@open-wc/testing": "^3.2.0",
     "@storybook/addon-a11y": "^7.5.1",
     "@storybook/addon-essentials": "^7.5.1",
     "@storybook/addon-links": "^7.5.1",
@@ -52,6 +53,15 @@
     "@storybook/blocks": "^7.5.1",
     "@storybook/web-components": "^7.5.1",
     "@storybook/web-components-vite": "^7.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
+    "@web/dev-server": "^0.1.34",
+    "@web/dev-server-storybook": "^0.5.4",
+    "@web/test-runner": "^0.14.0",
+    "concurrently": "^5.3.0",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "glob": "^10.3.10",
     "husky": "^8.0.3",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
@@ -62,17 +72,36 @@
     "vite": "^4.5.0",
     "vite-plugin-dts": "^3.6.0"
   },
-  "eslintConfig": {
-    "extends": [
-      "@open-wc/eslint-config"
-    ]
-  },
-  "prettier": "@open-wc/prettier-config",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "ignorePackages": true
+        }
+      ]
+    }
+  },
+  "prettier": "@open-wc/prettier-config",
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
@@ -83,5 +112,6 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@3.6.4",
+  "customElements": "custom-elements.json"
 }

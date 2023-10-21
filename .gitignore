@@ -5,6 +5,7 @@ node_modules
 /coverage
 
 # Build
+build
 dist
 cdn
 *.log*

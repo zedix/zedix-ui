@@ -28,5 +28,8 @@ jobs:
       - name: 📦 Build packages
         run: yarn build
 
-      - name: ✅ Typecheck
+      - name: 🔖 Typecheck
         run: yarn typecheck
+
+      - name: ✅ Test
+        run: yarn test

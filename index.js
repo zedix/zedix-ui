@@ -1,4 +1,4 @@
-export { Button } from './src/components/button/button.js';
+export { Button } from './src/components/button/button.component.js';
 export { Checkbox } from './src/components/checkbox/checkbox.js';
 export { Input } from './src/components/input/input.js';
 export { InputStepper } from './src/components/input-stepper/input-stepper.js';
