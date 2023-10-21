@@ -22,6 +22,11 @@ The UI kit provides atoms such as:
 
 [Demo ↗](https://zedix-ui-storybook.netlify.app)
 
+<div style="display: flex; gap: 1rem; align-teims: center">
+  <img height="300" src="https://github.com/zedix/zedix-ui/assets/27975/6594152a-7713-4f16-9693-daa45e478c70" />
+  <img height="300" src="https://github.com/zedix/zedix-ui/assets/27975/c09c527b-a33a-4750-91ea-48c61928650e" />
+</div>
+
 ## Installation
 
 ```
