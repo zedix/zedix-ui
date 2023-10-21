@@ -24,7 +24,7 @@ The UI kit provides atoms such as:
 
 <div style="display: flex; gap: 1rem; align-teims: center">
   <img height="260" src="https://github.com/zedix/zedix-ui/assets/27975/6594152a-7713-4f16-9693-daa45e478c70" />
-  <img height="260" src="https://github.com/zedix/zedix-ui/assets/27975/c09c527b-a33a-4750-91ea-48c61928650e" />
+  <img height="260" src="https://github.com/zedix/zedix-ui/assets/27975/62ae6196-26a0-47f0-9d09-58437e95798a" />
 </div>
 
 ## Installation
