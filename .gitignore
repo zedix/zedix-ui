@@ -1,23 +1,25 @@
-# npm
-/node_modules/
+# Dependencies
+node_modules
 
-# testing
-/coverage/
+# Testing
+/coverage
 
-# build
-build
+# Build
 dist
-*.log
+cdn
+*.log*
 
 # Yarn Berry
 # https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
 .pnp.*
 .yarn/*
+.env.yarn
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
 
-## system files
+# System Files
 .DS_Store
+Thumbs.db
