@@ -32,7 +32,7 @@ export default class Dialog extends LitElement {
 
   private readonly animations = new Map();
 
-  @query('dialog') dialog: HTMLDialogElement;
+  @query('dialog') dialog!: HTMLDialogElement;
 
   /**
    * Indicates whether or not the dialog is open.
