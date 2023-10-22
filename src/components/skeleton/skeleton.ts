@@ -1,4 +1,4 @@
-import { LitElement, PropertyValues, CSSResultGroup } from 'lit';
+import { LitElement, CSSResultGroup } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './skeleton.styles';
 

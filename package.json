@@ -27,8 +27,8 @@
     "analyze": "cem analyze --litelement",
     "build": "vite build",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
-    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "lint": "eslint ./src && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint ./src . --fix && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "prepublish": "tsc && npm run analyze -- --exclude dist",
     "publish": "yarn npm publish",
     "test": "wtr --coverage",
@@ -43,10 +43,8 @@
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.9.0",
-    "@open-wc/eslint-config": "^12.0.0",
     "@open-wc/prettier-config": "^1.1.0",
     "@open-wc/testing": "^3.2.0",
-    "@storybook/addon-a11y": "^7.5.1",
     "@storybook/addon-essentials": "^7.5.1",
     "@storybook/addon-links": "^7.5.1",
     "@storybook/addon-themes": "^7.5.1",
@@ -61,7 +59,12 @@
     "concurrently": "^8.2.2",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-lit": "^1.9.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-storybook": "^0.6.15",
+    "eslint-plugin-wc": "^2.0.4",
     "glob": "^10.3.10",
+    "globals": "^13.23.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
@@ -75,24 +78,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
-    }
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "extends": [
-      "@open-wc",
-      "prettier"
-    ],
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "rules": {
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error"
-      ],
-      "import/extensions": "off",
-      "import/no-unresolved": "off"
     }
   },
   "prettier": "@open-wc/prettier-config",

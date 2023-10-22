@@ -15,14 +15,14 @@ const defaultEventOptions = {
 
 /**
  * Emits a custom HTML event.
- *
+ *∏
  * @param {HTMLElement} element - The HTML element emitting event.
  * @param {string} eventName - The name of the event.
  * @param {object} detail - The event detail object to send with the event.
- * @param {object} options - The event options. By default bubbles and composed.
+ * @param {EventInit} options - The event options. By default bubbles and composed.
  * @returns {CustomEvent}
  */
-export function dispatchEvent(element, eventName, detail = {}, options = {}) {
+export function dispatchEvent(element: HTMLElement, eventName: string, detail = {}, options = {}) {
   const event = new CustomEvent(eventName, {
     detail,
     ...defaultEventOptions,

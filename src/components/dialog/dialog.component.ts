@@ -6,13 +6,22 @@ import styles from './dialog.styles';
 /**
  * Dialog based on the native HTML `dialog` element.
  *
+ * "The HTML dialog element is the recommended way to create such content because its features
+ * were built to provide better and consistent usability and accessibility."
+ *
+ * Note on  in Safari/WebKit:
+ * - WebKit tabbing must be activated in accessibility settings: https://github.com/tailwindlabs/headlessui/issues/1643#issuecomment-1245438358
+ * - WebKit restore focus to previous element only if it had focus (not if clicked)
+ *
  * Specs:
  * - [Dialog whatwg specification](https://html.spec.whatwg.org/dev/interactive-elements.html#the-dialog-element)
+ * - [Dialog focusing steps](https://html.spec.whatwg.org/#dialog-focusing-steps)
  * - [Handle shadow DOM and <dialog> focusing](https://github.com/whatwg/html/pull/7285)
  * - [dialog & ::backdrop](https://github.com/web-platform-tests/interop/issues/12)
  *
- * Bugs:
+ * Browser Bugs:
  * - [Firefox: ::backdrop with animation does not work](https://bugzilla.mozilla.org/show_bug.cgi?id=1725177)
+ * - [Webkit: Implement new dialog initial focus algorithm](https://bugs.webkit.org/show_bug.cgi?id=250795)
  *
  * Articles:
  * - [Dialogs and shadow DOM: can we make it accessible?](https://nolanlawson.com/2022/06/14/dialogs-and-shadow-dom-can-we-make-it-accessible/)
@@ -22,6 +31,7 @@ import styles from './dialog.styles';
  * - https://github.com/shoelace-style/shoelace/blob/next/src/components/dialog/dialog.component.ts#L68
  * - https://github.com/carbon-design-system/carbon-web-components/blob/main/src/components/modal/modal.ts#L65
  * - https://quasar.dev/vue-components/dialog/
+ * * https://www.radix-ui.com/primitives/docs/components/dialog
  *
  * Notes:
  * -  When using the `<dialog>` in shadow DOM, using `<form method="dialog">` from the light DOM
@@ -75,11 +85,11 @@ export default class Dialog extends LitElement {
     }
   }
 
-  async show() {
+  show() {
     this.open = true;
   }
 
-  async close() {
+  close() {
     this.open = false;
   }
 
@@ -95,8 +105,18 @@ export default class Dialog extends LitElement {
     await stopAnimations(this.dialog);
     if (this.open) {
       this.lockBodyScroll();
+
       // Dialog element must be rendered before any animate() call
       this.dialog.showModal();
+
+      // Do not rely on browser focusing algorithm for `autofocus`:
+      // Firefox & Safari do not resolve `autofocus` correctly when `<dialog>`
+      // is in the shadow DOM and `autofocus` target in the light DOM.
+      const autoFocusTarget = this.querySelector('[autofocus]') as HTMLElement;
+      if (autoFocusTarget) {
+        autoFocusTarget.focus({ preventScroll: true });
+      }
+
       // Note: animate() helps to handle `prefers-reduced-motion: reduce`
       // (instead of relying on `animationend` event)
       await animate(this.dialog, keyframes, options);
@@ -130,11 +150,6 @@ export default class Dialog extends LitElement {
     if (!this.persistent) {
       this.close();
     }
-  }
-
-  handleSubmitDialog() {
-    // console.log('submit', event);
-    this.open = false;
   }
 
   handleCloseDialog() {
@@ -186,17 +201,6 @@ export default class Dialog extends LitElement {
       options: { duration: 250, easing: 'ease' },
     });
 
-    /*
-    this.setAnimation('dialog.show.bouncy', {
-      keyframes: [
-        { transform: 'scale(0)', opacity: 0, offset: 0 },
-        { transform: 'scale(110%)', offset: 0.8 },
-        { transform: 'scale(100%)', opacity: 1, offset: 1 },
-      ],
-      options: { duration: 600, easing: 'ease' },
-    });
-    */
-
     this.setAnimation('dialog.close', {
       keyframes: [
         { opacity: 1, scale: 1 },
@@ -209,6 +213,17 @@ export default class Dialog extends LitElement {
       keyframes: [{ scale: 1 }, { scale: 1.02 }, { scale: 1 }],
       options: { duration: 250 },
     });
+
+    /*
+    this.setAnimation('dialog.show.bouncy', {
+      keyframes: [
+        { transform: 'scale(0)', opacity: 0, offset: 0 },
+        { transform: 'scale(110%)', offset: 0.8 },
+        { transform: 'scale(100%)', opacity: 1, offset: 1 },
+      ],
+      options: { duration: 600, easing: 'ease' },
+    });
+    */
   }
 
   render() {

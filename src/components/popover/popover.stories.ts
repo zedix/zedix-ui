@@ -39,26 +39,27 @@ export const Sandbox: Story = {
     distance: 8,
     trigger: 'click',
   },
-  render: args => html`<div class="grid place-items-center w-screen h-screen">
-    <button id="anchor" class="shadow rounded bg-gray-900 text-white text-base px-4 py-2">
-      Show all options
-    </button>
-    <zx-popover
-      class="bg-white rounded-lg"
-      for="anchor"
-      .arrow="${args.arrow}"
-      .distance="${args.distance}"
-      animation="${args.animation}"
-      placement="${args.placement}"
-      trigger="${args.trigger}"
-    >
-      <nav class="text-primary divide-y p-1">
-        <a class="block px-4 py-3 hover:bg-gray-50" href="#">Menu item 1</a>
-        <a class="block px-4 py-3 hover:bg-gray-50" href="#">Menu item 2</a>
-        <a class="block px-4 py-3 hover:bg-gray-50" href="#">Menu item 3</a>
-      </nav>
-    </zx-popover>
-  </div>`,
+  render: args =>
+    html`<div class="grid place-items-center w-screen h-screen">
+      <button id="anchor" class="shadow rounded bg-gray-900 text-white text-base px-4 py-2">
+        Show all options
+      </button>
+      <zx-popover
+        class="bg-white rounded-lg"
+        for="anchor"
+        .arrow="${args.arrow}"
+        .distance="${args.distance}"
+        animation="${args.animation}"
+        placement="${args.placement}"
+        trigger="${args.trigger}"
+      >
+        <nav class="text-primary divide-y p-1">
+          <a class="block px-4 py-3 hover:bg-gray-50" href="#">Menu item 1</a>
+          <a class="block px-4 py-3 hover:bg-gray-50" href="#">Menu item 2</a>
+          <a class="block px-4 py-3 hover:bg-gray-50" href="#">Menu item 3</a>
+        </nav>
+      </zx-popover>
+    </div>`,
 };
 
 export default meta;

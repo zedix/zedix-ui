@@ -1,7 +1,6 @@
 import type { Placement } from '@floating-ui/dom';
 import { LitElement, html, PropertyValues, CSSResultGroup } from 'lit';
 import { property } from 'lit/decorators.js';
-import { dispatchEvent } from '../../internals/event';
 import { animate, stopAnimations } from '../../internals/animate';
 import PopupController from '../../controllers/PopupController';
 import styles from './tooltip.styles';
@@ -23,6 +22,7 @@ export class Tooltip extends LitElement {
   static styles: CSSResultGroup = styles;
 
   private animations = new Map();
+
   private popup!: PopupController;
 
   /** The HTML id of the element triggering the tooltip. */

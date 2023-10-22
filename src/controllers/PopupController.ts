@@ -50,7 +50,9 @@ interface PopupElement extends LitElement {
 
 export default class PopupController implements ReactiveController {
   private host: PopupElement;
+
   private hoverTimeout = 0;
+
   private options!: PopupControllerOptions;
 
   constructor(host: PopupElement, options: PopupControllerOptions) {
@@ -129,9 +131,9 @@ export default class PopupController implements ReactiveController {
       });
       // Store the final placement as a dataset attribute for styling purpose
       this.floatingElement.dataset.placement = placement;
-      //this.floatingElement.style.setProperty('--arrow-left', x != null ? `${x}px` : '');
-      //this.floatingElement.style.setProperty('--arrow-top', y != null ? `${y}px` : '');
-      //this.floatingElement.style.setProperty(`--arrow-${staticSide}`, `${-this.arrowElement.offsetWidth / 2}px`);
+      // this.floatingElement.style.setProperty('--arrow-left', x != null ? `${x}px` : '');
+      // this.floatingElement.style.setProperty('--arrow-top', y != null ? `${y}px` : '');
+      // this.floatingElement.style.setProperty(`--arrow-${staticSide}`, `${-this.arrowElement.offsetWidth / 2}px`);
     }
   }
 

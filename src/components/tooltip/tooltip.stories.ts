@@ -98,23 +98,24 @@ export const Sandbox: Story = {
             style: 'top:calc(50% + 50px - 1rem);left:min(50px, 5%)',
           },
         ].map(
-          item => html`<div>
-            <button
-              id="${item.placement}"
-              class="absolute p-4 transition w-5 h-5 rounded border-2 border-gray-900 hover:border-blue-600 hover:bg-blue-200"
-              style="${item.style}"
-              aria-label="${item.placement}"
-            ></button>
-            <zx-tooltip
-              for="${item.placement}"
-              placement="${item.placement}"
-              distance="${args.distance}"
-              trigger="${args.trigger}"
-              .noArrow="${args.noArrow}"
-            >
-              Tooltip ${item.placement}
-            </zx-tooltip>
-          </div>`,
+          item =>
+            html`<div>
+              <button
+                id="${item.placement}"
+                class="absolute p-4 transition w-5 h-5 rounded border-2 border-gray-900 hover:border-blue-600 hover:bg-blue-200"
+                style="${item.style}"
+                aria-label="${item.placement}"
+              ></button>
+              <zx-tooltip
+                for="${item.placement}"
+                placement="${item.placement}"
+                distance="${args.distance}"
+                trigger="${args.trigger}"
+                .noArrow="${args.noArrow}"
+              >
+                Tooltip ${item.placement}
+              </zx-tooltip>
+            </div>`,
         )}
       </div>
     </div>

@@ -55,11 +55,11 @@ export const Showcase: Story = {
         <div class="flex items-center justify-center" style="min-height: 220px;"></div>
 
         <div slot="footer" class="flex justify-end gap-2 p-4">
-          <button autofocus class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
+          <button class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
             Annuler
           </button>
 
-          <button class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
+          <button autofocus class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
             Fermer
           </button>
         </div>
