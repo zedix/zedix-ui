@@ -4,13 +4,13 @@
  * https://www.raulmelo.me/en/blog/migration-eslint-to-flat-config
  */
 
-import tsParser from '@typescript-eslint/parser';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
 import globals from 'globals';
 import js from '@eslint/js';
 import wc from 'eslint-plugin-wc';
 import lit from 'eslint-plugin-lit';
-import prettier from 'eslint-plugin-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
@@ -33,16 +33,18 @@ export default [
         sourceType: 'module',
       },
     },
-    // https://github.com/open-wc/open-wc/blob/master/packages/eslint-config/index.js
     plugins: {
-      '@typescript-eslint': tsPlugin,
+      typescriptEslint,
+      // https://github.com/open-wc/open-wc/blob/master/packages/eslint-config/index.js
+      // https://github.com/43081j/eslint-plugin-wc/blob/master/src/configs/best-practice.ts
       wc,
       lit,
-      prettier,
     },
     rules: {
       ...js.configs.recommended.rules,
       'no-unused-vars': ['error', { varsIgnorePattern: 'HTMLElementTagNameMap' }],
     },
   },
+  // https://github.com/prettier/eslint-config-prettier#eslintconfigjs-flat-config-plugin-caveat
+  eslintConfigPrettier,
 ];
