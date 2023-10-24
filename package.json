@@ -90,6 +90,6 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@3.6.4",
+  "packageManager": "yarn@4.0.0",
   "customElements": "custom-elements.json"
 }
