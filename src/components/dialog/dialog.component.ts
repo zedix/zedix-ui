@@ -1,6 +1,7 @@
 import { LitElement, CSSResultGroup, PropertyValues, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { animate, stopAnimations } from '../../internals/animate';
+import { dispatchEvent } from '../../internals/event';
 import styles from './dialog.styles';
 
 /**
@@ -94,6 +95,10 @@ export default class Dialog extends LitElement {
   }
 
   async updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.get('open') === undefined) {
+      return;
+    }
+
     if (changedProperties.has('open')) {
       await this.handleOpenChange();
     }
@@ -104,8 +109,9 @@ export default class Dialog extends LitElement {
 
     await stopAnimations(this.dialog);
     if (this.open) {
-      this.lockBodyScroll();
+      dispatchEvent(this, 'show');
 
+      this.lockBodyScroll();
       // Dialog element must be rendered before any animate() call
       this.dialog.showModal();
 
@@ -120,12 +126,18 @@ export default class Dialog extends LitElement {
       // Note: animate() helps to handle `prefers-reduced-motion: reduce`
       // (instead of relying on `animationend` event)
       await animate(this.dialog, keyframes, options);
+      dispatchEvent(this, 'after-show');
     } else {
+      const event = dispatchEvent(this, 'close');
+      if (event.defaultPrevented) {
+        return;
+      }
       this.dialog.classList.add('is-closing');
       await animate(this.dialog, keyframes, options);
       this.dialog.classList.remove('is-closing');
       this.dialog.close();
       this.unlockBodyScroll();
+      dispatchEvent(this, 'after-close');
     }
   }
 

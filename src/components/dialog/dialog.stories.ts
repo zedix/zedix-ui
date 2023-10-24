@@ -17,6 +17,11 @@ const meta: Meta = {
       options: ['small', 'default', 'large'],
     },
   },
+  parameters: {
+    actions: {
+      handles: ['show', 'close', 'after-close'],
+    },
+  },
   args: {
     open: false,
     persistent: false,
