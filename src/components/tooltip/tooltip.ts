@@ -17,6 +17,12 @@ import styles from './tooltip.styles';
  * @link https://www.w3.org/TR/wai-aria-1.2/#tooltip
  * @link https://open-ui.org/components/tooltip.research/
  * @link https://github.com/microsoft/fast/tree/master/packages/web-components/fast-foundation/src/tooltip
+ * @link https://open-ui.org/components/popover-hint.research.explainer/
+ * @link https://github.com/w3c/csswg-drafts/issues/8930
+ *
+ * Accessibility:
+ * @link https://inclusive-components.design/tooltips-toggletips/
+ * @link https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html
  */
 export class Tooltip extends LitElement {
   static styles: CSSResultGroup = styles;

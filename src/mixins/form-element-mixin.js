@@ -1,6 +1,7 @@
 import { DelegateFocusMixin } from './delegate-focus-mixin.js';
 
 // https://web.dev/more-capable-form-controls
+// https://github.com/open-wc/form-participation/tree/main
 const formAssociatedSupported =
   'ElementInternals' in window && 'setFormData' in window.ElementInternals;
 

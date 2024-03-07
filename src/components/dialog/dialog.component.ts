@@ -165,6 +165,7 @@ export default class Dialog extends LitElement {
   }
 
   handleCloseDialog() {
+    // Note: as of Chrome 120 `<dialog>` and `[popover]` make use of the `CloseWatcher` internally.
     // console.log(event, this.dialog.returnValue)
   }
 
