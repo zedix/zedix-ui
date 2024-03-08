@@ -28,7 +28,7 @@ export default {
     playwrightLauncher({
       product: 'chromium',
       launchOptions: {
-        headless: false,
+        headless: true,
         devtools: false,
         //args: ['--some-flag'],
       },
