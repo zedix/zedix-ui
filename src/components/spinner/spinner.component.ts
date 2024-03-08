@@ -1,34 +1,18 @@
-import { html, LitElement } from 'lit';
+import { LitElement, html, CSSResultGroup } from 'lit';
+import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import componentStyles from '../../styles/component.styles.js';
 import styles from './spinner.styles.js';
 
-export class Spinner extends LitElement {
-  static get styles() {
-    return styles;
-  }
+export default class Spinner extends LitElement {
+  static styles: CSSResultGroup = [componentStyles, styles];
 
-  static get properties() {
-    return {
-      type: {
-        type: String, // beat, square, circle
-        reflect: true,
-      },
+  @property({ reflect: true })
+  type: 'beat' | 'square' | 'circle' = 'beat';
 
-      size: {
-        type: Number,
-        reflect: true,
-      },
-    };
-  }
-
-  constructor() {
-    // Always call super() first
-    super();
-
-    // Initialize properties
-    this.type = 'beat';
-    this.size = 16;
-  }
+  /** The size of the spinner */
+  @property({ type: Number, reflect: true })
+  size = 16;
 
   render() {
     const spinnerStyles = {
@@ -36,7 +20,7 @@ export class Spinner extends LitElement {
       width: `${this.size}px`,
     };
 
-    let spinner = '';
+    let spinner;
 
     switch (this.type) {
       case 'square':
@@ -64,5 +48,3 @@ export class Spinner extends LitElement {
     return spinner;
   }
 }
-
-window.customElements.define('zx-spinner', Spinner);

@@ -8,7 +8,7 @@ addons.setConfig({
     brandTitle: `
       <div style="display: flex; gap: 12px; align-items: center; font-size: 24px">
         <img src="https://raw.githubusercontent.com/webcomponents/webcomponents-icons/master/logo/logo_512x512.png" width="40" />
-        Zedix UI — Web Components
+        Zedix UI
       </div>`,
     brandUrl: 'https://github.com/zedix/zedix-ui',
   }),

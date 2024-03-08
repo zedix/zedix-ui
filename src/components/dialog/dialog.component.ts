@@ -1,11 +1,15 @@
-import { LitElement, CSSResultGroup, PropertyValues, html } from 'lit';
-import { property, query } from 'lit/decorators.js';
+/* global Keyframe, KeyframeAnimationOptions */
+import { LitElement, CSSResultGroup, PropertyValues, html, nothing } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
+import { property, query, state } from 'lit/decorators.js';
 import { animate, stopAnimations } from '../../internals/animate';
 import { dispatchEvent } from '../../internals/event';
+import componentStyles from '../../styles/component.styles.js';
 import styles from './dialog.styles';
+import '../close-button/close-button';
 
 /**
- * Dialog based on the native HTML `dialog` element.
+ * Dialog custom element wraps the standard interactive HTML `dialog` element.
  *
  * "The HTML dialog element is the recommended way to create such content because its features
  * were built to provide better and consistent usability and accessibility."
@@ -20,6 +24,9 @@ import styles from './dialog.styles';
  * - [Handle shadow DOM and <dialog> focusing](https://github.com/whatwg/html/pull/7285)
  * - [dialog & ::backdrop](https://github.com/web-platform-tests/interop/issues/12)
  *
+ * Accessibility:
+ * - [ARIA Authoring Practices Guide for a modal dialog](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
+ *
  * Browser Bugs:
  * - [Firefox: ::backdrop with animation does not work](https://bugzilla.mozilla.org/show_bug.cgi?id=1725177)
  * - [Webkit: Implement new dialog initial focus algorithm](https://bugs.webkit.org/show_bug.cgi?id=250795)
@@ -28,9 +35,13 @@ import styles from './dialog.styles';
  * - [Dialogs and shadow DOM: can we make it accessible?](https://nolanlawson.com/2022/06/14/dialogs-and-shadow-dom-can-we-make-it-accessible/)
  * - [Use the dialog element (reasonably)](https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html)
  *
- * References:
+ * Implementation References (Native dialog):
+ * - https://github.com/material-components/material-web/blob/main/dialog/internal/dialog.ts
+ *
+ * Implementation References (Custom dialog):
  * - https://github.com/shoelace-style/shoelace/blob/next/src/components/dialog/dialog.component.ts#L68
  * - https://github.com/carbon-design-system/carbon-web-components/blob/main/src/components/modal/modal.ts#L65
+ * - https://vaadin.com/docs/latest/components/confirm-dialog
  * - https://quasar.dev/vue-components/dialog/
  * * https://www.radix-ui.com/primitives/docs/components/dialog
  *
@@ -39,7 +50,7 @@ import styles from './dialog.styles';
  * will have no effect.
  */
 export default class Dialog extends LitElement {
-  static styles: CSSResultGroup = styles;
+  static styles: CSSResultGroup = [componentStyles, styles];
 
   private readonly animations = new Map();
 
@@ -61,13 +72,42 @@ export default class Dialog extends LitElement {
    * Indicates the size of the dialog.
    */
   @property({ reflect: true })
-  size: 'small' | 'default' | 'large' = 'default';
+  size: 'small' | 'medium' | 'large' | 'default' = 'default';
+
+  /**
+   * Skips the opening and closing animations.
+   */
+  @property({ type: Boolean, reflect: true })
+  quick = false;
 
   /**
    * A persistent dialogs is not dismissed when clicking outside of it or hitting the ESC key.
    */
   @property({ type: Boolean, reflect: true })
   persistent = false;
+
+  /**
+   * Do not render the dialog header.
+   */
+  @property({ type: Boolean, reflect: true })
+  noHeader = false;
+
+  /**
+   * Do not render the default close button.
+   */
+  @property({ type: Boolean, reflect: true })
+  noCloseButton = false;
+
+  /**
+   * Gets or sets the dialog's return value, usually to indicate which button
+   * a user pressed to close it.
+   *
+   * https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/returnValue
+   */
+  @property({ attribute: false })
+  returnValue = '';
+
+  @state() private hasActions = false;
 
   constructor() {
     super();
@@ -95,10 +135,12 @@ export default class Dialog extends LitElement {
   }
 
   async updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.get('open') === undefined) {
+    // Note: changedProperties gives the property values from the previous update.
+    // At the time of the first update, previous values are always undefined.
+    if (changedProperties.get('open') === undefined && !this.open) {
+      // If the open attribute is not truthy at first update, do nothing
       return;
     }
-
     if (changedProperties.has('open')) {
       await this.handleOpenChange();
     }
@@ -125,7 +167,7 @@ export default class Dialog extends LitElement {
 
       // Note: animate() helps to handle `prefers-reduced-motion: reduce`
       // (instead of relying on `animationend` event)
-      await animate(this.dialog, keyframes, options);
+      await this.animateDialog(keyframes, options);
       dispatchEvent(this, 'after-show');
     } else {
       const event = dispatchEvent(this, 'close');
@@ -133,7 +175,7 @@ export default class Dialog extends LitElement {
         return;
       }
       this.dialog.classList.add('is-closing');
-      await animate(this.dialog, keyframes, options);
+      await this.animateDialog(keyframes, options);
       this.dialog.classList.remove('is-closing');
       this.dialog.close();
       this.unlockBodyScroll();
@@ -149,11 +191,18 @@ export default class Dialog extends LitElement {
       // if event.target === dialog
       if (this.persistent) {
         const { keyframes, options } = this.animations.get('dialog.denyClose');
-        await animate(this.dialog, keyframes, options);
+        await this.animateDialog(keyframes, options);
       } else {
         this.close();
       }
     }
+  }
+
+  async animateDialog(keyframes: Keyframe[], options: KeyframeAnimationOptions) {
+    if (this.quick) {
+      return Promise.resolve(true);
+    }
+    return await animate(this.dialog, keyframes, options);
   }
 
   handleCancelDialog(event: Event) {
@@ -239,23 +288,50 @@ export default class Dialog extends LitElement {
     */
   }
 
+  private handleSlotActionsChange(event: Event) {
+    const slot = event.target as HTMLSlotElement;
+    this.hasActions = slot.assignedElements().length > 0;
+  }
+
   render() {
+    const classes = {
+      'has-actions': this.hasActions,
+    };
+
     return html`<dialog
+      class=${classMap(classes)}
       part="base"
+      data-open="${this.open}"
       @cancel="${this.handleCancelDialog}"
       @close="${this.handleCloseDialog}"
+      .returnValue=${this.returnValue || nothing}
     >
-      <div>
-        <header part="header">
-          <h2 part="title">
-            <slot name="label"></slot>
-          </h2>
-        </header>
+      ${!this.noCloseButton
+        ? html`
+            <zx-close-button
+              class="dialog__close-button"
+              part="close"
+              @close="${this.close}"
+            ></zx-close-button>
+          `
+        : ''}
+      ${!this.noHeader
+        ? html`
+            <header class="dialog__header" part="header" slot="header">
+              <slot name="header">
+                <h2 class="dialog__title" part="title">
+                  <slot name="title"></slot>
+                </h2>
+              </slot>
+            </header>
+          `
+        : ''}
+      <div class="dialog__body" part="body">
         <slot></slot>
-        <footer part="footer">
-          <slot name="footer"></slot>
-        </footer>
       </div>
+      <footer class="dialog__footer" part="footer">
+        <slot name="actions" @slotchange=${this.handleSlotActionsChange}></slot>
+      </footer>
     </dialog>`;
   }
 }

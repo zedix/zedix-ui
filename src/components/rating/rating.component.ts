@@ -1,6 +1,7 @@
-/* eslint-disable prefer-object-spread */
-import { html, LitElement } from 'lit';
+import { LitElement, html, CSSResultGroup } from 'lit';
+import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import componentStyles from '../../styles/component.styles.js';
 import styles from './rating.styles.js';
 
 // https://github.com/Polymer/lit-html/pull/1000
@@ -11,80 +12,50 @@ import styles from './rating.styles.js';
  *
  * @see https://css-tricks.com/five-methods-for-five-star-ratings/
  */
-export class Rating extends LitElement {
-  static get styles() {
-    return styles;
-  }
+export default class Rating extends LitElement {
+  static styles: CSSResultGroup = [componentStyles, styles];
 
-  static get properties() {
-    return {
-      editMode: {
-        type: Boolean,
-        reflect: true,
-      },
+  private currentLabel = '';
 
-      labels: {
-        type: Array,
-        reflect: true,
-        converter: {
-          fromAttribute: value => value.split('|'),
-          toAttribute: value => value.join('|'),
-        },
-      },
+  @property({ type: Boolean, reflect: true })
+  editMode = false;
 
-      name: {
-        type: String,
-        reflect: true,
-      },
+  @property({
+    type: Array,
+    reflect: true,
+    converter: {
+      fromAttribute: (value: string) => value.split('|'),
+      toAttribute: (value: string[]) => value.join('|'),
+    },
+  })
+  labels = [];
 
-      value: {
-        type: Number,
-        reflect: true,
-      },
+  @property({ reflect: true })
+  name = '';
 
-      shape: {
-        type: String,
-        reflect: true,
-      },
+  @property({
+    type: Number,
+    reflect: true,
+  })
+  value = 0;
 
-      size: {
-        type: String,
-        reflect: true,
-      },
+  @property({ reflect: true })
+  shape = '1';
 
-      backgroundColor: {
-        type: String,
-        reflect: true,
-      },
+  @property({ reflect: true })
+  size = '';
 
-      ratingColor: {
-        type: String,
-        reflect: true,
-      },
-    };
-  }
+  @property({ reflect: true })
+  backgroundColor = '#DDDDDD';
 
-  constructor() {
-    // Always call super() first, or the element won’t render at all.
-    super();
-
-    // Initialize properties
-    this.editMode = false;
-    this.name = '';
-    this.shape = '1';
-    this.size = '';
-    this.backgroundColor = '#DDDDDD';
-    this.ratingColor = 'gold';
-    this.currentLabel = '';
-    this.labels = [];
-    this.value = 0;
-  }
+  @property({ reflect: true })
+  ratingColor = 'gold';
 
   firstUpdated() {
     this.setLabelForValue(this.value);
   }
 
-  setLabelForValue(value) {
+  setLabelForValue(value: any) {
     const intValue = parseInt(value, 10);
     this.currentLabel = intValue ? this.labels[intValue - 1] : '';
     this.requestUpdate();
@@ -125,13 +96,13 @@ export class Rating extends LitElement {
 
     const rootStyles = {
       background: `url('data:image/svg+xml;base64,${btoa(
-        svg.replace('fill', `fill="${this.backgroundColor}"`),
+        svg!.replace('fill', `fill="${this.backgroundColor}"`),
       )}')`,
     };
 
     const innerStyles = {
       background: `url('data:image/svg+xml;base64,${btoa(
-        svg.replace('fill', `fill="${this.ratingColor}"`),
+        svg!.replace('fill', `fill="${this.ratingColor}"`),
       )}')`,
     };
 
@@ -171,18 +142,18 @@ export class Rating extends LitElement {
     `;
   }
 
-  onInputMouseOver(e) {
-    this.setLabelForValue(e.currentTarget.value);
+  onInputMouseOver(event: Event) {
+    const inputElement = event.currentTarget as HTMLInputElement;
+    this.setLabelForValue(inputElement.value);
   }
 
   onInputMouseOut() {
     this.setLabelForValue(this.value);
   }
 
-  onChange(e) {
-    const target = e.composedPath()[0];
-    this.checked = target.checked;
-    this.value = target.value;
+  onChange(event: Event) {
+    const target = event.composedPath()[0] as HTMLInputElement;
+    this.value = Number(target.value);
 
     // The change event is not able to propagate across shadow boundaries
     // To make a custom event pass through shadow DOM boundaries, we must set
@@ -193,7 +164,7 @@ export class Rating extends LitElement {
           name: target.name,
           value: target.value,
           checked: target.checked,
-          sourceEvent: e,
+          sourceEvent: event,
         },
         bubbles: true,
         composed: true,
@@ -201,5 +172,3 @@ export class Rating extends LitElement {
     );
   }
 }
-
-window.customElements.define('zx-rating', Rating);

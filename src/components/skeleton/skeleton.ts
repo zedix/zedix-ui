@@ -1,30 +1,14 @@
-import { LitElement, CSSResultGroup } from 'lit';
-import { property } from 'lit/decorators.js';
-import styles from './skeleton.styles';
+import Skeleton from './skeleton.component';
 
-export class Skeleton extends LitElement {
-  static styles: CSSResultGroup = styles;
+export * from './skeleton.component';
+export default Skeleton;
 
-  @property({ reflect: true })
-  animation: 'wave' | 'pulse' = 'pulse';
-
-  @property({ reflect: true })
-  shape: 'circle' | 'rect' | 'text' = 'text';
-
-  @property({ reflect: true })
-  width = '';
-
-  @property({ reflect: true })
-  height = '';
-
-  render() {
-    if (this.height) {
-      this.style.height = `${this.height}px`;
-    }
-    if (this.width) {
-      this.style.width = `${this.width}px`;
-    }
-  }
+if (!customElements.get('zx-skeleton')) {
+  customElements.define('zx-skeleton', Skeleton);
 }
 
-window.customElements.define('zx-skeleton', Skeleton);
+declare global {
+  interface HTMLElementTagNameMap {
+    'zx-skeleton': Skeleton;
+  }
+}

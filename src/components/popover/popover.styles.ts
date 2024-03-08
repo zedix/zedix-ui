@@ -2,13 +2,14 @@ import { css } from 'lit';
 
 export default css`
   :host {
+    --animation-duration: 150ms;
     --background-color: #fff;
     --arrow-size: 8px;
     --arrow-color: var(--background-color);
     --shadow: 0 1px 1px rgba(0, 0, 0, 0.16);
-    --border-color: #ccc;
+    --border-color: #e4e4e7;
     --border-width: 1px;
-    --max-width: 180px;
+    --max-width: 320px;
     --theme: bordered;
 
     /* Note: arrow can not be used with overflow-hidden */
@@ -18,18 +19,15 @@ export default css`
     display: block;
     box-sizing: border-box;
     padding: 0;
-    width: max-content;
-    width: var(--max-width);
+    width: fit-content;
     background-color: var(--background-color);
     background-clip: content-box;
-    font-size: 13px;
     filter: drop-shadow(var(--shadow));
+    z-index: 10;
   }
 
-  :host *,
-  :host *::before,
-  :host *::after {
-    box-sizing: inherit;
+  :host(:not([full-width])) {
+    max-width: var(--max-width);
   }
 
   i {
@@ -42,24 +40,6 @@ export default css`
     border: 0;
     z-index: -1;
   }
-
-  /*
-  :host::before {
-    content: '';
-    position: absolute;
-    display: block;
-    width: var(--arrow-size);
-    height: var(--arrow-size);
-    background: var(--arrow-color);
-    transform: rotate(45deg);
-    top: var(--arrow-top);
-    left: var(--arrow-left);
-    right: var(--arrow-right);
-    bottom: var(--arrow-bottom);
-    border: 0;
-    z-index: 9;
-  }
-  */
 
   /*@container style(--theme: bordered) {}*/
 

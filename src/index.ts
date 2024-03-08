@@ -1,10 +1,10 @@
 // Components
-export { default as Button } from './components/button/button.js';
-export { default as Dialog } from './components/dialog/dialog.js';
-
-export { Details } from './components/details/details.js';
-export { InputStepper } from './components/input-stepper/input-stepper.js';
-export { Skeleton } from './components/skeleton/skeleton.js';
-export { Tooltip } from './components/tooltip/tooltip.js';
-export { Popover } from './components/popover/popover.js';
-export { Spinner } from './components/spinner/spinner.js';
+export { default as CloseButton } from './components/close-button/close-button';
+export { default as Details } from './components/details/details';
+export { default as Dialog } from './components/dialog/dialog';
+export { default as InputStepper } from './components/input-stepper/input-stepper.js';
+export { default as Popover } from './components/popover/popover';
+export { default as Rating } from './components/rating/rating.js';
+export { default as Skeleton } from './components/skeleton/skeleton';
+export { default as Spinner } from './components/spinner/spinner.js';
+export { default as Tooltip } from './components/tooltip/tooltip';

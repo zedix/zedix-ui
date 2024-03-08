@@ -26,7 +26,7 @@ const meta: Meta = {
     open: false,
     persistent: false,
     align: 'center',
-    size: 'default',
+    size: 'medium',
   },
 };
 
@@ -58,20 +58,16 @@ export const Showcase: Story = {
     >
       <form method="dialog">
         <div class="flex items-center justify-center" style="min-height: 220px;"></div>
-
-        <div slot="footer" class="flex justify-end gap-2 p-4">
-          <button class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
-            Annuler
-          </button>
-
-          <button autofocus class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
-            Fermer
-          </button>
-        </div>
       </form>
+      <menu slot="actions">
+        <button class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
+          Annuler
+        </button>
+        <button autofocus class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
+          Fermer
+        </button>
+      </menu>
     </zx-dialog>
-
-    <div id="force-vertical-scrollbar" style="height: 200dvb"></div>
   `,
 };
 

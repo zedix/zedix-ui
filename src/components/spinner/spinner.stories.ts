@@ -1,15 +1,15 @@
+import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
-import './spinner.js';
+import './spinner';
 
-export default {
+type Story = StoryObj;
+
+const meta: Meta = {
   title: 'Core/zx-spinner',
   argTypes: {
     type: {
-      control: {
-        type: 'inline-radio',
-        options: ['beat', 'square', 'circle'],
-      },
-      defaultValue: 'beat',
+      control: 'select',
+      options: ['beat', 'square', 'circle'],
     },
     size: {
       control: {
@@ -20,15 +20,17 @@ export default {
       },
     },
   },
+  args: {
+    type: 'beat',
+  },
 };
 
-const Template = args => html`
-  <zx-spinner class="text-xxx" type="${args.type}" size="${args.size}"></zx-spinner>
-`;
-
-export const Sandbox = Template.bind({});
-Sandbox.args = {
-  size: 6,
+export const Sandbox: Story = {
+  args: {
+    size: 6,
+  },
+  render: args =>
+    html`<zx-spinner class="text-xxx" type="${args.type}" size="${args.size}"></zx-spinner>`,
 };
 
 export const Showcase = () => `
@@ -38,3 +40,5 @@ export const Showcase = () => `
     <zx-spinner class="block mb-8" type="circle" size="20"></zx-spinner>
   </div>
 `;
+
+export default meta;

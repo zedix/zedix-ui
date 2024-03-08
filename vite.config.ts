@@ -14,9 +14,10 @@ export default defineConfig({
     },
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
       input: Object.fromEntries(
-        glob.sync(['src/components/**/!(*.test).{js,ts}', 'src/index.ts}']).map(file => [
+        glob.sync(['src/components/**/!(*.test).{js,ts}', 'src/index.ts']).map(file => [
           // The name of the entry point
           // src/components/foo/foo.ts becomes components/foo/foo
           relative('src', file.slice(0, file.length - extname(file).length)),
@@ -27,7 +28,6 @@ export default defineConfig({
       // https://rollupjs.org/configuration-options/#treeshake
       treeshake: 'recommended',
       output: {
-        sourcemap: true,
         exports: 'named',
         assetFileNames: 'assets/[name][extname]',
         chunkFileNames: 'chunks/[name].js',

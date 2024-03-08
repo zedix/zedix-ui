@@ -1,3 +1,5 @@
+/* global Keyframe, KeyframeAnimationOptions */
+
 /**
  * Web Animations API (WAAPI) helpers.
  * https://caniuse.com/web-animation
@@ -49,4 +51,19 @@ export function setKeyframesHeightAuto(keyframes: Keyframe[], height: number) {
     ...keyframe,
     height: keyframe.height === 'auto' ? `${height}px` : keyframe.height,
   }));
+}
+
+export function parseDurationInMilliseconds(delay: string) {
+  // CSSStyleValue.parse('animation-duration', delay)
+  const cssValue = delay.toLowerCase();
+
+  if (cssValue.includes('ms')) {
+    return parseFloat(delay);
+  }
+
+  if (cssValue.includes('s')) {
+    return parseFloat(delay) * 1000;
+  }
+
+  return parseFloat(delay);
 }

@@ -1,5 +1,13 @@
 import { LitElement, ReactiveController } from 'lit';
-import { computePosition, arrow, flip, shift, offset, type Placement } from '@floating-ui/dom';
+import {
+  computePosition,
+  arrow,
+  flip,
+  shift,
+  offset,
+  size,
+  type Placement,
+} from '@floating-ui/dom';
 
 /**
  * Floating UI controller used by `Tooltip`, `Popover` custom elements.
@@ -30,6 +38,10 @@ import { computePosition, arrow, flip, shift, offset, type Placement } from '@fl
  * Note:
  * Controllers cannot add attributes, instance methods or properties (including reactive properties).
  * @see https://github.com/lit/lit/issues/2148
+ *
+ * TODO: safe polygon
+ * - https://floating-ui.com/docs/usehover#safepolygon
+ * - https://github.com/floating-ui/floating-ui/issues/1722
  */
 
 type PopupControllerOptions = {
@@ -39,6 +51,7 @@ type PopupControllerOptions = {
   distance: number;
   showDelay: number;
   hideDelay: number;
+  fullWidth: boolean;
 };
 
 interface PopupElement extends LitElement {
@@ -65,7 +78,8 @@ export default class PopupController implements ReactiveController {
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleMouseOver = this.handleMouseOver.bind(this);
-    this.handleMouseOut = this.handleMouseOut.bind(this);
+    //this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.handleDocumentMouseOver = this.handleDocumentMouseOver.bind(this);
     this.handleFocusIn = this.handleFocusIn.bind(this);
     this.handleFocusOut = this.handleFocusOut.bind(this);
     this.addEventListeners();
@@ -88,6 +102,8 @@ export default class PopupController implements ReactiveController {
   }
 
   get middlewares() {
+    const isFullWidth = this.options.fullWidth;
+
     return [
       // https://floating-ui.com/docs/offset
       // offset() should generally be placed at the beginning of your middleware array.
@@ -96,6 +112,24 @@ export default class PopupController implements ReactiveController {
       flip(),
       // https://floating-ui.com/docs/shift
       shift(),
+      // https://floating-ui.com/docs/size
+      size({
+        // padding: 5,
+        apply({ elements, rects }) {
+          // Make sure the popover min-width is at least the width of the trigger element
+          Object.assign(elements.floating.style, {
+            minWidth: `${rects.reference.width}px`,
+          });
+
+          // If full-width option is passed, make the popover fit the entire screen width (edge-to-edge)
+          if (isFullWidth) {
+            Object.assign(elements.floating.style, {
+              x: '0',
+              width: '100%',
+            });
+          }
+        },
+      }),
       // https://floating-ui.com/docs/arrow
       // arrow() should generally be placed toward the end of your middleware array, after shift().
       arrow({ element: this.arrowElement, padding: 8 }),
@@ -129,12 +163,16 @@ export default class PopupController implements ReactiveController {
         top: y != null ? `${y}px` : '',
         [staticSide!]: `${-this.arrowElement.offsetWidth / 2}px`,
       });
-      // Store the final placement as a dataset attribute for styling purpose
-      this.floatingElement.dataset.placement = placement;
+
       // this.floatingElement.style.setProperty('--arrow-left', x != null ? `${x}px` : '');
       // this.floatingElement.style.setProperty('--arrow-top', y != null ? `${y}px` : '');
       // this.floatingElement.style.setProperty(`--arrow-${staticSide}`, `${-this.arrowElement.offsetWidth / 2}px`);
     }
+
+    // Store the final placement as a dataset attribute for styling purpose
+    this.floatingElement.dataset.placement = placement;
+
+    return { placement };
   }
 
   setOptions(options: PopupControllerOptions) {
@@ -152,7 +190,8 @@ export default class PopupController implements ReactiveController {
 
     if (this.hasTrigger('hover')) {
       this.targetElement.addEventListener('mouseover', this.handleMouseOver);
-      this.targetElement.addEventListener('mouseout', this.handleMouseOut);
+      //this.targetElement.addEventListener('mouseout', this.handleMouseOut);
+      document.addEventListener('mouseover', this.handleDocumentMouseOver);
     }
 
     if (this.hasTrigger('focus')) {
@@ -171,7 +210,8 @@ export default class PopupController implements ReactiveController {
 
     if (this.hasTrigger('hover')) {
       this.targetElement?.removeEventListener('mouseover', this.handleMouseOver);
-      this.targetElement?.removeEventListener('mouseout', this.handleMouseOut);
+      //this.targetElement?.removeEventListener('mouseout', this.handleMouseOut);
+      document.removeEventListener('mouseover', this.handleDocumentMouseOver);
     }
 
     if (this.hasTrigger('focus')) {
@@ -193,10 +233,25 @@ export default class PopupController implements ReactiveController {
     this.hoverTimeout = window.setTimeout(() => this.host.show(), this.options.showDelay);
   }
 
-  handleMouseOut() {
+  handleDocumentMouseOver(event: MouseEvent) {
+    if (!this.host.open) {
+      return;
+    }
+    // https://github.com/floating-ui/floating-ui/blob/master/packages/react/src/hooks/useHover.ts
     clearTimeout(this.hoverTimeout);
-    this.hoverTimeout = window.setTimeout(() => this.host.hide(), this.options.hideDelay);
+    this.hoverTimeout = window.setTimeout(() => {
+      this.handleClickOutside(event);
+    }, this.options.hideDelay);
   }
+
+  /*
+  handleMouseOut(event: MouseEvent) {
+    clearTimeout(this.hoverTimeout);
+    this.hoverTimeout = window.setTimeout(() => {
+      this.host.hide();
+    }, this.options.hideDelay);
+  }
+  */
 
   handleFocusIn() {
     this.host.show();

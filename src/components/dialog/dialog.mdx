@@ -1,0 +1,26 @@
+import { Meta, Primary, Controls, Source, Story, Canvas } from '@storybook/blocks';
+import * as Stories from './dialog.stories';
+
+<Meta title="Core/zx-dialog" />
+
+# Dialog
+
+`zx-dialog` uses the [native HTML dialog element](https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html).
+
+## Example
+
+<Source
+  dark
+  code={`<zx-dialog align="center">
+  <form>
+    Dialog content…
+  </form>
+  <menu slot="actions">
+    <zx-button variant="outline" invokeaction="close">Annuler<zx-button>
+    <zx-button variant="primary">Save changes<zx-button>
+  </menu>
+</zx-dialog>`}
+/>
+
+<Story of={Stories.Showcase} />
+<Controls of={Stories.Showcase} />

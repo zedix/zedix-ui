@@ -39,7 +39,7 @@ Tooltip example:
 
 ```js
 <script type="module">
-import '@zedix/zedix-ui/dist/components/tooltip/tooltip.js';
+import { Tooltip } from '@zedix/zedix-ui';
 <script>
 
 <button id="btn-close" type="button">✗<button>
