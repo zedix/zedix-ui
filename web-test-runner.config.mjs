@@ -1,41 +1,52 @@
-// import { playwrightLauncher } from '@web/test-runner-playwright';
+import fs from 'fs';
+import { esbuildPlugin } from '@web/dev-server-esbuild';
+// import { globbySync } from 'globby'
+import { playwrightLauncher } from '@web/test-runner-playwright';
 
-const filteredLogs = ['Lit is in dev mode'];
-
-export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
+// https://modern-web.dev/docs/test-runner/cli-and-configuration/
+export default {
   rootDir: '.',
-  files: ['test/**/*.test.*', 'src/components/**/*.test.*'],
-
-  /** Resolve bare module imports */
+  files: 'src/**/*.test.ts', // "default" group
+  concurrentBrowsers: 3,
   nodeResolve: {
-    exportConditions: ['browser', 'development'],
+    exportConditions: ['production', 'default'],
   },
-
-  /** Filter out lit dev mode logs */
-  filterBrowserLogs(log) {
-    for (const arg of log.args) {
-      if (typeof arg === 'string' && filteredLogs.some(l => arg.includes(l))) {
-        return false;
-      }
-    }
-    return true;
+  testFramework: {
+    config: {
+      timeout: 3000000,
+      retries: 1,
+    },
   },
-
-  /** Compile JS for older browsers. Requires @web/dev-server-esbuild plugin */
-  // esbuildTarget: 'auto',
-
-  /** Amount of browsers to run concurrently */
-  // concurrentBrowsers: 2,
-
-  /** Amount of test files per browser to test concurrently */
-  // concurrency: 1,
-
-  /** Browsers to run tests on */
-  // browsers: [
-  //   playwrightLauncher({ product: 'chromium' }),
-  //   playwrightLauncher({ product: 'firefox' }),
-  //   playwrightLauncher({ product: 'webkit' }),
-  // ],
-
-  // See documentation for all available options
-});
+  plugins: [
+    esbuildPlugin({
+      ts: true,
+      target: 'es2021',
+    }),
+  ],
+  browsers: [
+    // https://modern-web.dev/docs/test-runner/browser-launchers/playwright/#customizing-launch-options
+    playwrightLauncher({
+      product: 'chromium',
+      launchOptions: {
+        headless: false,
+        devtools: false,
+        //args: ['--some-flag'],
+      },
+    }),
+    // Firefox started failing randomly so we're temporarily disabling it here. This could be a rogue test, not really
+    // sure what's happening.
+    // playwrightLauncher({ product: 'firefox' }),
+    //playwrightLauncher({ product: 'webkit' }),
+  ],
+  testRunnerHtml: testFramework => `
+    <html lang="en-US">
+      <head></head>
+      <body>
+        <script>
+          window.process = {env: { NODE_ENV: "production" }}
+        </script>
+        <script type="module" src="${testFramework}"></script>
+      </body>
+    </html>
+  `,
+};

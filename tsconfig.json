@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "lib": ["dom", "dom.Iterable", "es2021"],
+    "types": ["mocha"],
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["dom", "dom.Iterable", "es2020"],
-    "allowJs": true,
-    "strict": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
+    // https://lit.dev/docs/components/properties/#avoiding-issues-with-class-fields
     "useDefineForClassFields": false,
     "baseUrl": ".",
     "rootDir": "./src",
