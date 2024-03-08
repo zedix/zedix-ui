@@ -51,7 +51,7 @@ type PopupControllerOptions = {
   distance: number;
   showDelay: number;
   hideDelay: number;
-  fullWidth: boolean;
+  fullWidth?: boolean;
 };
 
 interface PopupElement extends LitElement {
