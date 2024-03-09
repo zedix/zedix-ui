@@ -25,6 +25,8 @@ const meta: Meta = {
   args: {
     open: false,
     persistent: false,
+    quick: false,
+    noCloseButton: false,
     align: 'center',
     size: 'medium',
   },
@@ -55,6 +57,8 @@ export const Showcase: Story = {
       size="${args.size}"
       .open="${args.open}"
       .persistent="${args.persistent}"
+      .quick="${args.quick}"
+      .noCloseButton="${args.noCloseButton}"
     >
       <form method="dialog">
         <div class="flex items-center justify-center" style="min-height: 220px;"></div>
