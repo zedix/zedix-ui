@@ -26,7 +26,7 @@
   "scripts": {
     "analyze": "cem analyze --litelement",
     "build": "vite build",
-    "build-storybook": "storybook build",
+    "build:storybook": "storybook build --output-dir='.storybook/build'",
     "gen:react": "lit labs gen --framework=react",
     "gen:vue": "lit labs gen --framework=vue",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
@@ -38,7 +38,6 @@
     "test:component": "web-test-runner -- --watch --group",
     "test:watch": "web-test-runner --watch --group default",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build --output-dir='.storybook/build'",
     "typecheck": "tsc --noEmit --project ./tsconfig.json",
     "prepare": "husky"
   },

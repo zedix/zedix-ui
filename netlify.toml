@@ -1,7 +1,7 @@
 [build]
-  command = "yarn run storybook:build"
+  command = "yarn run build:storybook"
   publish = ".storybook/build"
 
 [build.environment]
   YARN_VERSION = "4.1.1"
-  NODE_VERSION = "20.11.1"
+  NODE_VERSION = "20"
