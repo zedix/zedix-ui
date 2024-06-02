@@ -60,6 +60,9 @@ export default class Dialog extends LitElement {
 
   private readonly animations = new Map();
 
+  // https://chromestatus.com/feature/4722261258928128
+  // private closeWatcher: null;
+
   @query('dialog') dialog!: HTMLDialogElement;
 
   /**
@@ -173,6 +176,7 @@ export default class Dialog extends LitElement {
       dispatchEvent(this, 'show');
 
       this.lockBodyScroll();
+
       // Dialog element must be rendered before any animate() call
       this.dialog.showModal();
 
@@ -272,7 +276,7 @@ export default class Dialog extends LitElement {
     window.scrollTo(0, Number(body.dataset.scrollY));
   }
 
-  private setupDefaultAnimations() {
+  setupDefaultAnimations() {
     // Default animations
     this.setAnimation('dialog.show', {
       keyframes: [

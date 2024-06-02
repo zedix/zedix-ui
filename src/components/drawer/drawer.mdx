@@ -1,0 +1,25 @@
+import { Meta, Primary, Controls, Source, Story, Canvas } from '@storybook/blocks';
+import * as Stories from './drawer.stories';
+
+<Meta title="Core/zx-drawer" />
+
+# Drawer
+
+`zx-drawer` is based on the [native HTML dialog element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog).
+
+## Example
+
+<Source
+  dark
+  code={`<zx-drawer placement="start">
+  #shadow-root (open)
+    <!-- use the native html dialog -->
+    <dialog>…</dialog>
+  <div>
+    Drawer content…
+  </div>
+</zx-drawer>`}
+/>
+
+<Story of={Stories.Showcase} />
+<Controls of={Stories.Showcase} />
