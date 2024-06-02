@@ -34,5 +34,8 @@ jobs:
       - name: 🔖 Typecheck
         run: yarn typecheck
 
-      - name: ✅ Test
-        run: yarn playwright install && yarn test
+      - name: 📥 Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: 🎭 Playwright Tests
+        run: yarn test

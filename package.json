@@ -75,7 +75,6 @@
     "globals": "^15.3.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.5",
-    "playwright": "^1.42.1",
     "prettier": "^3.3.0",
     "sinon": "^18.0.0",
     "storybook": "^8.1.5",
