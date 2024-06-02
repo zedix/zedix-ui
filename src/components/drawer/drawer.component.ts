@@ -30,38 +30,25 @@ export default class Drawer extends Dialog {
   }
 
   setupDefaultAnimations() {
-    if (this.placement === 'end') {
-      this.setAnimation('dialog.show', {
-        keyframes: [
-          { opacity: 0, translate: '100%' },
-          { opacity: 1, translate: '0' },
-        ],
-        options: { duration: 250, easing: 'ease' },
-      });
+    this.setAnimation('dialog.show', {
+      keyframes: [
+        { opacity: 0, translate: this.placement === 'end' ? '100%' : '-100%' },
+        { opacity: 1, translate: '0' },
+      ],
+      options: { duration: 250, easing: 'ease' },
+    });
 
-      this.setAnimation('dialog.close', {
-        keyframes: [
-          { opacity: 1, translate: '0' },
-          { opacity: 0, translate: '100%' },
-        ],
-        options: { duration: 250, easing: 'ease' },
-      });
-    } else {
-      this.setAnimation('dialog.show', {
-        keyframes: [
-          { opacity: 0, translate: '-100%' },
-          { opacity: 1, translate: '0' },
-        ],
-        options: { duration: 250, easing: 'ease' },
-      });
+    this.setAnimation('dialog.close', {
+      keyframes: [
+        { opacity: 1, translate: '0' },
+        { opacity: 0, translate: this.placement === 'end' ? '100%' : '-100%' },
+      ],
+      options: { duration: 250, easing: 'ease' },
+    });
 
-      this.setAnimation('dialog.close', {
-        keyframes: [
-          { opacity: 1, translate: '0' },
-          { opacity: 0, translate: '-100%' },
-        ],
-        options: { duration: 250, easing: 'ease' },
-      });
-    }
+    this.setAnimation('dialog.denyClose', {
+      keyframes: [{ scale: 1 }, { scale: 1.02 }, { scale: 1 }],
+      options: { duration: 250 },
+    });
   }
 }

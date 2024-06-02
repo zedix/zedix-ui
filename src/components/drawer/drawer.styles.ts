@@ -4,7 +4,7 @@ export default css`
   :host {
     --width: 320px;
     --backdrop: hsl(240 3.8% 46.1% / 33%);
-    --border-radius: 0.75rem;
+    --border-radius: 0.25rem;
     --transition-duration: 250ms;
     --padding: 0;
   }
