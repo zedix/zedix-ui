@@ -7,6 +7,7 @@ export default css`
     --dialog-surface: #fff;
     --size: fit-content;
 
+    /* --dialog-shadow: var(--c-shadow-xl); */
     --dialog-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     --dialog-size-small: 480px;
     --dialog-size-medium: 640px;
@@ -25,24 +26,31 @@ export default css`
     max-block-size: min(80vh, 100%);
     max-block-size: min(80dvb, 100%);
     width: var(--size);
+
+    /* https://github.com/whatwg/html/issues/7732#issuecomment-1579431410
+    overflow: auto;
+    overscroll-behavior: contain; */
+  }
+
+  dialog:not([open]) {
+    display: none;
   }
 
   dialog::backdrop {
-    /* https://developer.chrome.com/blog/css-backdrop-inheritance (Chrome 122+, Safari 17.4+) */
+    /*
+      https://developer.chrome.com/blog/css-backdrop-inheritance
+      - ✔ Firefox 120 (https://bugzilla.mozilla.org/show_bug.cgi?id=1855668)
+      - ✔ Chrome 122 (https://issues.chromium.org/issues/40569411)
+      - ✔ Safari 17.4+ (https://bugs.webkit.org/show_bug.cgi?id=263834)
+    */
     background: var(--backdrop, hsl(240 3.8% 46.1% / 33%));
-    /*backdrop-filter: blur(25px);*/
+    /*backdrop-filter: blur(2px);*/
   }
 
   .dialog__header {
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-  }
-
-  .dialog__title {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
   }
 
   .dialog__body {
@@ -56,11 +64,22 @@ export default css`
     padding: 1rem;
   }
 
+  .dialog__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
   slot[name='actions']::slotted(*) {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
   }
+
+  /*
+  ::slotted(:is(h1, h2, h3)) {}
+  ::slotted([slot='footer']) { padding: 1rem; }
+  */
 
   .dialog__close-button {
     position: absolute;
@@ -91,17 +110,7 @@ export default css`
     --size: var(--dialog-size-large);
   }
 
-  /*
-  ::slotted([slot='footer']) {
-    padding: 1rem;
-  }
-  */
-
   @media (prefers-reduced-motion: no-preference) {
-    dialog[open] {
-      //animation: bounceFadeIn 2500ms ease forwards;
-    }
-
     :host(:not([quick])) dialog::backdrop {
       /* https://bugzilla.mozilla.org/show_bug.cgi?id=1725177 */
       animation: backdropFadeIn 250ms forwards;
@@ -112,9 +121,14 @@ export default css`
     }
   }
 
-  dialog:not([open]) {
-    display: none;
+  /*
+  @starting-style {
+    &:where([open]) {
+      opacity: 0;
+      transform: scaleY(0);
+    }
   }
+  */
 
   @keyframes backdropFadeIn {
     from {

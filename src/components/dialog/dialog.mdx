@@ -5,21 +5,22 @@ import * as Stories from './dialog.stories';
 
 # Dialog
 
-`zx-dialog` is based on the [native HTML dialog element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog), that has  has reached the tipping point of generally being the [better option](https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html) for web developers who need to implement dialogs.
+`zx-dialog` is based on the [native HTML dialog element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog), that has has reached the tipping point of generally being the [better option](https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html) for web developers who need to implement dialogs.
 
 It provides native support for:
-- **Modal/inert functionality**. Opening the dialog as _modal_ will make the rest of the document [inert](https://html.spec.whatwg.org/multipage/interaction.html#modal-dialogs-and-inert-subtrees).
+
+- **Modal/inert functionality**. Opening the dialog as _modal_ will make the content behind <q>[inert](https://html.spec.whatwg.org/multipage/interaction.html#modal-dialogs-and-inert-subtrees)</q>.
 - **Promotion to the top layer**. Dialog will appear in the [top layer](https://drafts.csswg.org/css-position-4/#document-top-layer) of the page, so you don't have to play around with z-index.
 - **Light-dismiss functionality**. Clicking outside of the dialog area will close the dialog and return focus.
 - **Default focus management**. Opening the dialog will natively handle the [focusing steps](https://html.spec.whatwg.org/multipage/interactive-elements.html#dialog-focusing-steps).
 - **Accessible keyboard bindings**. Hitting the `esc` key or double toggling will close the dialog and return focus.
-- **CSS ::backdrop**. Native dialog comes with a [::backdrop pseudo-element](https://developer.chrome.com/blog/css-backdrop-inheritance), rendered immediately beneath the dialog.
+- **CSS ::backdrop**. The [::backdrop pseudo-element](https://developer.chrome.com/blog/css-backdrop-inheritance), rendered immediately beneath the dialog, could be used to blur, darken, or obfuscate the inert content behind.
 
 ## Example
 
 <Source
   dark
-  code={`<zx-dialog align="center">
+  code={`<zx-dialog title="Title">
   #shadow-root (open)
     <!-- use the native html dialog -->
     <dialog>…</dialog>
@@ -27,7 +28,7 @@ It provides native support for:
     Dialog content…
   </form>
   <menu slot="actions">
-    <zx-button variant="outline" invokeaction="close">Annuler<zx-button>
+    <zx-button variant="outline" invokeaction="close">Cancel<zx-button>
     <zx-button variant="primary">Save changes<zx-button>
   </menu>
 </zx-dialog>`}

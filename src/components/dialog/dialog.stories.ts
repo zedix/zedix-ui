@@ -27,6 +27,7 @@ const meta: Meta = {
     persistent: false,
     quick: false,
     noCloseButton: false,
+    noHeader: false,
     align: 'center',
     size: 'medium',
   },
@@ -53,22 +54,24 @@ export const Showcase: Story = {
     </button>
 
     <zx-dialog
+      title="Title"
       align="${args.align}"
       size="${args.size}"
       .open="${args.open}"
       .persistent="${args.persistent}"
       .quick="${args.quick}"
       .noCloseButton="${args.noCloseButton}"
+      .noHeader="${args.noHeader}"
     >
       <form method="dialog">
         <div class="flex items-center justify-center" style="min-height: 220px;"></div>
       </form>
       <menu slot="actions">
         <button class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
-          Annuler
+          Cancel
         </button>
         <button autofocus class="px-4 py-2 rounded border focus:ring-4" @click="${closeDialog}">
-          Fermer
+          Save changes
         </button>
       </menu>
     </zx-dialog>

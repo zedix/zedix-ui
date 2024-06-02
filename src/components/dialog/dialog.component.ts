@@ -26,6 +26,8 @@ import '../close-button/close-button';
  *
  * Accessibility:
  * - [ARIA Authoring Practices Guide for a modal dialog](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
+ * - [Trapping focus completely is not desired](https://github.com/whatwg/html/issues/8339#issuecomment-1822591131)
+ *  - Tabbing to browser/environment controls is desirable, page content controls are blocked.
  *
  * Browser Bugs:
  * - [Firefox: ::backdrop with animation does not work](https://bugzilla.mozilla.org/show_bug.cgi?id=1725177)
@@ -37,6 +39,10 @@ import '../close-button/close-button';
  *
  * Implementation References (Native dialog):
  * - https://github.com/material-components/material-web/blob/main/dialog/internal/dialog.ts
+ * - https://github.com/microsoft/fluentui/blob/master/packages/web-components/src/dialog/dialog.template.ts#L26
+ * - https://ambitious-cliff-0c8148010.2.azurestaticapps.net/?path=/docs/webcomponents_components-dialog--default
+ * - https://github.com/carbon-design-system/carbon/issues/13807
+ * - https://github.com/primer/view_components/pull/2364
  *
  * Implementation References (Custom dialog):
  * - https://github.com/shoelace-style/shoelace/blob/next/src/components/dialog/dialog.component.ts#L68
@@ -61,6 +67,13 @@ export default class Dialog extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   open = false;
+
+  /**
+   * The title of the dialog.
+   * If the dialog has no header, it will be used as `ariaLabel`.
+   */
+  @property()
+  title = '';
 
   /**
    * By default, dialog is viewport centered; but can at the top of the screen with a fixed margin.
@@ -97,6 +110,12 @@ export default class Dialog extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   noCloseButton = false;
+
+  /**
+   * Aria label of the close icon.
+   */
+  @property({ type: String, attribute: 'aria-close-label' })
+  ariaCloseLabel = 'Close';
 
   /**
    * Gets or sets the dialog's return value, usually to indicate which button
@@ -299,30 +318,31 @@ export default class Dialog extends LitElement {
     };
 
     return html`<dialog
-      class=${classMap(classes)}
       part="base"
-      data-open="${this.open}"
-      @cancel="${this.handleCancelDialog}"
-      @close="${this.handleCloseDialog}"
-      .returnValue=${this.returnValue || nothing}
+      class=${classMap(classes)}
+      data-open=${this.open}
+      aria-label=${this.noHeader ? this.title : nothing}
+      aria-labelledby=${this.noHeader ? nothing : 'title'}
+      @cancel=${this.handleCancelDialog}
+      @close=${this.handleCloseDialog}
+      .returnValue=${this.returnValue || ''}
     >
       ${!this.noCloseButton
         ? html`
             <zx-close-button
               class="dialog__close-button"
               part="close"
+              assistive-text="${this.ariaCloseLabel}"
               @close="${this.close}"
             ></zx-close-button>
           `
         : ''}
       ${!this.noHeader
         ? html`
-            <header class="dialog__header" part="header" slot="header">
-              <slot name="header">
-                <h2 class="dialog__title" part="title">
-                  <slot name="title"></slot>
-                </h2>
-              </slot>
+            <header class="dialog__header" part="header">
+              <h2 id="title" class="dialog__title" part="title">
+                <slot name="title">${this.title}</slot>
+              </h2>
             </header>
           `
         : ''}

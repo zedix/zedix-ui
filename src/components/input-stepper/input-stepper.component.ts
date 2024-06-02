@@ -1,4 +1,3 @@
-/* global ElementInternals */
 import { LitElement, html, CSSResultGroup } from 'lit';
 import { property } from 'lit/decorators.js';
 import componentStyles from '../../styles/component.styles.js';
@@ -14,12 +13,12 @@ export default class InputStepper extends LitElement {
   static styles: CSSResultGroup = [componentStyles, styles];
 
   static formAssociated = true;
-  private _internals: ElementInternals;
+  private readonly _internals: ElementInternals;
 
   @property({ type: String })
   name = '';
 
-  @property({ type: String, reflect: true })
+  @property({ type: Number, reflect: true })
   value = 1;
 
   @property({ type: Number, reflect: true })
@@ -85,7 +84,7 @@ export default class InputStepper extends LitElement {
       <input
         type="number"
         .disabled="${this.disabled}"
-        .value="${this.value}"
+        .value="${String(this.value)}"
         min="${this.min}"
         max="${this.max}"
       />
