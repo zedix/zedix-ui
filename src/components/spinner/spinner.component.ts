@@ -4,6 +4,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import componentStyles from '../../styles/component.styles.js';
 import styles from './spinner.styles.js';
 
+// https://uiball.com/ldrs/
 export default class Spinner extends LitElement {
   static styles: CSSResultGroup = [componentStyles, styles];
 

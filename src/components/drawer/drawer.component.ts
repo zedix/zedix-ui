@@ -1,8 +1,9 @@
 import { CSSResultGroup, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
+import { parseDurationInMilliseconds } from '../../internals/animate.js';
 import componentStyles from '../../styles/component.styles.js';
-import Dialog from '../dialog/dialog';
-import styles from './drawer.styles';
+import Dialog from '../dialog/dialog.js';
+import styles from './drawer.styles.js';
 
 export default class Drawer extends Dialog {
   static styles: CSSResultGroup = [
@@ -30,12 +31,16 @@ export default class Drawer extends Dialog {
   }
 
   setupDefaultAnimations() {
+    const duration = parseDurationInMilliseconds(
+      getComputedStyle(this).getPropertyValue('--transition-duration'),
+    );
+
     this.setAnimation('dialog.show', {
       keyframes: [
         { opacity: 0, translate: this.placement === 'end' ? '100%' : '-100%' },
         { opacity: 1, translate: '0' },
       ],
-      options: { duration: 250, easing: 'ease' },
+      options: { duration, easing: 'ease' },
     });
 
     this.setAnimation('dialog.close', {
@@ -43,7 +48,7 @@ export default class Drawer extends Dialog {
         { opacity: 1, translate: '0' },
         { opacity: 0, translate: this.placement === 'end' ? '100%' : '-100%' },
       ],
-      options: { duration: 250, easing: 'ease' },
+      options: { duration, easing: 'ease' },
     });
 
     this.setAnimation('dialog.denyClose', {

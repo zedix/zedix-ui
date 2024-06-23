@@ -2,11 +2,11 @@
 import { LitElement, CSSResultGroup, PropertyValues, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { property, query, state } from 'lit/decorators.js';
-import { animate, stopAnimations } from '../../internals/animate';
-import { dispatchEvent } from '../../internals/event';
+import { animate, stopAnimations } from '../../internals/animate.js';
+import { dispatchEvent } from '../../internals/event.js';
 import componentStyles from '../../styles/component.styles.js';
-import styles from './dialog.styles';
-import '../close-button/close-button';
+import styles from './dialog.styles.js';
+import '../close-button/close-button.js';
 
 /**
  * Dialog custom element wraps the standard interactive HTML `dialog` element.
@@ -38,7 +38,7 @@ import '../close-button/close-button';
  * - [Use the dialog element (reasonably)](https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html)
  *
  * Implementation References (Native dialog):
- * - https://github.com/material-components/material-web/blob/main/dialog/internal/dialog.ts
+ * - https://github.com/material-components/material-web/blob/main/dialog/internal/dialog.ts#L293
  * - https://github.com/microsoft/fluentui/blob/master/packages/web-components/src/dialog/dialog.template.ts#L26
  * - https://ambitious-cliff-0c8148010.2.azurestaticapps.net/?path=/docs/webcomponents_components-dialog--default
  * - https://github.com/carbon-design-system/carbon/issues/13807
@@ -322,7 +322,7 @@ export default class Dialog extends LitElement {
     };
 
     return html`<dialog
-      part="base"
+      part="dialog"
       class=${classMap(classes)}
       data-open=${this.open}
       aria-label=${this.noHeader ? this.title : nothing}
