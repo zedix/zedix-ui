@@ -21,7 +21,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./dist/components/*": "./dist/components/*"
   },
   "scripts": {
     "analyze": "cem analyze --litelement",
