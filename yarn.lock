@@ -5096,6 +5096,7 @@ __metadata:
     "@web/test-runner-playwright": "npm:^0.11.0"
     changelogen: "npm:^0.5.5"
     concurrently: "npm:^8.2.2"
+    embla-carousel: "npm:^8.1.7"
     eslint: "npm:^9.5.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-lit: "npm:^1.14.0"
@@ -6831,6 +6832,13 @@ __metadata:
   version: 1.4.788
   resolution: "electron-to-chromium@npm:1.4.788"
   checksum: 10/4a3eb540485b19bafdde80c1e153f6b79c8f1ff410d5313ab9711ce15849d29dd2efa8d817648fe01ba1eb382b7e6b790d3d72b760622549683dfc99129a3c89
+  languageName: node
+  linkType: hard
+
+"embla-carousel@npm:^8.1.7":
+  version: 8.1.7
+  resolution: "embla-carousel@npm:8.1.7"
+  checksum: 10/9721d494c35a576254eb69d3d6cc6dea320a335ffd45dd1c71be54af29e5d2db616777d3808affad209cc4c5a1e488a0f2fc641ef8df83ea0f28c9720bf2c464
   languageName: node
   linkType: hard
 
