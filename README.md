@@ -6,9 +6,10 @@
 
 `@zedix/zedix-ui` is a library of essential web components ([lit-based](https://github.com/lit/lit/)) serving as a foundation for web apps or design systems.
 
-The UI kit provides atoms such as:
+The UI kit provides primitives such as:
 
 - `autocomplete`
+- `carousel`
 - `details`
 - `dialog`
 - `drawer`

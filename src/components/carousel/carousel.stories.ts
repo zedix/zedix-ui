@@ -21,18 +21,9 @@ const meta: Meta = {
 export const Showcase: Story = {
   render: () => html`
     <style>
-      @media (min-width: 750px) {
-        zx-carousel {
-          --slide-size: 30%;
-          --slide-spacing: 1.6rem;
-        }
-      }
-
-      @media (min-width: 1200px) {
-        zx-carousel {
-          --slide-size: calc(100% / 3);
-          --slide-spacing: 2rem;
-        }
+      zx-carousel {
+        --slide-size: calc(100% / 3);
+        --slide-gap: 1rem;
       }
     </style>
     <zx-carousel>
@@ -40,12 +31,74 @@ export const Showcase: Story = {
         Array.from({ length: 10 }),
         (_, index) => html`
           <zx-carousel-item>
-            <div
-              class="grid place-items-center text-2xl bg-gray-300"
-              style="width: 400px; height: 200px"
-            >
+            <div class="grid place-items-center text-2xl bg-gray-300" style="height: 200px">
               ${index + 1}
             </div>
+          </zx-carousel-item>
+        `,
+      )}
+    </zx-carousel>
+  `,
+};
+
+const imageUrl =
+  'https://d3rsafrfc4vkx1.cloudfront.net/eyJidWNrZXQiOiJidWxsZWRlbWFtYW4tcHJvZCIsImtleSI6InNob3BcL2pvbGx5LW1hbWFcL2ptX2Nyb3F1YW50aXNzaW1lX2NhcnJlLmpwZyIsImVkaXRzIjp7InJvdGF0ZSI6bnVsbCwicmVzaXplIjp7IndpZHRoIjpudWxsLCJoZWlnaHQiOjk2MCwiZml0IjoiY29udGFpbiIsImJhY2tncm91bmQiOnsiciI6MjU1LCJnIjoyNTUsImIiOjI1NSwiYWxwaGEiOjF9fX19';
+
+export const ProductGallery: Story = {
+  render: () => html`
+    <style>
+      zx-carousel.gallery {
+        display: block;
+        --slide-size: 100%;
+        --slide-gap: 0;
+        --button-border-color: #d3c9c9;
+        width: 400px;
+        height: 400px;
+      }
+      zx-carousel.gallery::part(button-prev) {
+        left: -24px;
+      }
+      zx-carousel.gallery::part(button-next) {
+        right: -24px;
+      }
+    </style>
+    <zx-carousel class="gallery mx-8">
+      ${repeat(
+        Array.from({ length: 10 }),
+        () => html`
+          <zx-carousel-item>
+            <img class="object-contain" src="${imageUrl}" height="200" />
+          </zx-carousel-item>
+        `,
+      )}
+    </zx-carousel>
+  `,
+};
+
+export const RelatedProducts: Story = {
+  render: () => html`
+    <style>
+      zx-carousel.gallery {
+        display: block;
+        --slide-size: 33%;
+        --slide-gap: 1rem;
+        --button-border-color: #d3c9c9;
+        width: 90%;
+        height: 400px;
+      }
+      zx-carousel.gallery::part(button-prev) {
+        left: -24px;
+      }
+      zx-carousel.gallery::part(button-next) {
+        right: -24px;
+      }
+    </style>
+    <zx-carousel class="gallery" breakpoints='{"(min-width: 768px)": { "active": false }}'>
+      ${repeat(
+        Array.from({ length: 3 }),
+        () => html`
+          <zx-carousel-item>
+            <img class="object-contain" src="${imageUrl}" height="200" />
           </zx-carousel-item>
         `,
       )}
