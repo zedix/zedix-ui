@@ -1,0 +1,52 @@
+import { Meta, Primary, Controls, Source, Story, Canvas } from '@storybook/blocks';
+import * as Stories from './carousel.stories';
+
+<Meta title="Core/zx-carousel" />
+
+# Carousel
+
+`zx-carousel` is based on the [Embla Carousel](https://www.embla-carousel.com/) library.
+
+## Example 1
+
+<Source
+  dark
+  code={`<style>
+  zx-carousel {
+    --slide-size: calc(100% / 3);
+    --slide-gap: 1rem;
+  }
+<style>
+<zx-carousel>
+  <zx-carousel-item>Slide 1</zx-carousel-item>
+  <zx-carousel-item>Slide 2</zx-carousel-item>
+  <zx-carousel-item>Slide 3</zx-carousel-item>
+</zx-carousel>`}
+/>
+
+<Story of={Stories.Showcase} />
+
+## Example 2
+
+<Source
+  dark
+  code={`<style>
+  zx-carousel {
+    --slide-size: 100%;
+    --slide-gap: 0;
+  }
+  zx-carousel.gallery::part(button-prev) {
+    left: -24px;
+  }
+  zx-carousel.gallery::part(button-next) {
+    right: -24px;
+  }
+<style>
+<zx-carousel>
+  <zx-carousel-item><img src="url" /></zx-carousel-item>
+  <zx-carousel-item><img src="url" /></zx-carousel-item>
+  <zx-carousel-item><img src="url" /></zx-carousel-item>
+</zx-carousel>`}
+/>
+
+<Story of={Stories.ProductGallery} />

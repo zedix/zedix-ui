@@ -1,4 +1,4 @@
-import type { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
+import type { EmblaCarouselType, EmblaOptionsType /*, EmblaEventType*/ } from 'embla-carousel';
 import type { AxisOptionType } from 'embla-carousel/components/Axis.js';
 import type { SlidesToScrollOptionType } from 'embla-carousel/components/SlidesToScroll.js';
 import type { ScrollContainOptionType } from 'embla-carousel/components/ScrollContain.js';
@@ -8,6 +8,7 @@ import { html, LitElement, CSSResultGroup } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import styles from './carousel.styles.js';
 import componentStyles from '../../styles/component.styles.js';
+import { dispatchEvent } from '../../internals/event.js';
 
 /**
  * Carousel custom element based on Embla Carousel.
@@ -58,7 +59,7 @@ export default class Carousel extends LitElement {
    *
    * @link https://www.embla-carousel.com/api/options/#dragfree
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: 'drag-free' })
   dragFree = false;
 
   /**
@@ -76,7 +77,7 @@ export default class Carousel extends LitElement {
    *
    * @link https://www.embla-carousel.com/api/options/#skipsnaps
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: 'skip-snaps' })
   skipSnaps = true;
 
   /**
@@ -86,7 +87,7 @@ export default class Carousel extends LitElement {
    *
    * @link  https://www.embla-carousel.com/api/options/#slidestoscroll
    */
-  @property()
+  @property({ attribute: 'slides-to-scroll' })
   slidesToScroll: SlidesToScrollOptionType = 1;
 
   /**
@@ -96,7 +97,7 @@ export default class Carousel extends LitElement {
    *
    * @link https://www.embla-carousel.com/api/options/#startindex
    */
-  @property({ type: Number })
+  @property({ type: Number, attribute: 'start-index' })
   startIndex = 0;
 
   /**
@@ -105,7 +106,7 @@ export default class Carousel extends LitElement {
    *
    * @link https://www.embla-carousel.com/api/options/#containscroll
    */
-  @property()
+  @property({ attribute: 'contain-scroll' })
   containScroll: ScrollContainOptionType = 'trimSnaps';
 
   @query('.button-prev') previousBtn!: HTMLButtonElement;
@@ -118,6 +119,8 @@ export default class Carousel extends LitElement {
     this.previous = this.previous.bind(this);
     this.next = this.next.bind(this);
     this.updateNavigationState = this.updateNavigationState.bind(this);
+    this.onSelect = this.onSelect.bind(this);
+    this.onSlidesInView = this.onSlidesInView.bind(this);
   }
 
   connectedCallback() {
@@ -136,9 +139,23 @@ export default class Carousel extends LitElement {
       .on('select', this.updateNavigationState)
       .on('init', this.updateNavigationState)
       .on('reInit', this.updateNavigationState)
+      .on('slidesInView', this.onSlidesInView)
+      .on('select', this.onSelect)
       .on('destroy', this.detachEventListeners);
 
     this.attachEventListeners();
+  }
+
+  protected onSlidesInView() {
+    dispatchEvent(this, 'slides-in-view', {
+      indexes: this.embla.slidesInView(),
+    });
+  }
+
+  protected onSelect() {
+    dispatchEvent(this, 'select', {
+      index: this.embla.selectedScrollSnap(),
+    });
   }
 
   protected attachEventListeners() {

@@ -15,6 +15,11 @@ const meta: Meta = {
       options: ['top', 'center'],
     },
   },
+  parameters: {
+    actions: {
+      handles: ['select', 'slides-in-view'],
+    },
+  },
   args: {},
 };
 
@@ -62,7 +67,7 @@ export const ProductGallery: Story = {
         right: -24px;
       }
     </style>
-    <zx-carousel class="gallery mx-8">
+    <zx-carousel class="gallery mx-8" contain-scroll="keepSnaps">
       ${repeat(
         Array.from({ length: 10 }),
         () => html`
