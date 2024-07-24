@@ -5,7 +5,8 @@ import type { ScrollContainOptionType } from 'embla-carousel/components/ScrollCo
 import type { AlignmentOptionType } from 'embla-carousel/components/Alignment.js';
 import EmblaCarousel from 'embla-carousel';
 import { html, LitElement, CSSResultGroup } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { property, query, queryAll } from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js';
 import styles from './carousel.styles.js';
 import componentStyles from '../../styles/component.styles.js';
 import { dispatchEvent } from '../../internals/event.js';
@@ -31,6 +32,8 @@ export default class Carousel extends LitElement {
   /**
    * Align the slides relative to the carousel viewport. Use one of the predefined alignments start, center or end.
    * Alternatively, provide your own callback to fully customize the alignment.
+   *
+   * - `start`: means that slides should be aligned to the left edge of the carousel viewport
    *
    * @link https://www.embla-carousel.com/api/options/#align
    */
@@ -60,7 +63,7 @@ export default class Carousel extends LitElement {
    * @link https://www.embla-carousel.com/api/options/#dragfree
    */
   @property({ type: Boolean, attribute: 'drag-free' })
-  dragFree = false;
+  dragFree = false; // Default: false
 
   /**
    * Set scroll duration when triggered by any of the API methods. Higher numbers enables slower scrolling.
@@ -78,7 +81,7 @@ export default class Carousel extends LitElement {
    * @link https://www.embla-carousel.com/api/options/#skipsnaps
    */
   @property({ type: Boolean, attribute: 'skip-snaps' })
-  skipSnaps = true;
+  skipSnaps = false; // Default: false
 
   /**
    * Group slides together. Drag interactions, dot navigation, and previous/next
@@ -88,7 +91,7 @@ export default class Carousel extends LitElement {
    * @link  https://www.embla-carousel.com/api/options/#slidestoscroll
    */
   @property({ attribute: 'slides-to-scroll' })
-  slidesToScroll: SlidesToScrollOptionType = 1;
+  slidesToScroll: SlidesToScrollOptionType = 1; // Default: 1
 
   /**
    * Set the initial scroll snap to the given number. First snap index starts at 0.
@@ -107,20 +110,29 @@ export default class Carousel extends LitElement {
    * @link https://www.embla-carousel.com/api/options/#containscroll
    */
   @property({ attribute: 'contain-scroll' })
-  containScroll: ScrollContainOptionType = 'trimSnaps';
+  containScroll: ScrollContainOptionType = 'trimSnaps'; // Default: 'trimSnaps'
+
+  @property({ type: Boolean })
+  single = false;
+
+  @property({ type: Boolean, attribute: 'with-dots' })
+  withDots = false;
 
   @query('.button-prev') previousBtn!: HTMLButtonElement;
   @query('.button-next') nextBtn!: HTMLButtonElement;
-  @query('.viewport') viewport!: HTMLElement;
-  @query('.container') container!: HTMLElement;
+  @query('.container') container!: HTMLSlotElement;
+  @queryAll('.dot') dotNodes!: HTMLButtonElement[];
 
   constructor() {
     super();
-    this.previous = this.previous.bind(this);
     this.next = this.next.bind(this);
-    this.updateNavigationState = this.updateNavigationState.bind(this);
+    this.previous = this.previous.bind(this);
+    this.onInit = this.onInit.bind(this);
+    this.onReInit = this.onReInit.bind(this);
+    this.onResize = this.onResize.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.onSlidesInView = this.onSlidesInView.bind(this);
+    this.detachEventListeners = this.detachEventListeners.bind(this);
   }
 
   connectedCallback() {
@@ -136,9 +148,9 @@ export default class Carousel extends LitElement {
 
   protected firstUpdated(): void {
     this.embla
-      .on('select', this.updateNavigationState)
-      .on('init', this.updateNavigationState)
-      .on('reInit', this.updateNavigationState)
+      .on('init', this.onInit)
+      .on('reInit', this.onReInit)
+      .on('resize', this.onResize)
       .on('slidesInView', this.onSlidesInView)
       .on('select', this.onSelect)
       .on('destroy', this.detachEventListeners);
@@ -152,10 +164,33 @@ export default class Carousel extends LitElement {
     });
   }
 
+  protected onInit() {
+    this.updateNavigation();
+  }
+
+  /**
+   * Runs when the reInit method is called. When the window is resized,
+   * Embla Carousel automatically calls the reInit method which will also fire this event.
+   */
+  protected onReInit() {
+    this.updateNavigation();
+    this.requestUpdate();
+  }
+
+  /**
+   * Runs when the selected scroll snap changes. The select event is triggered
+   * by drag interactions or the scrollNext, scrollPrev or scrollTo methods.
+   */
   protected onSelect() {
     dispatchEvent(this, 'select', {
       index: this.embla.selectedScrollSnap(),
     });
+
+    this.updateNavigation();
+  }
+
+  protected onResize() {
+    this.requestUpdate();
   }
 
   protected attachEventListeners() {
@@ -168,28 +203,45 @@ export default class Carousel extends LitElement {
     this.nextBtn.removeEventListener('click', this.next);
   }
 
-  protected updateNavigationState() {
+  protected updateNavigation() {
+    // Set disabled state for next/previous buttons
     this.previousBtn.toggleAttribute('disabled', !this.embla.canScrollPrev());
     this.nextBtn.toggleAttribute('disabled', !this.embla.canScrollNext());
+
+    // Set active state for dots
+    if (this.withDots) {
+      const previous = this.embla.previousScrollSnap();
+      const selected = this.embla.selectedScrollSnap();
+      this.dotNodes[previous].classList.remove('dot--selected');
+      this.dotNodes[selected].classList.add('dot--selected');
+    }
   }
 
   private handleSlotChange(event: Event) {
     const slot = event.target as HTMLSlotElement;
     if (slot.assignedElements().length > 0) {
-      this.embla.reInit(this.options(slot.assignedElements() as HTMLElement[]));
+      this.embla.reInit(this.options());
     }
   }
 
-  options(slides: HTMLElement[] = []): EmblaOptionsType {
+  private handleDotClick(event: Event) {
+    const button = event.currentTarget as HTMLButtonElement;
+    this.goToSlide(Number(button.dataset.index));
+  }
+
+  options(): EmblaOptionsType {
+    //const container = this.shadowRoot!.querySelector('zx-carousel-container');
+    const container = this.shadowRoot!.querySelector('slot')!;
+    if (!container) return {};
+
     return {
-      active: true,
       // https://www.embla-carousel.com/api/options/#slides
       // Enables using custom slide elements.
       // Note: Even though it's possible to provide custom slide elements, they still have to be direct descendants of the carousel container.
-      slides,
+      slides: container.assignedElements() as HTMLElement[],
       // https://www.embla-carousel.com/api/options/#container
       // Enables choosing a custom container element which holds the slides
-      container: this.container,
+      container: container,
       containScroll: this.containScroll,
       breakpoints: this.breakpoints,
       axis: this.axis,
@@ -253,13 +305,24 @@ export default class Carousel extends LitElement {
     return html`
       <div class="wrapper ${this.isActive() ? '' : 'inactive'}">
         <div part="viewport" class="viewport">
-          <div part="container" class="container">
-            <slot @slotchange=${this.handleSlotChange}></slot>
-          </div>
+          <slot part="container" class="container" @slotchange=${this.handleSlotChange}></slot>
         </div>
         ${this.renderNextPrevButtons()}
+        ${this.withDots
+          ? html`<div class="dots">
+              ${map(this.embla.scrollSnapList(), (_, index) => {
+                return html`<button
+                  part="button-dot"
+                  type="button"
+                  class="dot"
+                  aria-label="${index + 1}"
+                  data-index="${index}"
+                  @click=${this.handleDotClick}
+                ></button>`;
+              })}
+            </div> `
+          : ''}
       </div>
-      <div class="dots"></div>
     `;
   }
 }

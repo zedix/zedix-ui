@@ -27,16 +27,17 @@ export const Showcase: Story = {
   render: () => html`
     <style>
       zx-carousel {
+        display: block;
         --slide-size: calc(100% / 3);
         --slide-gap: 1rem;
       }
     </style>
-    <zx-carousel>
+    <zx-carousel drag-free>
       ${repeat(
         Array.from({ length: 10 }),
         (_, index) => html`
           <zx-carousel-item>
-            <div class="grid place-items-center text-2xl bg-gray-300" style="height: 200px">
+            <div class="grid place-items-center text-2xl bg-gray-300" style="height: 200px;">
               ${index + 1}
             </div>
           </zx-carousel-item>
@@ -46,19 +47,14 @@ export const Showcase: Story = {
   `,
 };
 
-const imageUrl =
-  'https://d3rsafrfc4vkx1.cloudfront.net/eyJidWNrZXQiOiJidWxsZWRlbWFtYW4tcHJvZCIsImtleSI6InNob3BcL2pvbGx5LW1hbWFcL2ptX2Nyb3F1YW50aXNzaW1lX2NhcnJlLmpwZyIsImVkaXRzIjp7InJvdGF0ZSI6bnVsbCwicmVzaXplIjp7IndpZHRoIjpudWxsLCJoZWlnaHQiOjk2MCwiZml0IjoiY29udGFpbiIsImJhY2tncm91bmQiOnsiciI6MjU1LCJnIjoyNTUsImIiOjI1NSwiYWxwaGEiOjF9fX19';
-
-export const ProductGallery: Story = {
+export const Gallery: Story = {
   render: () => html`
     <style>
       zx-carousel.gallery {
         display: block;
+        width: 400px;
         --slide-size: 100%;
         --slide-gap: 0;
-        --button-border-color: #d3c9c9;
-        width: 400px;
-        height: 400px;
       }
       zx-carousel.gallery::part(button-prev) {
         left: -24px;
@@ -67,12 +63,64 @@ export const ProductGallery: Story = {
         right: -24px;
       }
     </style>
-    <zx-carousel class="gallery mx-8" contain-scroll="keepSnaps">
+    <div class="p-8">
+      <zx-carousel class="gallery" single>
+        ${repeat(
+          Array.from({ length: 3 }),
+          (_, index) => html`
+            <zx-carousel-item>
+              <img
+                class="object-cover"
+                src="https://picsum.photos/id/${index + 10}/1200/700"
+                width="400"
+                height="400"
+                style="height: 400px; max-width: none"
+              />
+            </zx-carousel-item>
+          `,
+        )}
+      </zx-carousel>
+    </div>
+  `,
+};
+
+export const WithBreakpoints: Story = {
+  render: () => html`
+    <style>
+      zx-carousel.related {
+        display: block;
+        --slide-size: 80%;
+        --slide-gap: 1rem;
+        --button-border-color: #d3c9c9;
+        height: 400px;
+      }
+
+      @media (min-width: 768px) {
+        zx-carousel.related {
+          --slide-size: 33%;
+          --slide-gap: 1rem;
+        }
+      }
+
+      zx-carousel.gallery::part(button-prev) {
+        left: -24px;
+      }
+      zx-carousel.gallery::part(button-next) {
+        right: -24px;
+      }
+    </style>
+    <zx-carousel class="related" breakpoints='{"(min-width: 768px)": { "active": false }}'>
       ${repeat(
-        Array.from({ length: 10 }),
-        () => html`
+        Array.from({ length: 3 }),
+        (_, index) => html`
           <zx-carousel-item>
-            <img class="object-contain" src="${imageUrl}" height="200" />
+            <img
+              class="object-cover"
+              src="https://picsum.photos/id/${index + 17}/1200/700"
+              width="400"
+              height="400"
+              style="height: 400px"
+            />
           </zx-carousel-item>
         `,
       )}
@@ -80,30 +128,18 @@ export const ProductGallery: Story = {
   `,
 };
 
-export const RelatedProducts: Story = {
+export const WithDots: Story = {
   render: () => html`
-    <style>
-      zx-carousel.gallery {
-        display: block;
-        --slide-size: 33%;
-        --slide-gap: 1rem;
-        --button-border-color: #d3c9c9;
-        width: 90%;
-        height: 400px;
-      }
-      zx-carousel.gallery::part(button-prev) {
-        left: -24px;
-      }
-      zx-carousel.gallery::part(button-next) {
-        right: -24px;
-      }
-    </style>
-    <zx-carousel class="gallery" breakpoints='{"(min-width: 768px)": { "active": false }}'>
+    <zx-carousel single with-dots>
       ${repeat(
         Array.from({ length: 3 }),
-        () => html`
+        (_, index) => html`
           <zx-carousel-item>
-            <img class="object-contain" src="${imageUrl}" height="200" />
+            <img
+              class="object-cover"
+              src="https://picsum.photos/id/${index + 17}/1200/700"
+              height="400"
+            />
           </zx-carousel-item>
         `,
       )}

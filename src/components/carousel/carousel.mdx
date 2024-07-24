@@ -5,9 +5,11 @@ import * as Stories from './carousel.stories';
 
 # Carousel
 
-`zx-carousel` is based on the [Embla Carousel](https://www.embla-carousel.com/) library.
+`zx-carousel` is based on the [Embla Carousel](https://www.embla-carousel.com/) library, a [lightweight altenative to Swiper](https://npmtrends.com/@splidejs/splide-vs-embla-carousel-vs-slick-carousel-vs-swiper) with fluid motion and great swipe precision.
 
 ## Example 1
+
+<Story of={Stories.Showcase} />
 
 <Source
   dark
@@ -17,16 +19,17 @@ import * as Stories from './carousel.stories';
     --slide-gap: 1rem;
   }
 <style>
+
 <zx-carousel>
   <zx-carousel-item>Slide 1</zx-carousel-item>
   <zx-carousel-item>Slide 2</zx-carousel-item>
   <zx-carousel-item>Slide 3</zx-carousel-item>
-</zx-carousel>`}
-/>
-
-<Story of={Stories.Showcase} />
+</zx-carousel>
+`} />
 
 ## Example 2
+
+<Story of={Stories.Gallery} />
 
 <Source
   dark
@@ -42,11 +45,16 @@ import * as Stories from './carousel.stories';
     right: -24px;
   }
 <style>
-<zx-carousel>
-  <zx-carousel-item><img src="url" /></zx-carousel-item>
-  <zx-carousel-item><img src="url" /></zx-carousel-item>
-  <zx-carousel-item><img src="url" /></zx-carousel-item>
-</zx-carousel>`}
-/>
 
-<Story of={Stories.ProductGallery} />
+<zx-carousel>
+  <zx-carousel-item>
+    <img src="https://picsum.photos/id/18/1200/700" class="object-cover" />
+  </zx-carousel-item>
+  <zx-carousel-item>
+    <img src="https://picsum.photos/id/19/1200/700" class="object-cover" />
+  </zx-carousel-item>
+  <zx-carousel-item>
+    <img src="https://picsum.photos/id/20/1200/700" class="object-cover" />
+  </zx-carousel-item>
+</zx-carousel>
+`} />

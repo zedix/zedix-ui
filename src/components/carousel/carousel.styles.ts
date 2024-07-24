@@ -1,14 +1,12 @@
 import { css } from 'lit';
 
 /*
-@media (min-width: 750px) {
-  zx-carousel {
-    --slide-size: 30%;
-    --slide-gap: 1.6rem;
-  }
+zx-carousel {
+  --slide-size: 100%;
+  --slide-gap: 1.6rem;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
   zx-carousel {
     --slide-size: calc(100% / 3);
     --slide-gap: 2rem;
@@ -20,36 +18,44 @@ export default css`
   :host {
     --slide-height: 19rem;
     --slide-size: 100%;
-    --slide-gap: 1rem;
+    --slide-gap: 0;
 
     --button-size: 40px;
     --button-border-color: #e5e7eb;
     --button-border-radius: 8px;
     --button-bg: rgba(255, 255, 255, 0.8);
     --button-color: inherit;
+    --button-box-shadow-hover: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+
+    --dot-color: #9ca3af;
+    --dot-color-active: #111827;
 
     display: block;
+    /* Note: moving this elsewhere (e.g wrapper) may bug the container translate position */
+    position: relative;
   }
 
-  .wrapper {
-    position: relative;
+  :host([single]) {
+    --slide-size: 100%;
+    --slide-gap: 0;
   }
 
   .viewport {
-    position: relative;
     overflow: hidden;
   }
 
   .container {
     backface-visibility: hidden;
     display: flex;
+    gap: var(--slide-gap);
     touch-action: pan-y pinch-zoom;
-    margin-left: calc(var(--slide-gap) * -1);
+    /* https://github.com/davidjerleke/embla-carousel/issues/376#issuecomment-1258366383 */
+    /*margin-left: calc(var(--slide-gap) * -1);*/
   }
 
   ::slotted(zx-carousel-item) {
     flex: 0 0 var(--slide-size);
-    padding-left: var(--slide-gap);
+    /*padding-left: var(--slide-gap);*/
     min-width: 0;
   }
 
@@ -93,6 +99,12 @@ export default css`
     right: 0;
   }
 
+  @media (hover: hover) {
+    .button:hover:not(:disabled) {
+      box-shadow: var(--button-box-shadow-hover);
+    }
+  }
+
   .button:disabled {
     visibility: hidden;
   }
@@ -100,5 +112,27 @@ export default css`
   .button svg {
     width: 50%;
     height: 50%;
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .dot {
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+    display: inline-flex;
+    border: 0;
+    background: var(--dot-color);
+    height: 0.125rem;
+    width: 1rem;
+  }
+
+  .dot--selected {
+    background: var(--dot-color-active);
   }
 `;
