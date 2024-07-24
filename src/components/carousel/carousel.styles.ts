@@ -21,6 +21,7 @@ export default css`
     --slide-gap: 0;
 
     --button-size: 40px;
+    --button-offset: 8px;
     --button-border-color: #e5e7eb;
     --button-border-radius: 8px;
     --button-bg: rgba(255, 255, 255, 0.8);
@@ -79,24 +80,24 @@ export default css`
     justify-content: center;
     appearance: none;
     touch-action: manipulation;
-    cursor: pointer;
     border: 1px solid var(--button-border-color);
     border-radius: var(--button-border-radius);
     width: var(--button-size);
     height: var(--button-size);
     background-color: var(--button-bg);
     color: var(--button-color);
+    cursor: pointer;
     pointer-events: auto;
     -webkit-tap-highlight-color: rgba(49, 49, 49, 0.5);
     -webkit-appearance: none;
   }
 
   .button-prev {
-    left: 0;
+    left: var(--button-offset);
   }
 
   .button-next {
-    right: 0;
+    right: var(--button-offset);
   }
 
   @media (hover: hover) {
