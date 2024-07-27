@@ -4,7 +4,12 @@ export default css`
   :host {
     --aspect-ratio: inherit;
 
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-height: 100%;
     aspect-ratio: var(--aspect-ratio);
   }
 

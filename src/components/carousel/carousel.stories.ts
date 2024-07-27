@@ -25,19 +25,12 @@ const meta: Meta = {
 
 export const Showcase: Story = {
   render: () => html`
-    <style>
-      zx-carousel {
-        display: block;
-        --slide-size: calc(100% / 3);
-        --slide-gap: 1rem;
-      }
-    </style>
-    <zx-carousel drag-free>
+    <zx-carousel drag-free style="--slide-size: calc(100% / 3); --slide-gap: 1rem;">
       ${repeat(
         Array.from({ length: 10 }),
         (_, index) => html`
           <zx-carousel-item>
-            <div class="grid place-items-center text-2xl bg-gray-300" style="height: 200px;">
+            <div class="grid place-items-center w-full text-2xl bg-gray-300" style="height: 200px;">
               ${index + 1}
             </div>
           </zx-carousel-item>
@@ -136,7 +129,7 @@ export const WithDots: Story = {
         (_, index) => html`
           <zx-carousel-item>
             <img
-              class="object-cover"
+              class="object-cover w-full h-96"
               src="https://picsum.photos/id/${index + 17}/1200/700"
               height="400"
             />
