@@ -135,9 +135,9 @@ export default class Carousel extends LitElement {
     this.detachEventListeners = this.detachEventListeners.bind(this);
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
-    this.embla = EmblaCarousel(this, this.options());
+    this.createEmbla();
   }
 
   disconnectedCallback() {
@@ -147,6 +147,11 @@ export default class Carousel extends LitElement {
   }
 
   protected firstUpdated(): void {
+    this.attachEventListeners();
+  }
+
+  protected createEmbla() {
+    this.embla = EmblaCarousel(this, this.options());
     this.embla
       .on('init', this.onInit)
       .on('reInit', this.onReInit)
@@ -154,8 +159,6 @@ export default class Carousel extends LitElement {
       .on('slidesInView', this.onSlidesInView)
       .on('select', this.onSelect)
       .on('destroy', this.detachEventListeners);
-
-    this.attachEventListeners();
   }
 
   protected onSlidesInView() {
@@ -212,8 +215,8 @@ export default class Carousel extends LitElement {
     if (this.withDots) {
       const previous = this.embla.previousScrollSnap();
       const selected = this.embla.selectedScrollSnap();
-      this.dotNodes[previous].classList.remove('dot--selected');
-      this.dotNodes[selected].classList.add('dot--selected');
+      this.dotNodes[previous]?.classList.remove('dot--selected');
+      this.dotNodes[selected]?.classList.add('dot--selected');
     }
   }
 
@@ -232,16 +235,22 @@ export default class Carousel extends LitElement {
   options(): EmblaOptionsType {
     //const container = this.shadowRoot!.querySelector('zx-carousel-container');
     const container = this.shadowRoot!.querySelector('slot')!;
-    if (!container) return {};
+
+    if (!container) {
+      return {
+        container: this,
+        slides: [],
+      };
+    }
 
     return {
+      // https://www.embla-carousel.com/api/options/#container
+      // Enables choosing a custom container element which holds the slides
+      container: container,
       // https://www.embla-carousel.com/api/options/#slides
       // Enables using custom slide elements.
       // Note: Even though it's possible to provide custom slide elements, they still have to be direct descendants of the carousel container.
       slides: container.assignedElements() as HTMLElement[],
-      // https://www.embla-carousel.com/api/options/#container
-      // Enables choosing a custom container element which holds the slides
-      container: container,
       containScroll: this.containScroll,
       breakpoints: this.breakpoints,
       axis: this.axis,
@@ -276,7 +285,7 @@ export default class Carousel extends LitElement {
   }
 
   isActive() {
-    return this.embla.internalEngine().options.active;
+    return this.embla?.internalEngine().options.active;
   }
 
   renderNextPrevButtons() {
