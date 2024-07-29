@@ -28,8 +28,13 @@ export default css`
     --button-color: inherit;
     --button-box-shadow-hover: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 
+    /*
+    --dot-color: hsla(0, 0%, 100%, 0.4);
+    --dot-color-active: white;
+    */
     --dot-color: #9ca3af;
     --dot-color-active: #111827;
+    --dot-margin: 0.5rem 0;
 
     display: block;
     /* Note: moving this elsewhere (e.g wrapper) may bug the container translate position */
@@ -118,22 +123,30 @@ export default css`
   .dots {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    margin: var(--dot-margin);
   }
 
   .dot {
     -webkit-appearance: none;
     appearance: none;
-    touch-action: manipulation;
     display: inline-flex;
+    align-items: center;
+    justify-items: center;
+    touch-action: manipulation;
+    background: none;
+    padding-inline: 0.25rem;
+    padding-block: 0.5rem;
     border: 0;
+    cursor: pointer;
+  }
+
+  .dot i {
     background: var(--dot-color);
     height: 0.125rem;
     width: 1rem;
   }
 
-  .dot--selected {
+  .dot--selected i {
     background: var(--dot-color-active);
   }
 `;

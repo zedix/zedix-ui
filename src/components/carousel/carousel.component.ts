@@ -327,7 +327,9 @@ export default class Carousel extends LitElement {
                   aria-label="${index + 1}"
                   data-index="${index}"
                   @click=${this.handleDotClick}
-                ></button>`;
+                >
+                  <i></i>
+                </button>`;
               })}
             </div> `
           : ''}
