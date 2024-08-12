@@ -21,6 +21,8 @@ export default css`
     --slide-gap: 0;
 
     --button-size: 40px;
+    --button-arrow-size: 20px;
+    --button-arrow-color: #4b5563;
     --button-offset: 8px;
     --button-border-color: #e5e7eb;
     --button-border-radius: 8px;
@@ -116,8 +118,9 @@ export default css`
   }
 
   .button svg {
-    width: 50%;
-    height: 50%;
+    width: var(--button-arrow-size);
+    height: var(--button-arrow-size);
+    color: var(--button-arrow-color);
   }
 
   .dots {
