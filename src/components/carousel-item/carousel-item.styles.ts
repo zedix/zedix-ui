@@ -5,9 +5,9 @@ export default css`
     --aspect-ratio: inherit;
 
     display: flex;
-    align-items: start;
-    justify-content: center;
     flex-direction: column;
+    align-items: center;
+    justify-content: start;
     width: 100%;
     max-height: 100%;
     aspect-ratio: var(--aspect-ratio);
