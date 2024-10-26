@@ -5,7 +5,7 @@ export default css`
     --aspect-ratio: inherit;
 
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     flex-direction: column;
     width: 100%;

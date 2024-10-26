@@ -15,6 +15,10 @@ import { dispatchEvent } from '../../internals/event.js';
  * Carousel custom element based on Embla Carousel.
  *
  * https://github.com/davidjerleke/embla-carousel/pull/222
+ *
+ * Resources:
+ * - https://flackr.github.io/carousel/
+ * - https://open-ui.org/components/carousel.research/
  */
 export default class Carousel extends LitElement {
   static styles: CSSResultGroup = [componentStyles, styles];
