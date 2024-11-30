@@ -2,11 +2,11 @@ import { css } from 'lit';
 
 export default css`
   :host {
-    --input-stepper-border-color: #e2e8f0;
-    --input-stepper-border-radius: 2px;
-    --input-stepper-color: #f7fafc;
-    --input-stepper-color-hover: #edf2f7;
-    --input-stepper-button-width: 48px;
+    --border-color: oklch(0.872 0.01 258.338); /* gray.300 */
+    --border-radius: 4px;
+    --button-background-color: oklch(0.985 0.002 247.839); /* gray.50 */
+    --button-background-color-hover: oklch(0.967 0.003 264.542); /* gray.100 */
+    --button-width: 42px;
 
     display: inline-flex;
     outline: none;
@@ -17,32 +17,40 @@ export default css`
     display: flex;
     align-items: stretch;
     white-space: nowrap;
-    border: 1px solid var(--input-stepper-border-color);
-    border-radius: var(--input-stepper-border-radius);
-    min-height: var(--input-stepper-button-width);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    min-height: var(--button-width);
   }
 
   button {
-    box-sizing: border-box;
     padding: 0;
     appearance: none;
     background: none;
     border: 0;
     font-family: inherit;
     font-size: inherit;
-    width: var(--input-stepper-button-width);
+    width: var(--button-width);
+    aspect-ratio: 1/1;
     cursor: pointer;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
 
+  button:first-of-type {
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+  }
+
+  button:last-of-type {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  }
+
   button:not(:disabled) {
-    background-color: var(--input-stepper-color);
+    background-color: var(--button-background-color);
   }
 
   @media (hover: hover) {
     button:hover:not(:disabled) {
-      background-color: var(--input-stepper-color-hover);
+      background-color: var(--button-background-color-hover);
     }
   }
 
@@ -53,7 +61,8 @@ export default css`
     font-size: inherit;
     border: 0;
     text-align: center;
-    max-width: calc(var(--input-stepper-button-width) * 1.2);
+    margin-inline: 1px;
+    max-width: calc(var(--button-width) * 1.15);
   }
 
   input:disabled {

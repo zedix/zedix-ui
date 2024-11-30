@@ -8,6 +8,8 @@ import styles from './input-stepper.styles.js';
  *
  * @link https://www.nngroup.com/articles/input-steppers/
  * @link https://developer.apple.com/documentation/uikit/uistepper
+ *
+ * - https://khagwal.com/interactions/
  */
 export default class InputStepper extends LitElement {
   static styles: CSSResultGroup = [componentStyles, styles];
