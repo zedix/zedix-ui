@@ -1,6 +1,7 @@
 import { LitElement, html, CSSResultGroup } from 'lit';
 import { property } from 'lit/decorators.js';
 import componentStyles from '../../styles/component.styles.js';
+import { dispatchEvent } from '../../internals/event';
 import styles from './input-stepper.styles.js';
 
 /**
@@ -17,22 +18,22 @@ export default class InputStepper extends LitElement {
   static formAssociated = true;
   private readonly _internals: ElementInternals;
 
-  @property({ type: String })
+  @property()
   name = '';
 
-  @property({ type: Number, reflect: true })
+  @property({ type: Number })
   value = 1;
 
-  @property({ type: Number, reflect: true })
+  @property({ type: Number })
   min = 0;
 
-  @property({ type: Number, reflect: true })
+  @property({ type: Number })
   max = Infinity;
 
-  @property({ type: Number, reflect: true })
+  @property({ type: Number })
   step = 1;
 
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean })
   disabled = false;
 
   constructor() {
@@ -51,6 +52,7 @@ export default class InputStepper extends LitElement {
   newValue(val: number) {
     this.value = Math.min(Math.max(val, this.min), this.max);
     this._internals.setFormValue(String(this.value));
+    dispatchEvent(this, 'change', { value: this.value });
   }
 
   /**
@@ -74,6 +76,14 @@ export default class InputStepper extends LitElement {
     this.inputElement?.click();
   }
 
+  /**
+   * When user clicks up/down arrows or enter a valid number.
+   */
+  private handleChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.newValue(Number(input.value));
+  }
+
   render() {
     return html`<div class="stepper">
       <button
@@ -87,6 +97,7 @@ export default class InputStepper extends LitElement {
         type="number"
         .disabled="${this.disabled}"
         .value="${String(this.value)}"
+        @change="${this.handleChange}"
         min="${this.min}"
         max="${this.max}"
       />
