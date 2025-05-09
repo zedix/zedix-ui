@@ -144,7 +144,7 @@ export const WithAutoplay: Story = {
   render: () => html`
     <zx-carousel
       axis="y"
-      autoplay="5000"
+      autoplay="10000"
       duration="5"
       style="--slide-height: 36px; --button-size: 24px; --button-bg: transparent; --button-border-color: transparent; --button-arrow-color: white"
     >

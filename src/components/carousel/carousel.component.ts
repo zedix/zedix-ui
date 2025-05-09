@@ -34,6 +34,9 @@ export default class Carousel extends LitElement {
 
   embla!: EmblaCarouselType;
 
+  /**
+   * Choose a delay between transitions in milliseconds (default: 4000).
+   */
   @property({ type: Number, reflect: true })
   autoplay = 0;
 
@@ -43,9 +46,7 @@ export default class Carousel extends LitElement {
    * @link https://www.embla-carousel.com/plugins/autoplay/#options
    */
   @property({ type: Object, attribute: 'autoplay-options' })
-  autoplayOptions: any = {
-    // stopOnInteraction: false
-  };
+  autoplayOptions: any; // = { stopOnInteraction: false };
 
   /**
    * Choose scroll axis between x and y.
