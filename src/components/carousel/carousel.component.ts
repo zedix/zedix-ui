@@ -4,7 +4,8 @@ import type { SlidesToScrollOptionType } from 'embla-carousel/components/SlidesT
 import type { ScrollContainOptionType } from 'embla-carousel/components/ScrollContain.js';
 import type { AlignmentOptionType } from 'embla-carousel/components/Alignment.js';
 import EmblaCarousel from 'embla-carousel';
-import { html, LitElement, CSSResultGroup } from 'lit';
+import Autoplay from 'embla-carousel-autoplay';
+import { html, LitElement, type PropertyValues, type CSSResultGroup } from 'lit';
 import { property, query, queryAll } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import styles from './carousel.styles.js';
@@ -16,6 +17,14 @@ import { dispatchEvent } from '../../internals/event.js';
  *
  * https://github.com/davidjerleke/embla-carousel/pull/222
  *
+ * @csspart button-prev - The previous slide navigation button.
+ * @csspart button-next - The next slide navigation button.
+ * @csspart button-dot - Any dot navigation button.
+ * @csspart footer - The footer of the carousel.
+ *
+ * @cssproperty --button-background-color - The background color of next/prev buttons.
+ * @customElement cb-carousel
+ *
  * Resources:
  * - https://flackr.github.io/carousel/
  * - https://open-ui.org/components/carousel.research/
@@ -24,6 +33,19 @@ export default class Carousel extends LitElement {
   static styles: CSSResultGroup = [componentStyles, styles];
 
   embla!: EmblaCarouselType;
+
+  @property({ type: Number, reflect: true })
+  autoplay = 0;
+
+  /**
+   * Configure autoplay options.
+   *
+   * @link https://www.embla-carousel.com/plugins/autoplay/#options
+   */
+  @property({ type: Object, attribute: 'autoplay-options' })
+  autoplayOptions: any = {
+    // stopOnInteraction: false
+  };
 
   /**
    * Choose scroll axis between x and y.
@@ -222,6 +244,26 @@ export default class Carousel extends LitElement {
       this.dotNodes[previous]?.classList.remove('dot--selected');
       this.dotNodes[selected]?.classList.add('dot--selected');
     }
+  }
+
+  async updated(changedProperties: PropertyValues<this>) {
+    // Note: changedProperties gives the property values from the previous update.
+    // At the time of the first update, previous values are always undefined.
+
+    // Fix React 18 where `autoplay` has no value at `connectedCallback` (props instead of attributes)
+    if (changedProperties.has('autoplay') && this.autoplay) {
+      this.initAutoplay();
+    }
+  }
+
+  private initAutoplay() {
+    // reInit will hard reset the carousel after it has been initialized (options + plugins)
+    this.embla.reInit(
+      // Passed options will be merged with current options
+      this.options(),
+      // /!\ but passed plugins will replace current plugins.
+      [Autoplay(this.autoplayOptions || { delay: this.autoplay })],
+    );
   }
 
   private handleSlotChange(event: Event) {

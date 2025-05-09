@@ -3,11 +3,16 @@ import type { UserConfig } from 'vite';
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'url';
 import { extname, relative } from 'path';
+import tailwindcss from '@tailwindcss/vite';
 import dts from 'vite-plugin-dts';
 import { glob } from 'glob';
 
 export default defineConfig({
-  plugins: [dts()],
+  plugins: [
+    // 🎨 Tailwind is only used in Storybook stories
+    tailwindcss(),
+    dts(),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

@@ -140,4 +140,30 @@ export const WithDots: Story = {
   `,
 };
 
+export const WithAutoplay: Story = {
+  render: () => html`
+    <zx-carousel
+      axis="y"
+      autoplay="5000"
+      duration="5"
+      style="--slide-height: 36px; --button-size: 24px; --button-bg: transparent; --button-border-color: transparent; --button-arrow-color: white"
+    >
+      <zx-carousel-item>
+        <div
+          class="py-2 px-4 lg:px-8 bg-orange-400 text-white font-bold text-center text-sm bg-gradient-to-r from-red-600 to-red-500 [ w-dvw max-w-full mx-auto whitespace-nowrap overflow-x-auto scrolling-touch ]"
+        >
+          ✨Livraison Mondial Relay offerte✨ dès 80€ d’achat (valable en France métropolitaine)
+        </div>
+      </zx-carousel-item>
+      <zx-carousel-item>
+        <div
+          class="py-2 px-4 lg:px-8 bg-orange-400 text-white font-bold text-center text-sm bg-gradient-to-r from-red-600 to-red-500 [ w-dvw max-w-full mx-auto whitespace-nowrap overflow-x-auto scrolling-touch ]"
+        >
+          ⭐️ 4,9/5 (47 avis google) ⭢ Lire les avis
+        </div>
+      </zx-carousel-item>
+    </zx-carousel>
+  `,
+};
+
 export default meta;
