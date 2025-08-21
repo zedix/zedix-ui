@@ -140,6 +140,44 @@ export const WithDots: Story = {
   `,
 };
 
+export const Product: Story = {
+  render: () => html`
+    <zx-carousel single with-dots with-fullscreen>
+      ${repeat(
+        Array.from({ length: 3 }),
+        () => html`
+          <zx-carousel-item>
+            <img
+              class="object-cover w-full h-96"
+              src="https://cdn.laredoute.com/cdn-cgi/image/width=1200,height=1200,fit=pad,dpr=1/products/2/7/7/2771002a81df04419ccc3cd5c839e479.jpg"
+              height="400"
+            />
+          </zx-carousel-item>
+        `,
+      )}
+    </zx-carousel>
+  `,
+};
+
+export const MoreProducts: Story = {
+  render: () => html`
+    <zx-carousel drag-free with-scrollbar style="--slide-size: calc(100% / 3); --slide-gap: 1rem;">
+      ${repeat(
+        Array.from({ length: 10 }),
+        () => html`
+          <zx-carousel-item>
+            <img
+              class="object-cover w-full h-96"
+              src="https://cdn.laredoute.com/cdn-cgi/image/width=1200,height=1200,fit=pad,dpr=1/products/2/7/7/2771002a81df04419ccc3cd5c839e479.jpg"
+              height="400"
+            />
+          </zx-carousel-item>
+        `,
+      )}
+    </zx-carousel>
+  `,
+};
+
 export const WithAutoplay: Story = {
   render: () => html`
     <zx-carousel

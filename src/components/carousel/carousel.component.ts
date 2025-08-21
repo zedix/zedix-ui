@@ -145,6 +145,12 @@ export default class Carousel extends LitElement {
   @property({ type: Boolean, attribute: 'with-dots' })
   withDots = false;
 
+  @property({ type: Boolean, attribute: 'with-scrollbar' })
+  withScrollbar = false;
+
+  @property({ type: Boolean, attribute: 'with-fullscreen' })
+  withFullscreen = false;
+
   @query('.button-prev') previousBtn!: HTMLButtonElement;
   @query('.button-next') nextBtn!: HTMLButtonElement;
   @query('.container') container!: HTMLSlotElement;
@@ -335,23 +341,51 @@ export default class Carousel extends LitElement {
     return this.embla?.internalEngine().options.active;
   }
 
+  renderFullscreenButton() {
+    return html`<button
+      type="button"
+      part="button button-fullscreen"
+      class="button button-fullscreen"
+      @click=${dispatchEvent(this, 'fullscreen')}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        fill="currentColor"
+        part="button-icon button-icon-fullscreen"
+      >
+        <path
+          d="M295 183c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l135-135 0 86.1c0 13.3 10.7 24 24 24s24-10.7 24-24l0-144c0-13.3-10.7-24-24-24L344 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l86.1 0-135 135zM217 329c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L48 430.1 48 344c0-13.3-10.7-24-24-24S0 330.7 0 344L0 488c0 13.3 10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-86.1 0 135-135z"
+        />
+      </svg>
+    </button>`;
+  }
+
   renderNextPrevButtons() {
     return html`<div class="buttons">
       <button part="button button-prev" class="button button-prev" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" part="svg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          fill="currentColor"
+          part="button-icon button-icon-prev"
+        >
           <path
-            fill-rule="evenodd"
-            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-          ></path>
+            d="M7 239c-9.4 9.4-9.4 24.6 0 33.9L175 441c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9L81.9 280 488 280c13.3 0 24-10.7 24-24s-10.7-24-24-24L81.9 232 209 105c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L7 239z"
+          />
         </svg>
       </button>
 
       <button part="button button-next" class="button button-next" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" part="svg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          fill="currentColor"
+          part="button-icon button-icon-next"
+        >
           <path
-            fill-rule="evenodd"
-            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
-          ></path>
+            d="M505 273c9.4-9.4 9.4-24.6 0-33.9L337 71c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l127 127-406.1 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l406.1 0-127 127c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L505 273z"
+          />
         </svg>
       </button>
     </div>`;
@@ -363,7 +397,7 @@ export default class Carousel extends LitElement {
         <div part="viewport" class="viewport">
           <slot part="container" class="container" @slotchange=${this.handleSlotChange}></slot>
         </div>
-        ${this.renderNextPrevButtons()}
+        ${this.withFullscreen ? this.renderFullscreenButton() : ''} ${this.renderNextPrevButtons()}
         ${this.withDots
           ? html`<div class="dots">
               ${map(this.embla.scrollSnapList(), (_, index) => {

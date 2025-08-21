@@ -20,7 +20,7 @@ export default css`
     --slide-size: 100%;
     --slide-gap: 0;
 
-    --button-size: 40px;
+    --button-size: 48px;
     --button-arrow-size: 20px;
     --button-arrow-color: #4b5563;
     --button-offset: 8px;
@@ -38,6 +38,8 @@ export default css`
     --dot-color: #9ca3af;
     --dot-color-active: #111827;
     --dot-margin: 0.5rem 0;
+
+    --scrollbar-color: oklch(70.7% 0.022 261.325) transparent;
 
     display: block;
     /* Note: moving this elsewhere (e.g wrapper) may bug the container translate position */
@@ -60,6 +62,12 @@ export default css`
 
   .viewport {
     overflow: hidden;
+  }
+
+  :host([with-scrollbar]) .viewport {
+    overflow: auto;
+    scrollbar-color: var(--scrollbar-color); /* progress / track */
+    scrollbar-width: thin;
   }
 
   .container {
@@ -88,7 +96,8 @@ export default css`
   }
 
   .button-next,
-  .button-prev {
+  .button-prev,
+  .button-fullscreen {
     position: absolute;
     top: calc(50% - (var(--button-size) / 2));
     z-index: 1;
@@ -115,6 +124,11 @@ export default css`
 
   .button-next {
     right: var(--button-offset);
+  }
+
+  .button-fullscreen {
+    right: var(--button-offset);
+    top: var(--button-offset);
   }
 
   @media (hover: hover) {

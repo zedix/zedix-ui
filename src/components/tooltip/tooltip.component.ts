@@ -145,8 +145,10 @@ export default class Tooltip extends LitElement {
 
   render() {
     return html`
-      ${this.noArrow ? null : html`<i part="arrow" role="presentation"></i>`}
-      <slot></slot>
+      <div part="body" class="body">
+        ${this.noArrow ? null : html`<i part="arrow" role="presentation"></i>`}
+        <slot></slot>
+      </div>
     `;
   }
 }
