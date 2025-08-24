@@ -137,6 +137,21 @@ export const WithDots: Story = {
         `,
       )}
     </zx-carousel>
+
+    <zx-carousel single with-dots dot-appearance="circle">
+      ${repeat(
+        Array.from({ length: 3 }),
+        (_, index) => html`
+          <zx-carousel-item>
+            <img
+              class="object-cover w-full h-96"
+              src="https://picsum.photos/id/${index + 17}/1200/700"
+              height="400"
+            />
+          </zx-carousel-item>
+        `,
+      )}
+    </zx-carousel>
   `,
 };
 

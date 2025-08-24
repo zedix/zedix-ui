@@ -22,7 +22,7 @@ import { dispatchEvent } from '../../internals/event.js';
  * @csspart button-dot - Any dot navigation button.
  * @csspart footer - The footer of the carousel.
  *
- * @cssproperty --button-background-color - The background color of next/prev buttons.
+ * @cssproperty --button-background-color - The background color of next/previous buttons.
  * @customElement cb-carousel
  *
  * Resources:
@@ -151,7 +151,10 @@ export default class Carousel extends LitElement {
   @property({ type: Boolean, attribute: 'with-fullscreen' })
   withFullscreen = false;
 
-  @query('.button-prev') previousBtn!: HTMLButtonElement;
+  @property({ type: String, attribute: 'dot-appearance' })
+  dotAppearance: 'circle' | 'bar' = 'bar';
+
+  @query('.button-previous') previousBtn!: HTMLButtonElement;
   @query('.button-next') nextBtn!: HTMLButtonElement;
   @query('.container') container!: HTMLSlotElement;
   @queryAll('.dot') dotNodes!: HTMLButtonElement[];
@@ -249,7 +252,9 @@ export default class Carousel extends LitElement {
       const previous = this.embla.previousScrollSnap();
       const selected = this.embla.selectedScrollSnap();
       this.dotNodes[previous]?.classList.remove('dot--selected');
+      this.dotNodes[previous]?.removeAttribute('aria-selected');
       this.dotNodes[selected]?.classList.add('dot--selected');
+      this.dotNodes[selected]?.setAttribute('aria-selected', 'true');
     }
   }
 
@@ -363,12 +368,12 @@ export default class Carousel extends LitElement {
 
   renderNextPrevButtons() {
     return html`<div class="buttons">
-      <button part="button button-prev" class="button button-prev" type="button">
+      <button part="button button-previous" class="button button-previous" type="button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
           fill="currentColor"
-          part="button-icon button-icon-prev"
+          part="button-icon button-icon-previous"
         >
           <path
             d="M7 239c-9.4 9.4-9.4 24.6 0 33.9L175 441c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9L81.9 280 488 280c13.3 0 24-10.7 24-24s-10.7-24-24-24L81.9 232 209 105c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L7 239z"
@@ -399,13 +404,14 @@ export default class Carousel extends LitElement {
         </div>
         ${this.withFullscreen ? this.renderFullscreenButton() : ''} ${this.renderNextPrevButtons()}
         ${this.withDots
-          ? html`<div class="dots">
+          ? html`<div class="dots" part="dots" role="tablist">
               ${map(this.embla.scrollSnapList(), (_, index) => {
                 return html`<button
                   part="button-dot"
                   type="button"
-                  class="dot"
-                  aria-label="${index + 1}"
+                  role="tab"
+                  class="dot dot--${this.dotAppearance}"
+                  aria-label="Go to slide ${index + 1}"
                   data-index="${index}"
                   @click=${this.handleDotClick}
                 >

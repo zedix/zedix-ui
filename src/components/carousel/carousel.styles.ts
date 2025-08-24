@@ -39,11 +39,12 @@ export default css`
     --dot-color-active: #111827;
     --dot-margin: 0.5rem 0;
 
-    --scrollbar-color: oklch(70.7% 0.022 261.325) transparent;
+    --scrollbar-color: #d1d5db transparent;
 
     display: block;
     /* Note: moving this elsewhere (e.g wrapper) may bug the container translate position */
     position: relative;
+    container-type: inline-size;
   }
 
   :host([single]) {
@@ -65,8 +66,9 @@ export default css`
   }
 
   :host([with-scrollbar]) .viewport {
-    overflow: auto;
+    overflow-x: scroll;
     scrollbar-color: var(--scrollbar-color); /* progress / track */
+    scrollbar-gutter: stable both-edges;
     scrollbar-width: thin;
   }
 
@@ -96,7 +98,7 @@ export default css`
   }
 
   .button-next,
-  .button-prev,
+  .button-previous,
   .button-fullscreen {
     position: absolute;
     top: calc(50% - (var(--button-size) / 2));
@@ -118,7 +120,7 @@ export default css`
     -webkit-appearance: none;
   }
 
-  .button-prev {
+  .button-previous {
     left: var(--button-offset);
   }
 
@@ -127,8 +129,18 @@ export default css`
   }
 
   .button-fullscreen {
+    border-radius: 4px;
     right: var(--button-offset);
     top: var(--button-offset);
+    width: calc(var(--button-size) * 0.75);
+    height: calc(var(--button-size) * 0.75);
+  }
+
+  @container (min-width: 640px) {
+    .button-fullscreen {
+      width: var(--button-size);
+      height: var(--button-size);
+    }
   }
 
   @media (hover: hover) {
@@ -146,6 +158,12 @@ export default css`
     height: var(--button-arrow-size);
     color: var(--button-arrow-color);
   }
+
+  /*
+  ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+   🅳🅾🆃🆂
+  ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+  */
 
   .dots {
     display: flex;
@@ -167,7 +185,7 @@ export default css`
     cursor: pointer;
   }
 
-  .dot i {
+  .dot--bar i {
     background: var(--dot-color);
     height: 0.125rem;
     width: 1rem;
@@ -175,5 +193,17 @@ export default css`
 
   .dot--selected i {
     background: var(--dot-color-active);
+  }
+
+  .dot--circle i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 8px;
+    border: 2px solid var(--dot-color-active);
+  }
+
+  .dot--circle.dot--selected i {
+    width: 30px;
   }
 `;
