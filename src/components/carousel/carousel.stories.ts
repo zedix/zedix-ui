@@ -176,7 +176,12 @@ export const Product: Story = {
 
 export const MoreProducts: Story = {
   render: () => html`
-    <zx-carousel drag-free with-scrollbar style="--slide-size: calc(100% / 3); --slide-gap: 1rem;">
+    <zx-carousel
+      drag-free
+      with-scrollbar
+      scroll-button-position="outside"
+      style="--slide-size: calc(100% / 3); --slide-gap: 1rem"
+    >
       ${repeat(
         Array.from({ length: 10 }),
         () => html`

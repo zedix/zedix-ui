@@ -154,6 +154,9 @@ export default class Carousel extends LitElement {
   @property({ type: String, attribute: 'dot-appearance' })
   dotAppearance: 'circle' | 'bar' = 'bar';
 
+  @property({ type: String, attribute: 'scroll-button-position' })
+  scrollButtonsPosition: 'inside' | 'outside' = 'inside';
+
   @query('.button-previous') previousBtn!: HTMLButtonElement;
   @query('.button-next') nextBtn!: HTMLButtonElement;
   @query('.container') container!: HTMLSlotElement;
@@ -366,8 +369,11 @@ export default class Carousel extends LitElement {
     </button>`;
   }
 
-  renderNextPrevButtons() {
-    return html`<div class="buttons">
+  renderNextPreviousButtons() {
+    return html`<div
+      class="scroll-buttons scroll-buttons--${this.scrollButtonsPosition}"
+      part="scroll-buttons"
+    >
       <button part="button button-previous" class="button button-previous" type="button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -402,7 +408,8 @@ export default class Carousel extends LitElement {
         <div part="viewport" class="viewport">
           <slot part="container" class="container" @slotchange=${this.handleSlotChange}></slot>
         </div>
-        ${this.withFullscreen ? this.renderFullscreenButton() : ''} ${this.renderNextPrevButtons()}
+        ${this.withFullscreen ? this.renderFullscreenButton() : ''}
+        ${this.renderNextPreviousButtons()}
         ${this.withDots
           ? html`<div class="dots" part="dots" role="tablist">
               ${map(this.embla.scrollSnapList(), (_, index) => {

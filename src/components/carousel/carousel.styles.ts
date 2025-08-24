@@ -87,22 +87,37 @@ export default css`
     min-width: 0;
   }
 
-  .buttons {
+  /*
+  ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+   🆂🅲🆁🅾🅻🅻-🅱🆄🆃🆃🅾🅽🆂
+  ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+  */
+  .scroll-buttons--inside {
     position: absolute;
     inset: 0;
     pointer-events: none;
   }
 
-  .inactive .buttons {
+  .scroll-buttons--outside {
+    /*
+    --button-arrow-color: white;
+    --button-bg: var(--dot-color-active);
+    --button-color: white;
+    --button-size: 44px;
+    */
+
+    display: flex;
+    gap: 6px;
+    justify-content: end;
+  }
+
+  .inactive .scroll-buttons {
     display: none;
   }
 
   .button-next,
   .button-previous,
   .button-fullscreen {
-    position: absolute;
-    top: calc(50% - (var(--button-size) / 2));
-    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -120,12 +135,34 @@ export default css`
     -webkit-appearance: none;
   }
 
-  .button-previous {
+  .scroll-buttons--inside .button-previous,
+  .scroll-buttons--inside .button-next,
+  .button-fullscreen {
+    position: absolute;
+    top: calc(50% - (var(--button-size) / 2));
+    z-index: 1;
+  }
+
+  .scroll-buttons--outside .button-previous,
+  .scroll-buttons--outside .button-next {
+  }
+
+  .scroll-buttons--inside .button-previous {
     left: var(--button-offset);
   }
 
-  .button-next {
+  .scroll-buttons--inside .button-next {
     right: var(--button-offset);
+  }
+
+  .scroll-buttons--inside .button:disabled {
+    visibility: hidden;
+  }
+
+  .button:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.4;
   }
 
   .button-fullscreen {
@@ -147,10 +184,6 @@ export default css`
     .button:hover:not(:disabled) {
       box-shadow: var(--button-box-shadow-hover);
     }
-  }
-
-  .button:disabled {
-    visibility: hidden;
   }
 
   .button svg {
