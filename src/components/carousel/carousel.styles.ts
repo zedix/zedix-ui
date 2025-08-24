@@ -107,10 +107,12 @@ export default css`
     */
 
     display: flex;
-    gap: 6px;
+    gap: 8px;
     justify-content: end;
+    padding-block: 8px;
   }
 
+  .scroll-buttons--disabled,
   .inactive .scroll-buttons {
     display: none;
   }
@@ -141,10 +143,6 @@ export default css`
     position: absolute;
     top: calc(50% - (var(--button-size) / 2));
     z-index: 1;
-  }
-
-  .scroll-buttons--outside .button-previous,
-  .scroll-buttons--outside .button-next {
   }
 
   .scroll-buttons--inside .button-previous {

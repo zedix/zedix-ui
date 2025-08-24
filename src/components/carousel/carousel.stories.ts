@@ -179,7 +179,7 @@ export const MoreProducts: Story = {
     <zx-carousel
       drag-free
       with-scrollbar
-      scroll-button-position="outside"
+      scroll-buttons-position="outside"
       style="--slide-size: calc(100% / 3); --slide-gap: 1rem"
     >
       ${repeat(

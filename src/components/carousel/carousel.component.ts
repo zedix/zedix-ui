@@ -154,9 +154,10 @@ export default class Carousel extends LitElement {
   @property({ type: String, attribute: 'dot-appearance' })
   dotAppearance: 'circle' | 'bar' = 'bar';
 
-  @property({ type: String, attribute: 'scroll-button-position' })
+  @property({ type: String, attribute: 'scroll-buttons-position' })
   scrollButtonsPosition: 'inside' | 'outside' = 'inside';
 
+  @query('.scroll-buttons') scrollButtons!: HTMLElement;
   @query('.button-previous') previousBtn!: HTMLButtonElement;
   @query('.button-next') nextBtn!: HTMLButtonElement;
   @query('.container') container!: HTMLSlotElement;
@@ -246,9 +247,12 @@ export default class Carousel extends LitElement {
   }
 
   protected updateNavigation() {
+    const canScroll = this.embla.canScrollPrev() || this.embla.canScrollNext();
+
     // Set disabled state for next/previous buttons
     this.previousBtn.toggleAttribute('disabled', !this.embla.canScrollPrev());
     this.nextBtn.toggleAttribute('disabled', !this.embla.canScrollNext());
+    this.scrollButtons.classList.toggle('scroll-buttons--disabled', !canScroll);
 
     // Set active state for dots
     if (this.withDots) {
