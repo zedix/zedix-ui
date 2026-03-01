@@ -5,7 +5,7 @@
     "types": ["mocha"],
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "skipLibCheck": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,9 +15,10 @@
     "baseUrl": ".",
     "rootDir": "./src",
     "paths": {
-      "@": ["./src"]
+      "@": ["./src"],
+      "embla-carousel/components/*": ["./node_modules/embla-carousel/esm/components/*"]
     }
   },
   "include": ["src"],
-  "exclude": ["src/**/*.stories.js", "src/**/*.test.ts"]
+  "exclude": ["src/**/*.stories.ts", "src/**/*.test.ts"]
 }

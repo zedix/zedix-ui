@@ -1,5 +1,5 @@
-import { addons } from '@storybook/manager-api';
-import { create } from '@storybook/theming/create';
+import { addons } from 'storybook/manager-api';
+import { create } from 'storybook/theming/create';
 
 addons.setConfig({
   // https://storybook.js.org/docs/react/configure/theming#create-a-theme-quickstart
