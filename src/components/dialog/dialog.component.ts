@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { property, query, state } from 'lit/decorators.js';
 import { animate, stopAnimations } from '../../internals/animate.js';
 import { dispatchEvent } from '../../internals/event.js';
+import { lockBodyScrolling, unlockBodyScrolling } from '../../internals/scroll.js';
 import componentStyles from '../../styles/component.styles.js';
 import styles from './dialog.styles.js';
 import '../close-button/close-button.js';
@@ -55,13 +56,17 @@ import '../close-button/close-button.js';
  * -  When using the `<dialog>` in shadow DOM, using `<form method="dialog">` from the light DOM
  * will have no effect.
  */
+// Use native closedBy when available, fall back to manual backdrop click handling.
+// @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/closedBy
+const supportsClosedBy = 'closedBy' in HTMLDialogElement.prototype;
+
 export default class Dialog extends LitElement {
   static styles: CSSResultGroup = [componentStyles, styles];
 
   private readonly animations = new Map();
 
-  // https://chromestatus.com/feature/4722261258928128
-  // private closeWatcher: null;
+  // Track mousedown target to prevent closing when dragging from content to backdrop (fallback only)
+  private mouseDownTarget: EventTarget | null = null;
 
   @query('dialog') dialog!: HTMLDialogElement;
 
@@ -143,6 +148,9 @@ export default class Dialog extends LitElement {
 
   firstUpdated() {
     this.dialog.addEventListener('click', this.handleBackdropClick);
+    this.dialog.addEventListener('mousedown', (e: Event) => {
+      this.mouseDownTarget = e.target;
+    });
     if (this.open) {
       this.show();
     }
@@ -175,7 +183,7 @@ export default class Dialog extends LitElement {
     if (this.open) {
       dispatchEvent(this, 'show');
 
-      this.lockBodyScroll();
+      lockBodyScrolling(this);
 
       // Dialog element must be rendered before any animate() call
       this.dialog.showModal();
@@ -201,23 +209,31 @@ export default class Dialog extends LitElement {
       await this.animateDialog(keyframes, options);
       this.dialog.classList.remove('is-closing');
       this.dialog.close();
-      this.unlockBodyScroll();
+      unlockBodyScrolling(this);
       dispatchEvent(this, 'after-close');
     }
   }
 
   /**
-   * Close the modal on ::backdrop click
+   * Handle backdrop clicks for:
+   * 1. Persistent dialogs: play denyClose animation (any browser)
+   * 2. Non-persistent dialogs without closedBy support: close manually
+   *
+   * Checks both mousedown and click targets to prevent unwanted closes
+   * when dragging from content to backdrop.
    */
   async handleBackdropClick(event: Event) {
-    if (event.target === event.currentTarget) {
-      // if event.target === dialog
-      if (this.persistent) {
-        const { keyframes, options } = this.animations.get('dialog.denyClose');
-        await this.animateDialog(keyframes, options);
-      } else {
-        this.close();
-      }
+    const clickedBackdrop = event.target === event.currentTarget
+      && this.mouseDownTarget === event.currentTarget;
+    this.mouseDownTarget = null;
+
+    if (!clickedBackdrop) return;
+
+    if (this.persistent) {
+      const { keyframes, options } = this.animations.get('dialog.denyClose');
+      await this.animateDialog(keyframes, options);
+    } else if (!supportsClosedBy) {
+      this.close();
     }
   }
 
@@ -229,8 +245,15 @@ export default class Dialog extends LitElement {
   }
 
   handleCancelDialog(event: Event) {
+    if (supportsClosedBy) {
+      // Browser handles closing natively — sync our state
+      this.open = false;
+      unlockBodyScrolling(this);
+      dispatchEvent(this, 'after-close');
+      return;
+    }
+    // Fallback: prevent default and handle ourselves
     event.preventDefault();
-
     if (!this.persistent) {
       this.close();
     }
@@ -243,37 +266,6 @@ export default class Dialog extends LitElement {
 
   setAnimation(name: 'dialog.show' | 'dialog.close' | 'dialog.denyClose', animation: any) {
     this.animations.set(name, animation);
-  }
-
-  /**
-   * This can be replaced in the near future) by:
-   *
-   * ```css
-   * html:has(dialog[open]:modal) {
-   *   overflow: hidden;
-   * }
-   *
-   * html {
-   *   scrollbar-gutter: stable both-edges;
-   * }
-   * ````
-   *
-   * @link https://caniuse.com/css-has
-   */
-  private lockBodyScroll() {
-    const { body } = document;
-    body.dataset.scrollY = String(window.scrollY);
-    body.style.position = 'fixed';
-    body.style.inset = '0';
-    body.style.top = `-${body.dataset.scrollY}px`;
-  }
-
-  private unlockBodyScroll() {
-    const { body } = document;
-    body.style.position = '';
-    body.style.top = '';
-    body.style.inset = '';
-    window.scrollTo(0, Number(body.dataset.scrollY));
   }
 
   setupDefaultAnimations() {
@@ -324,7 +316,7 @@ export default class Dialog extends LitElement {
     return html`<dialog
       part="dialog"
       class=${classMap(classes)}
-      data-open=${this.open}
+      closedby=${this.persistent ? 'none' : 'any'}
       aria-label=${this.noHeader ? this.title : nothing}
       aria-labelledby=${this.noHeader ? nothing : 'title'}
       @cancel=${this.handleCancelDialog}
