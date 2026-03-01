@@ -121,7 +121,7 @@ export default class Rating extends LitElement {
       <div class="wrapper">
         <div class="rating" style=${styleMap(rootStyles)}>
           ${[1, 2, 3, 4, 5].map(
-            ratingValue => html`
+            (ratingValue) => html`
               <input
                 type="radio"
                 name="${this.name}"
@@ -135,9 +135,11 @@ export default class Rating extends LitElement {
             `,
           )}
         </div>
-        ${this.labels.length > 0
-          ? html`<div class="rating-label" part="label">${this.currentLabel}</div>`
-          : ''}
+        ${
+          this.labels.length > 0
+            ? html`<div class="rating-label" part="label">${this.currentLabel}</div>`
+            : ''
+        }
       </div>
     `;
   }

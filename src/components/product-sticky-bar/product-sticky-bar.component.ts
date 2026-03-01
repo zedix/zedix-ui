@@ -39,7 +39,7 @@ export default class ProductStickyBar extends LitElement {
   }
 
   createObserver() {
-    new IntersectionObserver(entries => {
+    new IntersectionObserver((entries) => {
       entries[0].intersectionRatio === 0 ? this.show() : this.hide();
     }).observe(this.targetElement!);
   }
@@ -53,6 +53,8 @@ export default class ProductStickyBar extends LitElement {
   }
 
   render() {
-    return html`<slot></slot>`;
+    return html`
+      <slot></slot>
+    `;
   }
 }

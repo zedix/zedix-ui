@@ -47,12 +47,7 @@ export const PlacementStart: Story = {
         ${repeat(
           Array.from({ length: 6 }),
           () => html`
-            <zx-skeleton
-              class="product-main"
-              shape="rect"
-              height="400"
-              style="width: 100%"
-            ></zx-skeleton>
+            <zx-skeleton class="product-main" shape="rect" height="400" style="width: 100%"></zx-skeleton>
           `,
         )}
       </div>
@@ -78,12 +73,7 @@ export const PlacementEnd: Story = {
         ${repeat(
           Array.from({ length: 6 }),
           () => html`
-            <zx-skeleton
-              class="product-main"
-              shape="rect"
-              height="400"
-              style="width: 100%"
-            ></zx-skeleton>
+            <zx-skeleton class="product-main" shape="rect" height="400" style="width: 100%"></zx-skeleton>
           `,
         )}
       </div>

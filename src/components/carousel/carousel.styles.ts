@@ -28,8 +28,7 @@ export default css`
     --button-border-radius: 8px;
     --button-bg: rgba(255, 255, 255, 0.8);
     --button-color: inherit;
-    --button-box-shadow-hover:
-      0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    --button-box-shadow-hover: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 
     /*
     --dot-color: hsla(0, 0%, 100%, 0.4);

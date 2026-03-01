@@ -26,7 +26,7 @@ const meta: Meta = {
 
 export const Sandbox: Story = {
   args: {},
-  render: args => html`
+  render: (args) => html`
     <zx-skeleton
       animation="${args.animation}"
       shape="${args.shape}"
@@ -40,7 +40,7 @@ export const Showcase: Story = {
   render: () => html`
     <div class="grid grid-cols-2 gap-4 p-4 max-w-xl">
       ${['pulse', 'wave'].map(
-        animation => html`
+        (animation) => html`
           <div>
             <div class="mb-2">
               <zx-skeleton

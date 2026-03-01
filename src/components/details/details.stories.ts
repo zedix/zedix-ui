@@ -12,7 +12,7 @@ export const Sandbox: Story = {
   args: {
     disabled: false,
   },
-  render: args => html`
+  render: (args) => html`
     <div class="flex flex-col gap-4 max-w-xl">
       <zx-details
         class="bg-white rounded border hover:border-gray-400"

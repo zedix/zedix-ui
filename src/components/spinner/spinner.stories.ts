@@ -29,7 +29,7 @@ export const Sandbox: Story = {
   args: {
     size: 6,
   },
-  render: args =>
+  render: (args) =>
     html`<zx-spinner class="text-xxx" type="${args.type}" size="${args.size}"></zx-spinner>`,
 };
 

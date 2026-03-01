@@ -8,19 +8,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-| Task | Command |
-|---|---|
-| Build | `yarn build` |
-| Dev (Storybook) | `yarn storybook` |
-| Lint | `yarn lint` (oxlint) |
-| Lint fix | `yarn lint:fix` |
-| Format | `yarn fmt` (oxfmt) |
-| Format check | `yarn fmt:check` |
-| Typecheck | `yarn typecheck` |
-| All tests | `yarn test` |
+| Task                          | Command                               |
+| ----------------------------- | ------------------------------------- |
+| Build                         | `yarn build`                          |
+| Dev (Storybook)               | `yarn storybook`                      |
+| Lint                          | `yarn lint` (oxlint)                  |
+| Lint fix                      | `yarn lint:fix`                       |
+| Format                        | `yarn fmt` (oxfmt)                    |
+| Format check                  | `yarn fmt:check`                      |
+| Typecheck                     | `yarn typecheck`                      |
+| All tests                     | `yarn test`                           |
 | Single component test (watch) | `yarn test:component -- <group-name>` |
-| Tests (watch mode) | `yarn test:watch` |
-| Release | `yarn release` |
+| Tests (watch mode)            | `yarn test:watch`                     |
+| Release                       | `yarn release`                        |
 
 Uses **Yarn 4 (Berry)** with node-modules linker. Node >= 20. Tests run on Playwright (Chromium) via `@web/test-runner`. **Build before testing** — tests import from `dist/`.
 

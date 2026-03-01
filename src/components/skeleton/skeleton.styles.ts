@@ -63,10 +63,7 @@ export default css`
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: var(
-      --skeleton-animation-gradient,
-      var(--skeleton-animation-gradient-default)
-    );
+    background-image: var(--skeleton-animation-gradient, var(--skeleton-animation-gradient-default));
     background-repeat: no-repeat;
     background-size: 0 0 / 90% 100%;
     animation: wave 2s infinite;

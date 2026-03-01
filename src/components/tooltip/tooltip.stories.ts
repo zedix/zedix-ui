@@ -45,7 +45,7 @@ export const Sandbox: Story = {
     placement: 'top',
     trigger: 'hover',
   },
-  render: args => html`
+  render: (args) => html`
     <div class="grid place-items-center w-screen h-screen">
       <div class="relative h-[20rem] w-[20rem]">
         ${[
@@ -98,7 +98,7 @@ export const Sandbox: Story = {
             style: 'top:calc(50% + 50px - 1rem);left:min(50px, 5%)',
           },
         ].map(
-          item =>
+          (item) =>
             html`<div>
               <button
                 id="${item.placement}"
@@ -129,7 +129,7 @@ export const Showcase: Story = {
     placement: 'top',
     trigger: 'hover',
   },
-  render: args => html`
+  render: (args) => html`
     <div class="p-4 w-screen h-screen flex items-center justify-center">
       <button
         id="tooltip-target"

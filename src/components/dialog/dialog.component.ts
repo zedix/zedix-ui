@@ -223,8 +223,8 @@ export default class Dialog extends LitElement {
    * when dragging from content to backdrop.
    */
   async handleBackdropClick(event: Event) {
-    const clickedBackdrop = event.target === event.currentTarget
-      && this.mouseDownTarget === event.currentTarget;
+    const clickedBackdrop =
+      event.target === event.currentTarget && this.mouseDownTarget === event.currentTarget;
     this.mouseDownTarget = null;
 
     if (!clickedBackdrop) return;
@@ -323,8 +323,9 @@ export default class Dialog extends LitElement {
       @close=${this.handleCloseDialog}
       .returnValue=${this.returnValue || ''}
     >
-      ${!this.noCloseButton
-        ? html`
+      ${
+        !this.noCloseButton
+          ? html`
             <zx-close-button
               class="dialog__close-button"
               part="close"
@@ -332,16 +333,19 @@ export default class Dialog extends LitElement {
               @close="${this.close}"
             ></zx-close-button>
           `
-        : ''}
-      ${!this.noHeader
-        ? html`
+          : ''
+      }
+      ${
+        !this.noHeader
+          ? html`
             <header class="dialog__header" part="header">
               <h2 id="title" class="dialog__title" part="title">
                 <slot name="title">${this.title}</slot>
               </h2>
             </header>
           `
-        : ''}
+          : ''
+      }
       <div class="dialog__body" part="body">
         <slot></slot>
       </div>

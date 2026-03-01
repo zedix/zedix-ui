@@ -1,0 +1,6 @@
+{
+  // https://oxc.rs/docs/guide/usage/formatter/config.html
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "printWidth": 100,
+}

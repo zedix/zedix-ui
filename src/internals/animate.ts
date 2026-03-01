@@ -19,7 +19,7 @@ export function animate(el: HTMLElement, keyframes: Keyframe[], options: Keyfram
   if (!supportsWebAnimationsApi()) {
     return Promise.resolve();
   }
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const animation = el.animate(keyframes, {
       ...options,
       duration: prefersReducedMotion() ? 0 : options.duration,
@@ -35,8 +35,8 @@ export function stopAnimations(el: HTMLElement) {
   }
   return Promise.all(
     el.getAnimations().map(
-      animation =>
-        new Promise(resolve => {
+      (animation) =>
+        new Promise((resolve) => {
           const handleCancel = () => requestAnimationFrame(resolve);
           animation.addEventListener('cancel', handleCancel, { once: true });
           animation.addEventListener('finish', handleCancel, { once: true });
@@ -47,7 +47,7 @@ export function stopAnimations(el: HTMLElement) {
 }
 
 export function setKeyframesHeightAuto(keyframes: Keyframe[], height: number) {
-  return keyframes.map(keyframe => ({
+  return keyframes.map((keyframe) => ({
     ...keyframe,
     height: keyframe.height === 'auto' ? `${height}px` : keyframe.height,
   }));

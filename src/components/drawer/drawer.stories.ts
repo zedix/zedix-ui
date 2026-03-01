@@ -52,7 +52,7 @@ export const Showcase: Story = {
       .noHeader="${args.noHeader}"
     >
       ${['Menu 1', 'Menu 2', 'Menu 3'].map(
-        menu => html`
+        (menu) => html`
           <details name="menu">
             <summary class="flex items-center p-4 border-b">${menu}</summary>
             <div class="flex p-4">Sub menu</div>

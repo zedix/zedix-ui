@@ -414,8 +414,9 @@ export default class Carousel extends LitElement {
         </div>
         ${this.withFullscreen ? this.renderFullscreenButton() : ''}
         ${this.renderNextPreviousButtons()}
-        ${this.withDots
-          ? html`<div class="dots" part="dots" role="tablist">
+        ${
+          this.withDots
+            ? html`<div class="dots" part="dots" role="tablist">
               ${map(this.embla.scrollSnapList(), (_, index) => {
                 return html`<button
                   part="button-dot"
@@ -430,7 +431,8 @@ export default class Carousel extends LitElement {
                 </button>`;
               })}
             </div> `
-          : ''}
+            : ''
+        }
       </div>
     `;
   }

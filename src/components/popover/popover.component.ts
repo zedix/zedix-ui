@@ -230,7 +230,13 @@ export default class Popover extends LitElement {
   render() {
     return html`
       <slot></slot>
-      ${this.arrow ? html`<i part="arrow" role="presentation"></i>` : null}
+      ${
+        this.arrow
+          ? html`
+              <i part="arrow" role="presentation"></i>
+            `
+          : null
+      }
     `;
   }
 }

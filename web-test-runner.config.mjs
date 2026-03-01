@@ -38,7 +38,7 @@ export default {
     // playwrightLauncher({ product: 'firefox' }),
     //playwrightLauncher({ product: 'webkit' }),
   ],
-  testRunnerHtml: testFramework => `
+  testRunnerHtml: (testFramework) => `
     <html lang="en-US">
       <head></head>
       <body>

@@ -18,7 +18,7 @@ const meta: Meta = {
 };
 
 export const Sandbox: Story = {
-  render: args => html`<zx-close-button variant="${args.variant}"></zx-close-button>`,
+  render: (args) => html`<zx-close-button variant="${args.variant}"></zx-close-button>`,
 };
 
 export const Showcase = () => `

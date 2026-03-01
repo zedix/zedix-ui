@@ -46,7 +46,7 @@ export const Sandbox: Story = {
     max: 100,
     step: 1,
   },
-  render: args => html`
+  render: (args) => html`
     <zx-input-stepper
       @change="${args.onChange}"
       .disabled="${args.disabled}"

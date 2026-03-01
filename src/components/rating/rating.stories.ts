@@ -40,7 +40,7 @@ export const Sandbox: Story = {
     value: '3.5',
     labels,
   },
-  render: args => html`
+  render: (args) => html`
     <zx-rating
       @change="${args.onChange}"
       name="${args.name}"
