@@ -31,8 +31,10 @@
         "gen:react": "lit labs gen --framework=react",
         "gen:vue": "lit labs gen --framework=vue",
         "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-        "lint": "eslint ./src && prettier \"**/*.ts\" --check --ignore-path .gitignore",
-        "format": "eslint ./src . --fix && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+        "lint": "oxlint",
+        "lint:fix": "oxlint --fix",
+        "fmt": "oxfmt",
+        "fmt:check": "oxfmt --check",
         "prepublish_": "tsc && npm run analyze -- --exclude dist",
         "publish": "yarn npm publish",
         "release": "yarn changelogen --release",
@@ -56,7 +58,6 @@
         "@lit-labs/cli": "^0.6.5",
         "@lit-labs/gen-wrapper-react": "^0.3.3",
         "@lit-labs/gen-wrapper-vue": "^0.4.1",
-        "@open-wc/prettier-config": "^1.1.0",
         "@open-wc/testing": "^4.0.0",
         "@storybook/addon-essentials": "^8.6.12",
         "@storybook/addon-links": "^8.6.12",
@@ -67,23 +68,16 @@
         "@tailwindcss/vite": "^4.1.6",
         "@types/mocha": "^10.0.10",
         "@types/sinon": "^17.0.4",
-        "@typescript-eslint/eslint-plugin": "^8.32.0",
-        "@typescript-eslint/parser": "^8.32.0",
         "@web/dev-server-esbuild": "^1.0.4",
         "@web/test-runner": "^0.20.1",
         "@web/test-runner-playwright": "^0.11.0",
         "changelogen": "^0.6.1",
         "concurrently": "^9.1.2",
-        "eslint": "^9.26.0",
-        "eslint-config-prettier": "^10.1.5",
-        "eslint-plugin-lit": "^2.1.1",
-        "eslint-plugin-storybook": "^0.12.0",
-        "eslint-plugin-wc": "^3.0.1",
         "glob": "^11.0.2",
-        "globals": "^16.1.0",
         "husky": "^9.1.7",
-        "lint-staged": "^15.5.2",
-        "prettier": "^3.5.3",
+        "lint-staged": "^16.3.1",
+        "oxfmt": "^0.35.0",
+        "oxlint": "^1.50.0",
         "sinon": "^20.0.0",
         "storybook": "^8.6.12",
         "tailwindcss": "^4.1.6",
@@ -91,18 +85,10 @@
         "vite": "^6.3.5",
         "vite-plugin-dts": "^4.5.3"
     },
-    "husky": {
-        "hooks": {
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-            "pre-commit": "lint-staged"
-        }
-    },
-    "prettier": "@open-wc/prettier-config",
     "lint-staged": {
         "*.ts": [
-            "eslint --fix --no-warn-ignored",
-            "prettier --write",
-            "git add"
+            "oxfmt",
+            "oxlint --fix"
         ]
     },
     "engines": {

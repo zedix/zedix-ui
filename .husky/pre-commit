@@ -1,3 +1,2 @@
-yarn
 yarn lint-staged
 yarn typecheck
